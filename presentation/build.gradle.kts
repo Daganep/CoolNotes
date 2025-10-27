@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.compose)
 }
 
 android {
@@ -30,6 +31,9 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
+    buildFeatures {
+        compose = true
+    }
 }
 
 dependencies {
@@ -45,6 +49,10 @@ dependencies {
 
     //navigation
     implementation(libs.androidx.navigation3.runtime)
+    implementation(libs.androidx.constraintlayout.compose)
+
+    //koin
+    implementation(libs.insert.koin.compose)
 
     //tests
     testImplementation(libs.junit)

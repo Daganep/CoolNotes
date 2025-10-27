@@ -3,11 +3,11 @@ package ru.coolnotes.navigation
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
 import androidx.navigation3.runtime.NavEntry
-import androidx.navigation3.runtime.rememberSavedStateNavEntryDecorator
+import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
 import com.openkin.presentation.navigation.AppRouting
 import com.openkin.presentation.navigation.Screen
-import com.openkin.presentation.ui.NotesBoard
+import com.openkin.presentation.ui.notesboard.NotesBoard
 import com.openkin.presentation.ui.Settings
 import com.openkin.presentation.ui.Splash
 
@@ -18,7 +18,7 @@ fun Navigation() {
         backStack = appRouting.backStack,
         onBack = { appRouting.goBack() },
         entryDecorators = listOf(
-            rememberSavedStateNavEntryDecorator(),
+            rememberSaveableStateHolderNavEntryDecorator(),
             rememberViewModelStoreNavEntryDecorator(),
         ),
         entryProvider = { key ->

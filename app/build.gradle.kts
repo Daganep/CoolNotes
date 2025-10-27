@@ -6,7 +6,7 @@ plugins {
 
 android {
     namespace = "ru.coolnotes"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "ru.coolnotes"
@@ -56,7 +56,11 @@ dependencies {
     implementation(libs.androidx.navigation3.runtime)
     implementation(libs.androidx.navigation3.ui)
     implementation(libs.androidx.lifecycle.viewmodel.navigation3)
-    implementation(libs.androidx.navigation3.runtime.jvmstubs)
+
+    //koin
+    implementation(libs.insert.koin.core)
+    implementation(libs.insert.koin.android)
+    implementation(libs.insert.koin.compose)
 
     //debug
     debugImplementation(libs.androidx.ui.tooling)
