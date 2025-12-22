@@ -6,7 +6,7 @@ plugins {
 
 android {
     namespace = "com.openkin.presentation"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         minSdk = 24
@@ -46,10 +46,12 @@ dependencies {
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.androidx.constraintlayout.compose)
+
+    debugImplementation(libs.ui.tooling)
 
     //navigation
     implementation(libs.androidx.navigation3.runtime)
-    implementation(libs.androidx.constraintlayout.compose)
 
     //koin
     implementation(libs.insert.koin.compose)

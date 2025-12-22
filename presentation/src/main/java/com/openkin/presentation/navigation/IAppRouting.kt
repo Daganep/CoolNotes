@@ -14,6 +14,8 @@ interface IAppRouting {
 
     fun openArchive()
 
+    fun openSearch()
+
     fun openBin()
 
     fun goBack()

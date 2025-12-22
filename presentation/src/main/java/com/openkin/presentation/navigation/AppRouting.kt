@@ -19,6 +19,8 @@ sealed class Screen: NavKey {
 
     data object Archive: Screen()
 
+    data object Search: Screen()
+
     data object Bin: Screen()
 }
 
@@ -49,6 +51,10 @@ class AppRouting : IAppRouting {
 
     override fun openArchive() {
         backStack.add(Screen.Archive)
+    }
+
+    override fun openSearch() {
+        backStack.add(Screen.Search)
     }
 
     override fun openBin() {

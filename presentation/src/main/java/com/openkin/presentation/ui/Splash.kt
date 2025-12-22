@@ -19,13 +19,13 @@ import kotlinx.coroutines.delay
 fun Splash(home: () -> Unit) {
     var isSplashScreenShown by remember { mutableStateOf(true) }
     Box(
-        modifier = Modifier.fillMaxSize().background(color = Color.Black),
+        modifier = Modifier.fillMaxSize().background(color = Color.White),
         contentAlignment = Alignment.Center
     ) {
         Text(text = "SplashScreen")
     }
     LaunchedEffect(isSplashScreenShown) {
-        delay(timeMillis = 550)
+        delay(timeMillis = 100) //Время отображения Splah экрана
         home()
         isSplashScreenShown = false
     }
