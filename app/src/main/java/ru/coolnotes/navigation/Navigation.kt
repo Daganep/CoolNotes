@@ -1,11 +1,7 @@
 package ru.coolnotes.navigation
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.runtime.Composable
@@ -14,22 +10,20 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusRequester.Companion.createRefs
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.constraintlayout.compose.Dimension
 import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
 import androidx.navigation3.runtime.NavEntry
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
 import com.openkin.presentation.navigation.AppRouting
 import com.openkin.presentation.navigation.Screen
-import com.openkin.presentation.ui.notesboard.NotesBoard
 import com.openkin.presentation.ui.Settings
 import com.openkin.presentation.ui.Splash
-import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.constraintlayout.compose.Dimension
 import com.openkin.presentation.ui.addnote.AddNoteScreen
 import com.openkin.presentation.ui.archive.ArchiveScreen
+import com.openkin.presentation.ui.notesboard.NotesBoard
 import ru.coolnotes.navigation.navigationbar.NavigationBar
 
 @Composable
