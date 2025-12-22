@@ -10,6 +10,9 @@ appcompat = "1.7.1"
 material = "1.13.0"
 jetbrainsKotlinJvm = "2.0.21"
 
+#plugins
+ksp = "2.1.20-2.0.0"
+
 #koin
 koin_core = "3.4.1"
 koin_android = "3.4.1"
@@ -24,6 +27,11 @@ uiTooling = "1.9.5"
 #navigation
 navigation3 = "1.0.0-beta01"
 viewmodelNavigation3 = "1.0.0-alpha04"
+
+#room
+roomCompiler = "2.7.1"
+roomKtx = "2.7.1"
+roomRuntime = "2.7.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -51,6 +59,11 @@ insert-koin-core = { group = "io.insert-koin", name = "koin-core", version.ref =
 insert-koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = "koin_android" }
 insert-koin-compose = { group = "io.insert-koin", name = "koin-androidx-compose", version.ref = "koin_compose" }
 
+#room
+androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "roomRuntime" }
+androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "roomKtx" }
+androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "roomCompiler" }
+
 #tests
 androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
@@ -65,4 +78,5 @@ kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 android-library = { id = "com.android.library", version.ref = "agp" }
 jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrainsKotlinJvm" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 
