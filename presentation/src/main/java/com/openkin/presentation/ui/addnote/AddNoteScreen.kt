@@ -103,7 +103,7 @@ fun AddNoteScreen(viewModel: AddNoteViewModel, routing: IAppRouting) {
                 },
         )
         Button(
-            onClick = {  },
+            onClick = { viewModel.saveNote(noteTitle = noteTitle, noteText = noteText) },
             shape = RoundedCornerShape(5.dp),
             modifier = Modifier
                 .constrainAs(saveButton) {

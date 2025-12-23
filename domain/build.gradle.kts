@@ -11,3 +11,7 @@ kotlin {
         jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_19
     }
 }
+
+dependencies {
+    implementation(libs.kotlinx.coroutines.android)
+}

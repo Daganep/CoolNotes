@@ -18,9 +18,8 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -54,16 +53,8 @@ fun NotesBoard(viewModel: NotesViewModel, routing: IAppRouting) {
             .navigationBarsPadding()
             .background(Color.White),
     ) {
-        val notes = listOf(
-            com.openkin.domain.model.NoteUi("Заголовок1", "Описание1", "15.12.2025"),
-            com.openkin.domain.model.NoteUi("Заголовок2", "Описание2", "15.12.2025"),
-            com.openkin.domain.model.NoteUi("Заголовок3", "Описание3", "15.12.2025"),
-            com.openkin.domain.model.NoteUi("Заголовок4", "Описание4", "15.12.2025"),
-            com.openkin.domain.model.NoteUi("Заголовок5", "Описание5", "15.12.2025"),
-            com.openkin.domain.model.NoteUi("Заголовок6", "Описание6", "15.12.2025"),
-            com.openkin.domain.model.NoteUi("Заголовок7", "Описание7", "15.12.2025"),
-            com.openkin.domain.model.NoteUi("Заголовок8", "Описание8", "15.12.2025"),
-        )
+        viewModel.getNotes()
+        val notesList by viewModel.notesState.collectAsState()
         val (
             topBar,
             topGradientDivider,
@@ -71,7 +62,6 @@ fun NotesBoard(viewModel: NotesViewModel, routing: IAppRouting) {
             addNoteButton,
             bottomGradientDivider,
         ) = createRefs()
-        val notesList by remember { mutableStateOf<List<com.openkin.domain.model.NoteUi>>(listOf()) }
 
         //Верхняя панель
         Row (
@@ -112,12 +102,12 @@ fun NotesBoard(viewModel: NotesViewModel, routing: IAppRouting) {
                 width = Dimension.fillToConstraints
             },
         ) {
-                if (notes.isNotEmpty()) {
+                if (notesList.isNotEmpty()) {
                     LazyColumn(
                         modifier = Modifier,
                         contentPadding = PaddingValues(bottom = 8.dp)
                     ) {
-                        items(items = notes, key = { it.id }) { item ->
+                        items(items = notesList, key = { it.id }) { item ->
                             HorizontalNote(item, Modifier)
                         }
                     }

@@ -67,7 +67,6 @@ fun Navigation() {
                     }
                     is Screen.Search -> NavEntry(key = key, content = {  })
                     is Screen.Bin -> NavEntry(key = key, content = {  })
-                    else -> NavEntry(key = key, content = {  })
                 }
             },
             modifier = Modifier

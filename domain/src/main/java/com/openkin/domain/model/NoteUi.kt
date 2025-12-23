@@ -7,11 +7,8 @@ data class NoteUi(
 ) {
     val id: Int
     var archived: Boolean = false
-        private set
 
-    init {
-        id = this.hashCode()
-    }
+    init { id = this.hashCode() }
 
     override fun hashCode(): Int =
         title.hashCode() +
@@ -24,8 +21,4 @@ data class NoteUi(
             && this.title == other.title
             && this.description == other.description
             && this.createDate == other.createDate
-
-    fun sendToArchive() { archived = true }
-
-    fun restoreFromArchive() { archived = false }
 }

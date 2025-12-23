@@ -14,14 +14,11 @@ interface NotesDao {
     @Query("SELECT * FROM table_notes_database")
     fun getAll() : Flow<List<NoteDbo>>
 
-    @Query("SELECT * FROM table_notes_database")
-    suspend fun getAllNotes() : List<NoteDbo>
-
     @Query("SELECT * FROM table_notes_database WHERE archived = 0")
-    suspend fun getAllActualNotes() : List<NoteDbo>
+    fun getAllActualNotes() : Flow<List<NoteDbo>>
 
     @Query("SELECT * FROM table_notes_database WHERE archived = 1")
-    suspend fun getAllArchivedNotes() : List<NoteDbo>
+    fun getAllArchivedNotes() : Flow<List<NoteDbo>>
 
     @Query("SELECT * FROM table_notes_database " +
             "WHERE title = :title " +

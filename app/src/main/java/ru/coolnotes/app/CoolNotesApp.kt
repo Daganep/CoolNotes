@@ -5,6 +5,7 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
 import org.koin.core.logger.Level
+import ru.coolnotes.di.appModule
 import ru.coolnotes.di.viewModelModule
 
 class CoolNotesApp : Application() {
@@ -15,7 +16,7 @@ class CoolNotesApp : Application() {
         startKoin {
             androidLogger(Level.DEBUG)
             androidContext(this@CoolNotesApp)
-            modules(listOf(viewModelModule))
+            modules(listOf(viewModelModule, appModule))
         }
     }
 }

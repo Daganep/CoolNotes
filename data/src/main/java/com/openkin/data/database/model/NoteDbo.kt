@@ -7,8 +7,8 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "table_notes_database")
 data class NoteDbo(
     @PrimaryKey(autoGenerate = false) val id: Int,
-    @ColumnInfo("title") val timestamp: Long,
-    @ColumnInfo("description") val requestText: String,
-    @ColumnInfo("createDate") val sourceCode: String,
+    @ColumnInfo("title") val title: String,
+    @ColumnInfo("description") val description: String,
+    @ColumnInfo("createDate") val createDate: String,
     @ColumnInfo("archived") val archived: Boolean,
 )
