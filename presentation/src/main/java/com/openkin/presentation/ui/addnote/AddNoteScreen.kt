@@ -27,9 +27,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
+import com.openkin.domain.model.NoteUi
 import com.openkin.presentation.R
 import com.openkin.presentation.navigation.IAppRouting
-import com.openkin.presentation.ui.model.NoteUi
 import org.koin.androidx.compose.koinViewModel
 
 @Composable

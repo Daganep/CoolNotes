@@ -34,7 +34,6 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.openkin.presentation.R
 import com.openkin.presentation.navigation.IAppRouting
-import com.openkin.presentation.ui.model.NoteUi
 import com.openkin.presentation.ui.notesboard.widgets.HorizontalNote
 import org.koin.androidx.compose.koinViewModel
 
@@ -56,14 +55,14 @@ fun NotesBoard(viewModel: NotesViewModel, routing: IAppRouting) {
             .background(Color.White),
     ) {
         val notes = listOf(
-            NoteUi("Заголовок1", "Описание1", "15.12.2025"),
-            NoteUi("Заголовок2", "Описание2", "15.12.2025"),
-            NoteUi("Заголовок3", "Описание3", "15.12.2025"),
-            NoteUi("Заголовок4", "Описание4", "15.12.2025"),
-            NoteUi("Заголовок5", "Описание5", "15.12.2025"),
-            NoteUi("Заголовок6", "Описание6", "15.12.2025"),
-            NoteUi("Заголовок7", "Описание7", "15.12.2025"),
-            NoteUi("Заголовок8", "Описание8", "15.12.2025"),
+            com.openkin.domain.model.NoteUi("Заголовок1", "Описание1", "15.12.2025"),
+            com.openkin.domain.model.NoteUi("Заголовок2", "Описание2", "15.12.2025"),
+            com.openkin.domain.model.NoteUi("Заголовок3", "Описание3", "15.12.2025"),
+            com.openkin.domain.model.NoteUi("Заголовок4", "Описание4", "15.12.2025"),
+            com.openkin.domain.model.NoteUi("Заголовок5", "Описание5", "15.12.2025"),
+            com.openkin.domain.model.NoteUi("Заголовок6", "Описание6", "15.12.2025"),
+            com.openkin.domain.model.NoteUi("Заголовок7", "Описание7", "15.12.2025"),
+            com.openkin.domain.model.NoteUi("Заголовок8", "Описание8", "15.12.2025"),
         )
         val (
             topBar,
@@ -72,7 +71,7 @@ fun NotesBoard(viewModel: NotesViewModel, routing: IAppRouting) {
             addNoteButton,
             bottomGradientDivider,
         ) = createRefs()
-        val notesList by remember { mutableStateOf<List<NoteUi>>(listOf()) }
+        val notesList by remember { mutableStateOf<List<com.openkin.domain.model.NoteUi>>(listOf()) }
 
         //Верхняя панель
         Row (

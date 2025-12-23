@@ -21,8 +21,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
+import com.openkin.domain.model.NoteUi
 import com.openkin.presentation.R
-import com.openkin.presentation.ui.model.NoteUi
 
 @Composable
 fun HorizontalNote(
@@ -91,5 +91,5 @@ fun HorizontalNote(
 @Preview(showBackground = true)
 @Composable
 fun HorizontalNotePreview() {
-    HorizontalNote(NoteUi("Заголовок", "Описание", "15.12.2025"), Modifier)
+    HorizontalNote(com.openkin.domain.model.NoteUi("Заголовок", "Описание", "15.12.2025"), Modifier)
 }

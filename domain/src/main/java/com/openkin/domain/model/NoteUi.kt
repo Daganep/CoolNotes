@@ -1,4 +1,4 @@
-package com.openkin.presentation.ui.model
+package com.openkin.domain.model
 
 data class NoteUi(
     val title: String,
@@ -6,6 +6,8 @@ data class NoteUi(
     val createDate: String,
 ) {
     val id: Int
+    var archived: Boolean = false
+        private set
 
     init {
         id = this.hashCode()
@@ -22,4 +24,8 @@ data class NoteUi(
             && this.title == other.title
             && this.description == other.description
             && this.createDate == other.createDate
+
+    fun sendToArchive() { archived = true }
+
+    fun restoreFromArchive() { archived = false }
 }

@@ -26,7 +26,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.openkin.presentation.R
 import com.openkin.presentation.navigation.IAppRouting
-import com.openkin.presentation.ui.model.NoteUi
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -39,7 +38,7 @@ fun ArchiveScreen(routing: IAppRouting) {
 
 @Composable
 fun ArchiveScreen(viewModel: ArchiveViewModel, routing: IAppRouting) {
-    val archivedNotes by remember { mutableStateOf<List<NoteUi>>(listOf()) }
+    val archivedNotes by remember { mutableStateOf<List<com.openkin.domain.model.NoteUi>>(listOf()) }
     Column(
         modifier = Modifier
             .fillMaxSize()
