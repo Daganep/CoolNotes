@@ -43,4 +43,13 @@ class NoteRepository(
     override suspend fun getNote(noteId: Int): Flow<NoteDto?> {
         return flowOf(database.requestsDao.getNote(noteId)?.toNoteDto())
     }
+
+    override suspend fun sendNoteToArchive(noteId: Int): Boolean {
+        val note = database.requestsDao.getNote(noteId)
+        return if (note != null) {
+            val updatedNote = note.copy(archived = true)
+            database.requestsDao.insert(updatedNote)
+            true
+        } else false
+    }
 }

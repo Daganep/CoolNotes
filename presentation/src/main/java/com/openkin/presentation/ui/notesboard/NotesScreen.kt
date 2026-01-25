@@ -120,7 +120,7 @@ fun NotesBoard(viewModel: NotesViewModel, routing: IAppRouting) {
                                     ActionOnSwipe(
                                         onClick = {
                                             swipedNote = 0
-                                            //TODO добавить перенос заметки в архив
+                                            viewModel.sendNoteToArchive(item.id)
                                         },
                                         drawableId = R.drawable.image_put_to_archive,
                                         contentDescriptionId = R.string.notes_board_replace_to_archive_button,

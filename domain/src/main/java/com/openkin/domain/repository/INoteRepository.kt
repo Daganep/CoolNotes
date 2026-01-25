@@ -9,4 +9,5 @@ interface INoteRepository {
     suspend fun getActualNotes(): Flow<List<NoteDto>>
     suspend fun getArchivedNotes(): Flow<List<NoteDto>>
     suspend fun getNote(noteId: Int): Flow<NoteDto?>
+    suspend fun sendNoteToArchive(noteId: Int): Boolean
 }

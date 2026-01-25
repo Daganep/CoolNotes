@@ -35,4 +35,6 @@ class NotesInteractor(
     override suspend fun getNote(noteId: Int): Flow<NoteUi?> {
         return notesRepository.getNote(noteId).map { it?.toNoteUi() }
     }
+
+    override suspend fun sendNoteToArchive(noteId: Int) = notesRepository.sendNoteToArchive(noteId)
 }

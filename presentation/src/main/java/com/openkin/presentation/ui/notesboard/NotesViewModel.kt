@@ -24,4 +24,14 @@ class NotesViewModel(
             }
         }
     }
+
+    fun sendNoteToArchive(noteId: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val result = notesInteractor.sendNoteToArchive(noteId)
+            if (result) getNotes()
+            else {
+                //TODO сообщить об ошибке при перемещении в архив
+            }
+        }
+    }
 }
