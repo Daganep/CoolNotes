@@ -2,8 +2,11 @@ package com.openkin.presentation.ui.addnote
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
@@ -34,16 +37,22 @@ import com.openkin.presentation.navigation.IAppRouting
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun AddNoteScreen(routing: IAppRouting, noteId: Int?) {
+fun AddNoteScreen(routing: IAppRouting, noteId: Int?, scaffoldContentPaddings: PaddingValues) {
     AddNoteScreen(
         viewModel = koinViewModel(),
         routing = routing,
         noteId = noteId,
+        scaffoldContentPaddings = scaffoldContentPaddings,
     )
 }
 
 @Composable
-fun AddNoteScreen(viewModel: AddNoteViewModel, routing: IAppRouting, noteId: Int?) {
+fun AddNoteScreen(
+    viewModel: AddNoteViewModel,
+    routing: IAppRouting,
+    noteId: Int?,
+    scaffoldContentPaddings: PaddingValues,
+) {
     noteId?.let { viewModel.getNote(it) }
     val archivedNotes by remember { mutableStateOf<List<NoteUi>>(listOf()) }
     var noteTitle by remember { mutableStateOf<String>("") }
@@ -56,6 +65,8 @@ fun AddNoteScreen(viewModel: AddNoteViewModel, routing: IAppRouting, noteId: Int
     ConstraintLayout (
         modifier = Modifier
             .fillMaxSize()
+            .consumeWindowInsets(scaffoldContentPaddings)
+            .imePadding()
             .statusBarsPadding()
             .navigationBarsPadding()
             .background(Color.White)

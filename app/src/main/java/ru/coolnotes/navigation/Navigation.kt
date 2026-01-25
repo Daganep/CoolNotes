@@ -1,6 +1,7 @@
 package ru.coolnotes.navigation
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.statusBarsPadding
@@ -27,7 +28,7 @@ import com.openkin.presentation.ui.notesboard.NotesBoard
 import ru.coolnotes.navigation.navigationbar.NavigationBar
 
 @Composable
-fun Navigation() {
+fun Navigation(scaffoldContentPaddings: PaddingValues) {
     val appRouting = AppRouting()
     ConstraintLayout(
         modifier = Modifier
@@ -53,7 +54,9 @@ fun Navigation() {
                     }
                     is Screen.AddNote -> {
                         activeScreen = Screen.AddNote(key.noteId)
-                        NavEntry(key = key, content = { AddNoteScreen(appRouting, key.noteId) })
+                        NavEntry(key = key, content = {
+                            AddNoteScreen(appRouting, key.noteId, scaffoldContentPaddings)
+                        })
                     }
                     is Screen.OpenNote -> NavEntry(key = key, content = {  })
                     is Screen.Calendar -> NavEntry(key = key, content = {  })
