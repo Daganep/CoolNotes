@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 /**
@@ -28,6 +29,7 @@ fun ActionOnSwipe(
     onClick: () -> Unit,
     @DrawableRes drawableId: Int,
     @StringRes contentDescriptionId: Int,
+    size: Dp = 42.dp,
     modifier: Modifier,
 ) {
     Button(
@@ -46,7 +48,7 @@ fun ActionOnSwipe(
             painter = painterResource(id = drawableId),
             contentDescription = stringResource(contentDescriptionId),
             modifier = Modifier
-                .size(42.dp)
+                .size(size)
                 .align(Alignment.CenterVertically),
         )
     }

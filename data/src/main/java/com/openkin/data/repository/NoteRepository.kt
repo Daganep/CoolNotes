@@ -18,8 +18,8 @@ class NoteRepository(
         database.requestsDao.insert(note.toNoteDbo())
     }
 
-    override suspend fun removeNote(note: NoteDto) {
-        database.requestsDao.remove(note.toNoteDbo())
+    override suspend fun removeNote(noteId: Int) {
+        database.requestsDao.remove(noteId)
     }
 
     override suspend fun getActualNotes(): Flow<List<NoteDto>> {
@@ -48,6 +48,15 @@ class NoteRepository(
         val note = database.requestsDao.getNote(noteId)
         return if (note != null) {
             val updatedNote = note.copy(archived = true)
+            database.requestsDao.insert(updatedNote)
+            true
+        } else false
+    }
+
+    override suspend fun returnNoteToBoard(noteId: Int): Boolean {
+        val note = database.requestsDao.getNote(noteId)
+        return if (note != null) {
+            val updatedNote = note.copy(archived = false)
             database.requestsDao.insert(updatedNote)
             true
         } else false

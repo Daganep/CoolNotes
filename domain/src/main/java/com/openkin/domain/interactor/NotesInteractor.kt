@@ -2,7 +2,6 @@ package com.openkin.domain.interactor
 
 import com.openkin.domain.mapper.toNoteDto
 import com.openkin.domain.mapper.toNoteUi
-import com.openkin.domain.model.NoteDto
 import com.openkin.domain.model.NoteUi
 import com.openkin.domain.repository.INoteRepository
 import kotlinx.coroutines.flow.Flow
@@ -16,8 +15,8 @@ class NotesInteractor(
         notesRepository.saveNote(note.toNoteDto())
     }
 
-    override suspend fun removeNote(note: NoteUi) {
-        notesRepository.removeNote(note.toNoteDto())
+    override suspend fun removeNote(noteId: Int) {
+        notesRepository.removeNote(noteId)
     }
 
     override suspend fun getActualNotes(): Flow<List<NoteUi>> {
@@ -27,7 +26,7 @@ class NotesInteractor(
     }
 
     override suspend fun getArchivedNotes(): Flow<List<NoteUi>> {
-        return notesRepository.getActualNotes().map { notesDto ->
+        return notesRepository.getArchivedNotes().map { notesDto ->
             notesDto.map { it.toNoteUi() }
         }
     }
@@ -37,4 +36,7 @@ class NotesInteractor(
     }
 
     override suspend fun sendNoteToArchive(noteId: Int) = notesRepository.sendNoteToArchive(noteId)
+
+    override suspend fun returnNoteToBoard(noteId: Int): Boolean =
+        notesRepository.returnNoteToBoard(noteId)
 }

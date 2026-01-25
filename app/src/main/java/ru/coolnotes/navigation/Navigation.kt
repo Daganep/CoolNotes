@@ -1,5 +1,6 @@
 package ru.coolnotes.navigation
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,6 +12,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
@@ -35,6 +37,7 @@ fun Navigation(scaffoldContentPaddings: PaddingValues) {
             .fillMaxSize()
             .statusBarsPadding()
             .navigationBarsPadding()
+            .background(Color.White)
     ) {
         val (currentScreen, bottomBar) = createRefs()
         var activeScreen by remember { mutableStateOf<Screen>(Screen.NotesBoard) }
