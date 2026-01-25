@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
@@ -21,6 +22,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -60,6 +62,7 @@ fun NotesBoard(viewModel: NotesViewModel, routing: IAppRouting) {
     ) {
         viewModel.getNotes()
         val notesList by viewModel.notesState.collectAsState()
+        var swipedNote by remember { mutableStateOf(Pair(0, -1)) }
         val (
             topBar,
             topGradientDivider,
@@ -108,18 +111,17 @@ fun NotesBoard(viewModel: NotesViewModel, routing: IAppRouting) {
             },
         ) {
                 if (notesList.isNotEmpty()) {
-                    var swipedNote by remember { mutableIntStateOf(0) }
                     LazyColumn(
                         modifier = Modifier,
                         contentPadding = PaddingValues(bottom = 8.dp)
                     ) {
-                        items(items = notesList, key = { it.id }) { item ->
+                        itemsIndexed(items = notesList, key = { _, item -> item.id }) { index, item ->
                             SwipeableNote(
-                                isRevealed = item.id == swipedNote,
+                                isRevealed = item.id == swipedNote.first,
                                 actions = {
                                     ActionOnSwipe(
                                         onClick = {
-                                            swipedNote = 0
+                                            swipedNote = Pair(0, -1)
                                             viewModel.sendNoteToArchive(item.id)
                                         },
                                         drawableId = R.drawable.image_put_to_archive,
@@ -127,8 +129,8 @@ fun NotesBoard(viewModel: NotesViewModel, routing: IAppRouting) {
                                         modifier = Modifier,
                                     )
                                 },
-                                onExpanded = { swipedNote = item.id },
-                                onCollapsed = { swipedNote = 0 }
+                                onExpanded = { swipedNote = Pair(item.id, index) },
+                                onCollapsed = { swipedNote = Pair(0, -1) }
                             ) {
                                 HorizontalNote(item, routing::addNote)
                             }
@@ -165,31 +167,33 @@ fun NotesBoard(viewModel: NotesViewModel, routing: IAppRouting) {
                 .background(brush = Brush.verticalGradient(colors = listOf(endYellow, startYellow))),
         )
         //Кнопка добавления заметки
-        Button(
-            shape = CircleShape,
-            contentPadding = PaddingValues(8.dp),
-            colors = ButtonColors(
-                containerColor = Color(0x07000000),
-                disabledContainerColor = Color.Transparent,
-                contentColor = Color.Transparent,
-                disabledContentColor = Color.Transparent,
-            ),
-            onClick = { routing.addNote() },
-            modifier = Modifier
-                .constrainAs(addNoteButton) {
-                    bottom.linkTo(parent.bottom, margin = 32.dp)
-                    end.linkTo(anchor = parent.end, margin = 16.dp)
-                    height = Dimension.wrapContent
-                    width = Dimension.wrapContent
-                },
-        ) {
-            Image(
-                painter = painterResource(id = R.drawable.image_add_new_note),
-                contentDescription = stringResource(R.string.notes_board_add_note_button),
+        if (notesList.size < 5 || (swipedNote.first == 0 || swipedNote.second != notesList.size-1)) {
+            Button(
+                shape = CircleShape,
+                contentPadding = PaddingValues(8.dp),
+                colors = ButtonColors(
+                    containerColor = Color(0x07000000),
+                    disabledContainerColor = Color.Transparent,
+                    contentColor = Color.Transparent,
+                    disabledContentColor = Color.Transparent,
+                ),
+                onClick = { routing.addNote() },
                 modifier = Modifier
-                    .size(48.dp)
-                    .align(Alignment.CenterVertically),
-            )
+                    .constrainAs(addNoteButton) {
+                        bottom.linkTo(parent.bottom, margin = 32.dp)
+                        end.linkTo(anchor = parent.end, margin = 16.dp)
+                        height = Dimension.wrapContent
+                        width = Dimension.wrapContent
+                    },
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.image_add_new_note),
+                    contentDescription = stringResource(R.string.notes_board_add_note_button),
+                    modifier = Modifier
+                        .size(48.dp)
+                        .align(Alignment.CenterVertically),
+                )
+            }
         }
     }
 }
