@@ -12,8 +12,8 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.runtime.Composable
 import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -24,6 +24,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.openkin.domain.model.NoteUi
 import com.openkin.presentation.R
 import com.openkin.presentation.navigation.IAppRouting
 import org.koin.androidx.compose.koinViewModel
@@ -38,7 +39,7 @@ fun ArchiveScreen(routing: IAppRouting) {
 
 @Composable
 fun ArchiveScreen(viewModel: ArchiveViewModel, routing: IAppRouting) {
-    val archivedNotes by remember { mutableStateOf<List<com.openkin.domain.model.NoteUi>>(listOf()) }
+    val archivedNotes by remember { mutableStateOf<List<NoteUi>>(listOf()) }
     Column(
         modifier = Modifier
             .fillMaxSize()

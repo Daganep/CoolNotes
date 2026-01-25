@@ -20,6 +20,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -33,7 +36,9 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.openkin.presentation.R
 import com.openkin.presentation.navigation.IAppRouting
+import com.openkin.presentation.ui.notesboard.widgets.ActionOnSwipe
 import com.openkin.presentation.ui.notesboard.widgets.HorizontalNote
+import com.openkin.presentation.ui.notesboard.widgets.SwipeableNote
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -103,12 +108,30 @@ fun NotesBoard(viewModel: NotesViewModel, routing: IAppRouting) {
             },
         ) {
                 if (notesList.isNotEmpty()) {
+                    var swipedNote by remember { mutableIntStateOf(0) }
                     LazyColumn(
                         modifier = Modifier,
                         contentPadding = PaddingValues(bottom = 8.dp)
                     ) {
                         items(items = notesList, key = { it.id }) { item ->
-                            HorizontalNote(item, Modifier)
+                            SwipeableNote(
+                                isRevealed = item.id == swipedNote,
+                                actions = {
+                                    ActionOnSwipe(
+                                        onClick = {
+                                            swipedNote = 0
+                                            //TODO добавить перенос заметки в архив
+                                        },
+                                        drawableId = R.drawable.image_put_to_archive,
+                                        contentDescriptionId = R.string.notes_board_replace_to_archive_button,
+                                        modifier = Modifier,
+                                    )
+                                },
+                                onExpanded = { swipedNote = item.id },
+                                onCollapsed = { swipedNote = 0 }
+                            ) {
+                                HorizontalNote(item, routing::addNote)
+                            }
                         }
                     }
                 } else {

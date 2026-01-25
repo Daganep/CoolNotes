@@ -52,8 +52,8 @@ fun Navigation() {
                         NavEntry(key = key, content = { NotesBoard(appRouting) })
                     }
                     is Screen.AddNote -> {
-                        activeScreen = Screen.AddNote
-                        NavEntry(key = key, content = { AddNoteScreen(appRouting) })
+                        activeScreen = Screen.AddNote(key.noteId)
+                        NavEntry(key = key, content = { AddNoteScreen(appRouting, key.noteId) })
                     }
                     is Screen.OpenNote -> NavEntry(key = key, content = {  })
                     is Screen.Calendar -> NavEntry(key = key, content = {  })

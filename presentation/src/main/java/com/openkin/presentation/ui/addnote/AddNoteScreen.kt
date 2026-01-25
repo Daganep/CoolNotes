@@ -13,6 +13,7 @@ import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -33,18 +34,25 @@ import com.openkin.presentation.navigation.IAppRouting
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun AddNoteScreen(routing: IAppRouting) {
+fun AddNoteScreen(routing: IAppRouting, noteId: Int?) {
     AddNoteScreen(
         viewModel = koinViewModel(),
         routing = routing,
+        noteId = noteId,
     )
 }
 
 @Composable
-fun AddNoteScreen(viewModel: AddNoteViewModel, routing: IAppRouting) {
+fun AddNoteScreen(viewModel: AddNoteViewModel, routing: IAppRouting, noteId: Int?) {
+    noteId?.let { viewModel.getNote(it) }
     val archivedNotes by remember { mutableStateOf<List<NoteUi>>(listOf()) }
     var noteTitle by remember { mutableStateOf<String>("") }
     var noteText by remember { mutableStateOf<String>("") }
+    val currentNote by viewModel.currentNote.collectAsState()
+    currentNote?.let {
+        noteTitle = it.title
+        noteText = it.description
+    }
     ConstraintLayout (
         modifier = Modifier
             .fillMaxSize()

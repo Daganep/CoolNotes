@@ -20,15 +20,8 @@ interface NotesDao {
     @Query("SELECT * FROM table_notes_database WHERE archived = 1")
     fun getAllArchivedNotes() : Flow<List<NoteDbo>>
 
-    @Query("SELECT * FROM table_notes_database " +
-            "WHERE title = :title " +
-            "and description = :description " +
-            "and createDate = :createDate"
-    ) suspend fun getNote(
-        title: String,
-        description: String,
-        createDate: String,
-    ) : NoteDbo?
+    @Query("SELECT * FROM table_notes_database " + "WHERE id = :id")
+    suspend fun getNote(id: Int) : NoteDbo?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(request: NoteDbo)

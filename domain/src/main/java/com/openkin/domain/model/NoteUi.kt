@@ -7,6 +7,7 @@ data class NoteUi(
 ) {
     val id: Int
     var archived: Boolean = false
+    var isRevealed: Boolean = false
 
     init { id = this.hashCode() }
 

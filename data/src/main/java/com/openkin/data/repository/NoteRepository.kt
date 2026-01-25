@@ -7,6 +7,7 @@ import com.openkin.domain.model.NoteDto
 import com.openkin.domain.repository.INoteRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 
 class NoteRepository(
@@ -37,5 +38,9 @@ class NoteRepository(
             }.map { result ->
                 result.map { noteDbo -> noteDbo.toNoteDto() }
             }
+    }
+
+    override suspend fun getNote(noteId: Int): Flow<NoteDto?> {
+        return flowOf(database.requestsDao.getNote(noteId)?.toNoteDto())
     }
 }

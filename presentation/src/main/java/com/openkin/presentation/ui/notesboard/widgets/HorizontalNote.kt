@@ -1,6 +1,7 @@
 package com.openkin.presentation.ui.notesboard.widgets
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -13,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -27,7 +29,8 @@ import com.openkin.presentation.R
 @Composable
 fun HorizontalNote(
     note: NoteUi,
-    modifier: Modifier,
+    onClick: (Int) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val startYellow = Color(0xFFFFE87A)
     val endYellow = Color(0xFFFBC800)
@@ -39,7 +42,14 @@ fun HorizontalNote(
         modifier = modifier
             .height(120.dp)
             .fillMaxWidth()
-            .padding(top = 12.dp),
+            .clickable(
+                indication = null,
+                interactionSource = null,
+                enabled = true,
+                onClickLabel = null,
+                role = Role.Button,
+                onClick =  { onClick(note.id) },
+            ),
     ) {
         ConstraintLayout (
             modifier = Modifier
@@ -49,8 +59,8 @@ fun HorizontalNote(
             val (title, description, date) = createRefs()
             Text(
                 text = note.title,
-                fontFamily = FontFamily(Font(R.font.font_title)),
-                fontSize = 14.sp,
+                fontFamily = FontFamily(Font(R.font.calibri_bold)),
+                fontSize = 16.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier
                     .constrainAs(title) {
@@ -62,7 +72,7 @@ fun HorizontalNote(
             )
             Text(
                 text = note.description,
-                fontFamily = FontFamily(Font(R.font.font_text)),
+                fontFamily = FontFamily(Font(R.font.calibri)),
                 fontSize = 14.sp,
                 modifier = Modifier
                     .constrainAs(description) {
@@ -91,5 +101,5 @@ fun HorizontalNote(
 @Preview(showBackground = true)
 @Composable
 fun HorizontalNotePreview() {
-    HorizontalNote(com.openkin.domain.model.NoteUi("Заголовок", "Описание", "15.12.2025"), Modifier)
+    HorizontalNote(NoteUi("Заголовок", "Описание", "15.12.2025"), {})
 }
