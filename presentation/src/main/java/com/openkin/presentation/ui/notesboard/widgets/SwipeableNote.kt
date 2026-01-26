@@ -55,7 +55,7 @@ fun SwipeableNote(
         modifier = modifier
             .fillMaxWidth()
             .height(IntrinsicSize.Min)
-            .padding(top = 12.dp),
+            .padding(top = 8.dp),
         contentAlignment = Alignment.CenterEnd,
     ) {
         Row(

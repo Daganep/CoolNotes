@@ -1,9 +1,10 @@
 package com.openkin.presentation.ui
 
+import android.os.Build.VERSION.SDK_INT
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Text
+import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -13,6 +14,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
+import coil.ImageLoader
+import coil.compose.AsyncImage
+import coil.decode.GifDecoder
+import coil.decode.ImageDecoderDecoder
+import coil.request.ImageRequest
+import com.openkin.presentation.R
 import kotlinx.coroutines.delay
 
 @Composable
@@ -22,10 +31,30 @@ fun Splash(home: () -> Unit) {
         modifier = Modifier.fillMaxSize().background(color = Color.White),
         contentAlignment = Alignment.Center
     ) {
-        Text(text = "SplashScreen")
+        val context = LocalContext.current
+        val imageLoader = ImageLoader.Builder(context)
+            .components {
+                if (SDK_INT >= 28) {
+                    add(ImageDecoderDecoder.Factory())
+                } else {
+                    add(GifDecoder.Factory())
+                }
+            }
+            .build()
+        if (isSplashScreenShown) {
+            AsyncImage(
+                model = ImageRequest.Builder(context)
+                    .data(R.drawable.splash_gif)
+                    .crossfade(true)
+                    .build(),
+                imageLoader = imageLoader,
+                contentDescription = "This is a local GIF",
+                modifier = Modifier.size(200.dp)
+            )
+        }
     }
     LaunchedEffect(isSplashScreenShown) {
-        delay(timeMillis = 100) //Время отображения Splah экрана
+        delay(timeMillis = 2000) //Время отображения Splah экрана
         home()
         isSplashScreenShown = false
     }

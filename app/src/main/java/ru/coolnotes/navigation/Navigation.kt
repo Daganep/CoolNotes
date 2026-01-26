@@ -40,7 +40,7 @@ fun Navigation(scaffoldContentPaddings: PaddingValues) {
             .background(Color.White)
     ) {
         val (currentScreen, bottomBar) = createRefs()
-        var activeScreen by remember { mutableStateOf<Screen>(Screen.NotesBoard) }
+        var activeScreen by remember { mutableStateOf<Screen>(Screen.Splash) }
         NavDisplay(
             backStack = appRouting.backStack,
             onBack = { appRouting.goBack() },
@@ -94,6 +94,8 @@ fun Navigation(scaffoldContentPaddings: PaddingValues) {
                     height = Dimension.value(56.dp)
                     width = Dimension.fillToConstraints
                 }
-        ) { NavigationBar(appRouting, activeScreen) }
+        ) {
+            if (activeScreen != Screen.Splash) NavigationBar(appRouting, activeScreen)
+        }
     }
 }
