@@ -3,6 +3,7 @@ package com.openkin.data.repository
 import com.openkin.data.database.NotesDatabase
 import com.openkin.data.mapper.toNoteDbo
 import com.openkin.data.mapper.toNoteDto
+import com.openkin.data.sharedprefs.ISharedPrefsStorage
 import com.openkin.domain.model.NoteDto
 import com.openkin.domain.repository.INoteRepository
 import kotlinx.coroutines.flow.Flow
@@ -12,6 +13,7 @@ import kotlinx.coroutines.flow.map
 
 class NoteRepository(
     private val database: NotesDatabase,
+    private val sharedPrefsStorage: ISharedPrefsStorage,
 ) : INoteRepository {
 
     override suspend fun saveNote(note: NoteDto) {
@@ -61,4 +63,11 @@ class NoteRepository(
             true
         } else false
     }
+
+    override suspend fun saveViewType(viewType: Int) {
+        sharedPrefsStorage.saveViewType(viewType)
+    }
+
+    override suspend fun getStoredViewType(): Int =
+        sharedPrefsStorage.getViewType()
 }

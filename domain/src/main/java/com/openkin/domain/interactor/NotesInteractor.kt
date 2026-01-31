@@ -39,4 +39,11 @@ class NotesInteractor(
 
     override suspend fun returnNoteToBoard(noteId: Int): Boolean =
         notesRepository.returnNoteToBoard(noteId)
+
+    override suspend fun saveViewType(viewType: Int) {
+        notesRepository.saveViewType(viewType)
+    }
+
+    override suspend fun getStoredViewType(): Int =
+        notesRepository.getStoredViewType()
 }

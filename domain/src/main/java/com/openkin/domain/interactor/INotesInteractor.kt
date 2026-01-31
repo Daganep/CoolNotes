@@ -11,4 +11,6 @@ interface INotesInteractor {
     suspend fun getNote(noteId: Int): Flow<NoteUi?>
     suspend fun sendNoteToArchive(noteId: Int): Boolean
     suspend fun returnNoteToBoard(noteId: Int): Boolean
+    suspend fun saveViewType(viewType: Int)
+    suspend fun getStoredViewType(): Int
 }
