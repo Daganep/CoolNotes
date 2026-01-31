@@ -4,6 +4,10 @@
     //notes screen
     <string name="notes_screen_appbar_title">Журнал заметок</string>
     <string name="notes_screen_empty_list">Заметок нет</string>
+    <string name="view_type_list">Список</string>
+    <string name="view_type_big_blocks">Большая плитка</string>
+    <string name="view_type_details_list">Подробности</string>
+    <string name="view_type_blocks">Плитка</string>
 
     //add note screen
     <string name="add_note_screen_appbar_title">Новая заметка</string>

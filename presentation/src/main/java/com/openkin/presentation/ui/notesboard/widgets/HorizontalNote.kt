@@ -5,7 +5,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -32,9 +31,8 @@ fun HorizontalNote(
     onClick: (Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val startYellow = Color(0xFFFFE87A)
-    val endYellow = Color(0xFFFBC800)
-    val linearGradient = Brush.linearGradient(colors = listOf(startYellow, endYellow))
+    val linearGradient =
+        Brush.linearGradient(colors = listOf(Color(0xFFFFE87A), Color(0xFFFBC800)))
 
     Card(
         shape = RoundedCornerShape(0.dp),
