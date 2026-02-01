@@ -8,6 +8,9 @@
     <string name="view_type_big_blocks">Большая плитка</string>
     <string name="view_type_details_list">Подробности</string>
     <string name="view_type_blocks">Плитка</string>
+    <string name="sort_type_create_date">по дате создания</string>
+    <string name="sort_type_edit_date">по дате изменения</string>
+    <string name="sort_type_alphabet">по алфавиту</string>
 
     //add note screen
     <string name="add_note_screen_appbar_title">Новая заметка</string>
@@ -26,6 +29,7 @@
     <string name="navigation_bar_calendar">Календарь</string>
     <string name="navigation_bar_settings">Настройки</string>
     <string name="notes_board_view_button">Вид</string>
+    <string name="notes_sort_button">Сортировать</string>
     <string name="notes_board_add_note_button">Добавить заметку</string>
     <string name="notes_board_replace_to_archive_button">Переместить в архив</string>
     <string name="notes_board_delete_archive_button">Удалить</string>
