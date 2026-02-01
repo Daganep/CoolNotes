@@ -7,9 +7,10 @@ fun NoteDto.toNoteUi(): NoteUi {
     val note = NoteUi(
         title = this.title,
         description = this.description,
-        createDate = this.createDate,
+        createDateMS = this.createDateMS,
     )
     note.archived = this.archived
+    note.editDateMS = this.editDateMS
     return note
 }
 
@@ -18,6 +19,7 @@ fun NoteUi.toNoteDto(): NoteDto =
         id = this.id,
         title = this.title,
         description = this.description,
-        createDate = this.createDate,
+        createDateMS = this.createDateMS,
+        editDateMS = this.editDateMS,
         archived = this.archived,
     )

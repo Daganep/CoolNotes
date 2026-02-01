@@ -4,6 +4,7 @@ data class NoteDto(
     val id: Int,
     val title: String,
     val description: String,
-    val createDate: String,
+    val createDateMS: Long,
+    val editDateMS: Long,
     val archived: Boolean,
 )

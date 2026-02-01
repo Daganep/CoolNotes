@@ -1,5 +1,6 @@
 package com.openkin.presentation.ui.notesboard
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -49,6 +50,7 @@ fun NotesBoard(viewModel: NotesViewModel, routing: IAppRouting) {
         viewModel.getStoredViewType()
         val notesList by viewModel.notesState.collectAsState()
         val viewType by viewModel.viewTypeState.collectAsState()
+        var sortType by remember { mutableStateOf(SortType.CREATE_DATE) }
         var swipedNote by remember { mutableStateOf(Pair(0, -1)) }
         val (
             topBar,
@@ -68,9 +70,8 @@ fun NotesBoard(viewModel: NotesViewModel, routing: IAppRouting) {
                     height = Dimension.value(56.dp)
                     width = Dimension.fillToConstraints
                 },
-            onViewTypeClick = {
-                newViewType -> viewModel.saveViewType(newViewType)
-            },
+            onViewTypeClick = { newViewType -> viewModel.saveViewType(newViewType) },
+            onSortClick = { sort -> sortType = sort },
         )
         //Список заметок
         Box(
@@ -85,16 +86,26 @@ fun NotesBoard(viewModel: NotesViewModel, routing: IAppRouting) {
             contentAlignment = Alignment.Center,
         ) {
                 if (notesList.isNotEmpty()) {
+                    val sortedList = when(sortType) {
+                        SortType.CREATE_DATE -> notesList.sortedBy { it.createDateMS }
+                        SortType.EDIT_DATE -> notesList.sortedByDescending { it.editDateMS }
+                        SortType.ALPHABET -> notesList.sortedBy { it.description }
+                    }
+                    sortedList.forEach {
+                        Log.d("MyFilter", "$it")
+                        Log.d("MyFilter", "editDate: ${it.editDateMS}")
+                    }
+                    Log.d("MyFilter", "---------------------")
                     when (viewType) {
                         ViewType.BigBlocks -> {
                             NotesBlocks(
-                                notesList = notesList,
+                                notesList = sortedList,
                                 onNoteClick = routing::addNote,
                             )
                         }
                         ViewType.CommonList -> {
                             NotesCommonList(
-                                notesList = notesList,
+                                notesList = sortedList,
                                 swipedNote = swipedNote,
                                 onNoteSwiped = { id, index -> swipedNote = Pair(id, index) },
                                 onNoteClick = routing::addNote,

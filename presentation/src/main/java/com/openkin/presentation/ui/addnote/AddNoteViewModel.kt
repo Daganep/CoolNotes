@@ -22,13 +22,11 @@ class AddNoteViewModel(
 
     fun saveNote(noteTitle: String, noteText: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            val sdf = SimpleDateFormat("dd.M.yyyy hh:mm:ss", Locale.ROOT)
-            val currentDate = sdf.format(Date())
             notesInteractor.saveNote(
                 NoteUi(
                     title = noteTitle,
                     description = noteText,
-                    createDate = currentDate,
+                    createDateMS = System.currentTimeMillis(),
                 )
             )
         }

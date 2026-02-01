@@ -8,7 +8,8 @@ fun NoteDto.toNoteDbo() =
         id = this.id,
         title = this.title,
         description = this.description,
-        createDate = this.createDate,
+        createDateMS = this.createDateMS,
+        editDateMS = this.editDateMS,
         archived = this.archived,
     )
 
@@ -17,6 +18,7 @@ fun NoteDbo.toNoteDto() =
         id = this.id,
         title = this.title,
         description = this.description,
-        createDate = this.createDate,
+        createDateMS = this.createDateMS,
+        editDateMS = this.editDateMS,
         archived = this.archived,
     )

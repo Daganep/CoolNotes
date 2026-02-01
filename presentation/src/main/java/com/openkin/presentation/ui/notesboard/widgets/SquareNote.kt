@@ -35,6 +35,9 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.openkin.domain.model.NoteUi
 import com.openkin.presentation.R
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 @Composable
 fun SquareNote(
@@ -97,8 +100,10 @@ fun SquareNote(
                             verticalBias = 0F
                         },
                 )
+                val sdf = SimpleDateFormat("dd.MM.yyyy hh:mm:ss", Locale.ROOT)
+                val createDate = sdf.format(Date(note.createDateMS))
                 Text(
-                    text = note.createDate,
+                    text = createDate,
                     fontSize = 9.sp,
                     modifier = Modifier
                         .constrainAs(date) {
@@ -122,5 +127,5 @@ fun SquareNote(
 @Preview(showBackground = true)
 @Composable
 fun SquareNotePreview() {
-    SquareNote(NoteUi("Заголовок", "Описание", "15.12.2025"), {}, {})
+    SquareNote(NoteUi("Заголовок", "Описание", 753232), {}, {})
 }
