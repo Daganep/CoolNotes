@@ -22,8 +22,8 @@ import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
 import com.openkin.presentation.navigation.AppRouting
 import com.openkin.presentation.navigation.Screen
-import com.openkin.presentation.ui.Settings
-import com.openkin.presentation.ui.Splash
+import com.openkin.presentation.ui.settings.Settings
+import com.openkin.presentation.ui.splash.Splash
 import com.openkin.presentation.ui.addnote.AddNoteScreen
 import com.openkin.presentation.ui.archive.ArchiveScreen
 import com.openkin.presentation.ui.notesboard.NotesBoard

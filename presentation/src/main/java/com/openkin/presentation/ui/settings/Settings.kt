@@ -1,4 +1,4 @@
-package com.openkin.presentation.ui
+package com.openkin.presentation.ui.settings
 
 import androidx.compose.runtime.Composable
 

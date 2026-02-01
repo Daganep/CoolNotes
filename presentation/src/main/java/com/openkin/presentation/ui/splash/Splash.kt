@@ -1,4 +1,4 @@
-package com.openkin.presentation.ui
+package com.openkin.presentation.ui.splash
 
 import android.os.Build.VERSION.SDK_INT
 import androidx.compose.foundation.background
@@ -49,7 +49,7 @@ fun Splash(home: () -> Unit) {
                     .build(),
                 imageLoader = imageLoader,
                 contentDescription = "This is a local GIF",
-                modifier = Modifier.size(200.dp)
+                modifier = Modifier.size(150.dp)
             )
         }
     }
