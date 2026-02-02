@@ -5,6 +5,7 @@ import com.openkin.domain.model.NoteUi
 
 fun NoteDto.toNoteUi(): NoteUi {
     val note = NoteUi(
+        id = this.id,
         title = this.title,
         description = this.description,
         createDateMS = this.createDateMS,

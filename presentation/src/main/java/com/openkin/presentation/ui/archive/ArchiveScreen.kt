@@ -19,7 +19,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -29,7 +28,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.openkin.domain.model.NoteUi
 import com.openkin.presentation.R
 import com.openkin.presentation.navigation.IAppRouting
 import com.openkin.presentation.ui.notesboard.widgets.ActionOnSwipe
@@ -94,7 +92,7 @@ fun ArchiveScreen(viewModel: ArchiveViewModel, routing: IAppRouting) {
                                     viewModel.returnNoteToBoard(item.id)
                                 },
                                 drawableId = R.drawable.image_back_to_board_arrow,
-                                contentDescriptionId = R.string.notes_board_delete_archive_button,
+                                contentDescriptionId = R.string.archive_screen_delete_archive_button,
                                 size = 52.dp,
                                 modifier = Modifier,
                             )
@@ -105,7 +103,7 @@ fun ArchiveScreen(viewModel: ArchiveViewModel, routing: IAppRouting) {
                                     viewModel.removeNote(item.id)
                                 },
                                 drawableId = R.drawable.image_note_to_bin,
-                                contentDescriptionId = R.string.notes_board_delete_archive_button,
+                                contentDescriptionId = R.string.archive_screen_delete_archive_button,
                                 modifier = Modifier,
                             )
                         },

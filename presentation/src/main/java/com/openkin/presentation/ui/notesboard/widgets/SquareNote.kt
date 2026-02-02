@@ -123,5 +123,5 @@ fun SquareNote(
 @Preview(showBackground = true)
 @Composable
 fun SquareNotePreview() {
-    SquareNote(NoteUi("Заголовок", "Описание", 753232), {}, {})
+    SquareNote(NoteUi(12345, "Заголовок", "Описание", 753232), {}, {})
 }

@@ -19,13 +19,28 @@ class AddNoteViewModel(
 
     fun saveNote(noteTitle: String, noteText: String) {
         viewModelScope.launch(Dispatchers.IO) {
+            val currentTimeMS = System.currentTimeMillis()
             notesInteractor.saveNote(
                 NoteUi(
+                    id = getNoteId(noteTitle, noteText, currentTimeMS),
                     title = noteTitle,
                     description = noteText,
-                    createDateMS = System.currentTimeMillis(),
+                    createDateMS = currentTimeMS,
                 )
             )
+        }
+    }
+
+    fun updateNote(noteTitle: String, noteText: String, note: NoteUi) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val updatedNote = NoteUi(
+                id = note.id,
+                title = noteTitle,
+                description = noteText,
+                createDateMS = note.createDateMS,
+            )
+            updatedNote.editDateMS = System.currentTimeMillis()
+            notesInteractor.saveNote(updatedNote)
         }
     }
 
@@ -36,4 +51,7 @@ class AddNoteViewModel(
             }
         }
     }
+
+    private fun getNoteId(title: String, noteText: String, createDateMS: Long): Int =
+        title.hashCode() + noteText.hashCode() + createDateMS.hashCode() * 31
 }

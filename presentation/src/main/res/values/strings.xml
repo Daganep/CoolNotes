@@ -13,10 +13,14 @@
     <string name="sort_type_alphabet">по алфавиту</string>
 
     //add note screen
-    <string name="add_note_screen_appbar_title">Новая заметка</string>
+    <string name="add_note_screen_appbar_new_title">Новая заметка</string>
+    <string name="add_note_screen_appbar_exist_title">Редактировать заметку</string>
     <string name="add_note_screen_new_title">Название заметки</string>
     <string name="add_note_screen_new_text">Текст заметки</string>
     <string name="add_note_screen_new_color">Цвет заметки</string>
+    <string name="add_note_screen_return">Назад</string>
+    <string name="add_note_save_button">Сохранить</string>
+    <string name="add_note_update_button">Сохранить изменения</string>
 
     //archive screen
     <string name="archive_screen_appbar_title">Архивные заметки</string>
@@ -28,9 +32,12 @@
     <string name="navigation_bar_search">Поиск</string>
     <string name="navigation_bar_calendar">Календарь</string>
     <string name="navigation_bar_settings">Настройки</string>
+
     <string name="notes_board_view_button">Вид</string>
     <string name="notes_sort_button">Сортировать</string>
     <string name="notes_board_add_note_button">Добавить заметку</string>
     <string name="notes_board_replace_to_archive_button">Переместить в архив</string>
-    <string name="notes_board_delete_archive_button">Удалить</string>
+
+    <string name="archive_screen_delete_archive_button">Удалить</string>
+
 </resources>

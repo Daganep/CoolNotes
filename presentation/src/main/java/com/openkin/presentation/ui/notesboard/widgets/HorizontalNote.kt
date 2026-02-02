@@ -104,5 +104,5 @@ fun HorizontalNote(
 @Preview(showBackground = true)
 @Composable
 fun HorizontalNotePreview() {
-    HorizontalNote(NoteUi("Заголовок", "Описание", 753232), {})
+    HorizontalNote(NoteUi(12345, "Заголовок", "Описание", 753232), {})
 }

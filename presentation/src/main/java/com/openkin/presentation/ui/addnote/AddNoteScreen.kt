@@ -1,14 +1,16 @@
 package com.openkin.presentation.ui.addnote
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
@@ -24,6 +26,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -54,13 +57,17 @@ fun AddNoteScreen(
     scaffoldContentPaddings: PaddingValues,
 ) {
     noteId?.let { viewModel.getNote(it) }
+    val emptyNoteTitle = stringResource(R.string.add_note_screen_appbar_new_title)
     val archivedNotes by remember { mutableStateOf<List<NoteUi>>(listOf()) }
     var noteTitle by remember { mutableStateOf<String>("") }
     var noteText by remember { mutableStateOf<String>("") }
+    var topAppBarTitle by remember { mutableStateOf<String>(emptyNoteTitle) }
     val currentNote by viewModel.currentNote.collectAsState()
+
     currentNote?.let {
         noteTitle = it.title
         noteText = it.description
+        topAppBarTitle = stringResource(R.string.add_note_screen_appbar_exist_title)
     }
     ConstraintLayout (
         modifier = Modifier
@@ -73,7 +80,7 @@ fun AddNoteScreen(
             .padding(top = 16.dp, start = 16.dp, end = 16.dp),
     ) {
         val (topBar, noteTitleField, noteTextField, saveButton) = createRefs()
-        Row(modifier = Modifier
+        Box(modifier = Modifier
             .constrainAs(topBar) {
                 top.linkTo(anchor = parent.top)
                 start.linkTo(anchor = parent.start)
@@ -81,15 +88,25 @@ fun AddNoteScreen(
                 height = Dimension.value(56.dp)
                 width = Dimension.fillToConstraints
             },
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween,
         ) {
+            Image(
+                painter = painterResource(id = R.drawable.image_sort),
+                contentDescription = stringResource(R.string.add_note_screen_return),
+                modifier = Modifier
+                    .padding(top = 16.dp)
+                    .size(28.dp)
+                    .clickable(
+                        interactionSource = null,
+                        indication = null,
+                        onClick = { routing.goBack() }
+                    ),
+            )
             Text(
-                text = stringResource(R.string.add_note_screen_appbar_title),
+                text = topAppBarTitle,
                 color = Color.Black,
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Bold,
-                modifier = Modifier,
+                modifier = Modifier.align(Alignment.Center),
             )
         }
         OutlinedTextField(
@@ -122,7 +139,11 @@ fun AddNoteScreen(
                 },
         )
         Button(
-            onClick = { viewModel.saveNote(noteTitle = noteTitle, noteText = noteText) },
+            onClick = {
+                currentNote?.let {
+                    viewModel.updateNote(noteTitle = noteTitle, noteText = noteText, note = it)
+                } ?: viewModel.saveNote(noteTitle = noteTitle, noteText = noteText)
+            },
             shape = RoundedCornerShape(5.dp),
             modifier = Modifier
                 .constrainAs(saveButton) {
@@ -133,7 +154,10 @@ fun AddNoteScreen(
                     width = Dimension.fillToConstraints
                 },
         ) {
-            Text(text = "Сохранить")
+            Text(
+                text = if (currentNote == null) stringResource(R.string.add_note_save_button)
+                    else stringResource(R.string.add_note_update_button),
+            )
         }
     }
 }

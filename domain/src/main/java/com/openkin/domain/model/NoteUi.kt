@@ -1,15 +1,13 @@
 package com.openkin.domain.model
 
 data class NoteUi(
+    val id: Int,
     val title: String,
     val description: String,
     val createDateMS: Long,
 ) {
-    val id: Int
     var archived: Boolean = false
     var editDateMS: Long = 0L
-
-    init { id = this.hashCode() }
 
     override fun hashCode(): Int =
         title.hashCode() +
@@ -22,4 +20,6 @@ data class NoteUi(
             && this.title == other.title
             && this.description == other.description
             && this.createDateMS == other.createDateMS
+            && this.archived == other.archived
+            && this.editDateMS == other.editDateMS
 }
