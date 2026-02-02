@@ -90,11 +90,11 @@ fun AddNoteScreen(
             },
         ) {
             Image(
-                painter = painterResource(id = R.drawable.image_sort),
+                painter = painterResource(id = R.drawable.image_go_back_arrow),
                 contentDescription = stringResource(R.string.add_note_screen_return),
                 modifier = Modifier
                     .padding(top = 16.dp)
-                    .size(28.dp)
+                    .size(42.dp)
                     .clickable(
                         interactionSource = null,
                         indication = null,
