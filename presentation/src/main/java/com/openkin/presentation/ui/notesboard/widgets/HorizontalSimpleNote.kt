@@ -27,13 +27,12 @@ import com.openkin.domain.model.NoteUi
 import com.openkin.domain.utils.ID_EXAMPLE_INT
 import com.openkin.domain.utils.ID_EXAMPLE_LONG
 import com.openkin.domain.utils.LONG_TEXT_EXAMPLE
-import com.openkin.domain.utils.SHORT_TEXT_EXAMPLE
 import com.openkin.presentation.R
 import com.openkin.presentation.utils.SIMPLE_NOTE_DATE_FORMAT
 import com.openkin.presentation.utils.getDate
 
 @Composable
-fun HorizontalNote(
+fun HorizontalSimpleNote(
     note: NoteUi,
     onClick: (Int) -> Unit,
     modifier: Modifier = Modifier,
@@ -113,7 +112,7 @@ fun HorizontalNote(
 @Preview(showBackground = true)
 @Composable
 fun HorizontalNotePreview() {
-    HorizontalNote(
+    HorizontalSimpleNote(
         note = NoteUi(
             id = ID_EXAMPLE_INT,
             title = LONG_TEXT_EXAMPLE,

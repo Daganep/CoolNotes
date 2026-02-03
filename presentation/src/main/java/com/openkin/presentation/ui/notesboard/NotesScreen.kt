@@ -19,6 +19,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
+import com.openkin.domain.utils.BIG_BLOCKS_COLUMN_COUNT
+import com.openkin.domain.utils.SMALL_BLOCKS_COLUMN_COUNT
 import com.openkin.presentation.R
 import com.openkin.presentation.navigation.IAppRouting
 import com.openkin.presentation.ui.notesboard.widgets.AddNoteFloatButton
@@ -118,6 +120,7 @@ fun NotesBoard(viewModel: NotesViewModel, routing: IAppRouting) {
                             NotesBlocks(
                                 notesList = sortedList,
                                 onNoteClick = routing::addNote,
+                                columnCount = BIG_BLOCKS_COLUMN_COUNT,
                             )
                         }
                         ViewType.CommonList -> {
@@ -127,10 +130,25 @@ fun NotesBoard(viewModel: NotesViewModel, routing: IAppRouting) {
                                 onNoteSwiped = { id, index -> swipedNote = Pair(id, index) },
                                 onNoteClick = routing::addNote,
                                 onArchiveClicked = viewModel::sendNoteToArchive,
+                                isDetailedList = false,
                             )
                         }
-                        else -> {
-                            //TODO сделать переключатели для остальных видов
+                        ViewType.DetailsList -> {
+                            NotesCommonList(
+                                notesList = sortedList,
+                                swipedNote = swipedNote,
+                                onNoteSwiped = { id, index -> swipedNote = Pair(id, index) },
+                                onNoteClick = routing::addNote,
+                                onArchiveClicked = viewModel::sendNoteToArchive,
+                                isDetailedList = true,
+                            )
+                        }
+                        ViewType.Blocks -> {
+                            NotesBlocks(
+                                notesList = sortedList,
+                                onNoteClick = routing::addNote,
+                                columnCount = SMALL_BLOCKS_COLUMN_COUNT,
+                            )
                         }
                     }
                 } else {

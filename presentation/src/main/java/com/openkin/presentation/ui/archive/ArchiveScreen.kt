@@ -31,7 +31,7 @@ import androidx.compose.ui.unit.sp
 import com.openkin.presentation.R
 import com.openkin.presentation.navigation.IAppRouting
 import com.openkin.presentation.ui.notesboard.widgets.ActionOnSwipe
-import com.openkin.presentation.ui.notesboard.widgets.HorizontalNote
+import com.openkin.presentation.ui.notesboard.widgets.HorizontalSimpleNote
 import com.openkin.presentation.ui.notesboard.widgets.SwipeableNote
 import org.koin.androidx.compose.koinViewModel
 
@@ -110,7 +110,7 @@ fun ArchiveScreen(viewModel: ArchiveViewModel, routing: IAppRouting) {
                         onExpanded = { swipedNote = item.id },
                         onCollapsed = { swipedNote = 0 }
                     ) {
-                        HorizontalNote(item, routing::addNote)
+                        HorizontalSimpleNote(item, routing::addNote)
                     }
                 }
             }
