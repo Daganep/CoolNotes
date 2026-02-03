@@ -24,16 +24,19 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.openkin.domain.model.NoteUi
+import com.openkin.domain.utils.ID_EXAMPLE_INT
+import com.openkin.domain.utils.ID_EXAMPLE_LONG
+import com.openkin.domain.utils.LONG_TEXT_EXAMPLE
 import com.openkin.presentation.R
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
+import com.openkin.presentation.utils.SIMPLE_NOTE_DATE_FORMAT
+import com.openkin.presentation.utils.getDate
 
 @Composable
 fun SquareNote(
@@ -42,12 +45,12 @@ fun SquareNote(
     onMenuClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val linearGradient =
-        Brush.linearGradient(colors = listOf(Color(0xFFFFE87A), Color(0xFFFBC800)))
+    val linearGradient = Brush.linearGradient(
+        colors = listOf(Color(0xFFFFE87A), Color(0xFFFBC800))
+    )
+    val createDate = getDate(SIMPLE_NOTE_DATE_FORMAT, note.createDateMS)
 
-    Box(
-        //modifier = Modifier.padding(4.dp)
-    ) {
+    Box {
         Card(
             shape = RoundedCornerShape(0.dp),
             elevation = CardDefaults.cardElevation(5.dp),
@@ -74,11 +77,14 @@ fun SquareNote(
                     fontFamily = FontFamily(Font(R.font.calibri_bold)),
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis,
+                    lineHeight = 14.sp,
                     modifier = Modifier
                         .constrainAs(title) {
                             top.linkTo(anchor = parent.top, margin = 8.dp)
                             start.linkTo(anchor = parent.start, margin = 8.dp)
-                            end.linkTo(anchor = parent.end, margin = 8.dp)
+                            end.linkTo(anchor = parent.end, margin = 28.dp)
                             width = Dimension.fillToConstraints
                         },
                 )
@@ -86,24 +92,25 @@ fun SquareNote(
                     text = note.description,
                     fontFamily = FontFamily(Font(R.font.calibri)),
                     fontSize = 14.sp,
+                    overflow = TextOverflow.Ellipsis,
+                    lineHeight = 14.sp,
                     modifier = Modifier
                         .constrainAs(description) {
-                            top.linkTo(anchor = title.bottom)
-                            bottom.linkTo(anchor = date.top, margin = 4.dp)
+                            top.linkTo(anchor = title.bottom, margin = 4.dp)
+                            bottom.linkTo(anchor = date.top, margin = 2.dp)
                             start.linkTo(anchor = parent.start, margin = 8.dp)
                             end.linkTo(anchor = parent.end, margin = 8.dp)
                             width = Dimension.fillToConstraints
+                            height = Dimension.preferredWrapContent
                             verticalBias = 0F
                         },
                 )
-                val sdf = SimpleDateFormat("dd.MM.yyyy hh:mm:ss", Locale.ROOT)
-                val createDate = sdf.format(Date(note.createDateMS))
                 Text(
                     text = createDate,
                     fontSize = 9.sp,
                     modifier = Modifier
                         .constrainAs(date) {
-                            bottom.linkTo(anchor = parent.bottom, margin = 4.dp)
+                            bottom.linkTo(anchor = parent.bottom)
                             end.linkTo(anchor = parent.end, margin = 8.dp)
                         },
                 )
@@ -123,5 +130,14 @@ fun SquareNote(
 @Preview(showBackground = true)
 @Composable
 fun SquareNotePreview() {
-    SquareNote(NoteUi(12345, "Заголовок", "Описание", 753232), {}, {})
+    SquareNote(
+        note = NoteUi(
+            id = ID_EXAMPLE_INT,
+            title = LONG_TEXT_EXAMPLE,
+            description = LONG_TEXT_EXAMPLE,
+            createDateMS = ID_EXAMPLE_LONG,
+        ),
+        onNoteClick = {},
+        onMenuClick = {},
+    )
 }

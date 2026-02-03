@@ -69,6 +69,8 @@ fun HorizontalNote(
                 fontFamily = FontFamily(Font(R.font.calibri_bold)),
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Bold,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
                 modifier = Modifier
                     .constrainAs(title) {
                         top.linkTo(anchor = parent.top, margin = 8.dp)
@@ -114,7 +116,7 @@ fun HorizontalNotePreview() {
     HorizontalNote(
         note = NoteUi(
             id = ID_EXAMPLE_INT,
-            title = SHORT_TEXT_EXAMPLE,
+            title = LONG_TEXT_EXAMPLE,
             description = LONG_TEXT_EXAMPLE,
             createDateMS = ID_EXAMPLE_LONG,
         ),
