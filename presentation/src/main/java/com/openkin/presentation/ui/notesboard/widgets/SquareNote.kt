@@ -84,7 +84,7 @@ fun SquareNote(
                         .constrainAs(title) {
                             top.linkTo(anchor = parent.top, margin = 8.dp)
                             start.linkTo(anchor = parent.start, margin = 8.dp)
-                            end.linkTo(anchor = parent.end, margin = 28.dp)
+                            end.linkTo(anchor = parent.end, margin = 8.dp)
                             width = Dimension.fillToConstraints
                         },
                 )
@@ -116,14 +116,6 @@ fun SquareNote(
                 )
             }
         }
-        Image(
-            painter = painterResource(id = R.drawable.ic_menu_points),
-            contentDescription = stringResource(R.string.notes_board_add_note_button),
-            modifier = Modifier
-                .size(24.dp)
-                .align(Alignment.TopEnd)
-                .padding(top = 8.dp, end = 4.dp),
-        )
     }
 }
 
