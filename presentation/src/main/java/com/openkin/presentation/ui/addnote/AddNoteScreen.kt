@@ -27,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.openkin.domain.model.NoteUi
+import com.openkin.domain.utils.NOTE_TITLE_MAX_LENGTH
 import com.openkin.presentation.R
 import com.openkin.presentation.navigation.IAppRouting
 import com.openkin.presentation.ui.addnote.widgets.AddNoteAppBar

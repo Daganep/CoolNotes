@@ -9,6 +9,8 @@ const val SMALL_BLOCKS_COLUMN_COUNT = 3
 
 const val EMPTY_STRING = ""
 
+const val NOTE_TITLE_MAX_LENGTH = 50
+
 const val ID_EXAMPLE_INT = 12345
 const val ID_EXAMPLE_LONG = 753232L
 const val SHORT_TEXT_EXAMPLE = "Пример короткого текста"
