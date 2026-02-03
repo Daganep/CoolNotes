@@ -28,6 +28,7 @@
     <string name="archive_screen_appbar_title">Архивные заметки</string>
     <string name="archive_screen_empty_list">Архив пуст</string>
 
+
     //content description
     <string name="navigation_bar_notes">Заметки</string>
     <string name="navigation_bar_archive">Архив</string>

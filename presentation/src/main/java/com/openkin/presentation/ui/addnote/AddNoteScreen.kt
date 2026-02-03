@@ -1,16 +1,12 @@
 package com.openkin.presentation.ui.addnote
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
@@ -23,21 +19,18 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.openkin.domain.model.NoteUi
-import com.openkin.domain.utils.EMPTY_STRING
 import com.openkin.presentation.R
 import com.openkin.presentation.navigation.IAppRouting
+import com.openkin.presentation.ui.addnote.widgets.AddNoteAppBar
+import com.openkin.presentation.ui.addnote.widgets.AddNoteTitleField
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -81,56 +74,21 @@ fun AddNoteScreen(
             .padding(top = 16.dp, start = 16.dp, end = 16.dp),
     ) {
         val (topBar, noteTitleField, noteTextField, saveButton) = createRefs()
-        Row(modifier = Modifier
-            .constrainAs(topBar) {
-                top.linkTo(anchor = parent.top)
-                start.linkTo(anchor = parent.start)
-                end.linkTo(anchor = parent.end)
-                height = Dimension.value(56.dp)
-                width = Dimension.fillToConstraints
-            },
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Image(
-                painter = painterResource(id = R.drawable.image_go_back_arrow),
-                contentDescription = stringResource(R.string.add_note_screen_return),
-                modifier = Modifier
-                    .size(42.dp)
-                    .clickable(
-                        interactionSource = null,
-                        indication = null,
-                        onClick = { routing.goBack() }
-                    ),
-            )
-            Text(
-                text = topAppBarTitle,
-                color = Color.Black,
-                fontSize = 24.sp,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(start = 16.dp),
-            )
-        }
-        OutlinedTextField(
-            value = noteTitle,
-            onValueChange = { noteTitle = it },
-            label = { Text(text = "Название заметки") },
-            singleLine = true,
-            trailingIcon = {
-                if (noteTitle.isNotEmpty()) {
-                    Image(
-                        painter = painterResource(id = R.drawable.icon_clear_edit_text),
-                        contentDescription =
-                            stringResource(R.string.add_note_screen_clear_field_button),
-                        modifier = Modifier
-                            .size(28.dp)
-                            .clickable(
-                                interactionSource = null,
-                                indication = null,
-                                onClick = { noteTitle = EMPTY_STRING }
-                            ),
-                    )
-                }
-            },
+        AddNoteAppBar(
+            topAppBarTitle = topAppBarTitle,
+            onBackButtonClick = routing::goBack,
+            modifier = Modifier
+                .constrainAs(topBar) {
+                    top.linkTo(anchor = parent.top)
+                    start.linkTo(anchor = parent.start)
+                    end.linkTo(anchor = parent.end)
+                    height = Dimension.value(56.dp)
+                    width = Dimension.fillToConstraints
+                },
+        )
+        AddNoteTitleField(
+            noteTitle = noteTitle,
+            onNoteTitleChanged = { newTitle -> noteTitle = newTitle },
             modifier = Modifier
                 .constrainAs(noteTitleField) {
                     top.linkTo(anchor = topBar.bottom, margin = 4.dp)
@@ -143,7 +101,7 @@ fun AddNoteScreen(
         OutlinedTextField(
             value = noteText,
             onValueChange = { noteText = it },
-            label = { Text(text = "Текст заметки") },
+            label = { Text(text = stringResource(R.string.add_note_screen_new_text)) },
             textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Justify),
             modifier = Modifier
                 .constrainAs(noteTextField) {
