@@ -1,38 +1,39 @@
 package com.openkin.presentation.ui.archive
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.openkin.presentation.R
 import com.openkin.presentation.navigation.IAppRouting
+import com.openkin.presentation.ui.archive.widgets.ArchiveTopBar
+import com.openkin.presentation.ui.notesboard.SortType
 import com.openkin.presentation.ui.notesboard.widgets.ActionOnSwipe
 import com.openkin.presentation.ui.notesboard.widgets.HorizontalSimpleNote
 import com.openkin.presentation.ui.notesboard.widgets.SwipeableNote
+import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -55,20 +56,18 @@ fun ArchiveScreen(viewModel: ArchiveViewModel, routing: IAppRouting) {
             .background(Color.White)
             .padding(top = 16.dp, start = 16.dp, end = 16.dp),
     ) {
-        Row(modifier = Modifier
-            .fillMaxWidth()
-            .height(56.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween,
-        ) {
-            Text(
-                text = stringResource(R.string.archive_screen_appbar_title),
-                color = Color.Black,
-                fontSize = 24.sp,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier,
-            )
-        }
+        var sortType by remember { mutableStateOf(Pair(SortType.CREATE_DATE, true)) }
+        var prevSortType = SortType.ALPHABET
+        val lazyListState = rememberLazyListState()
+        val coroutineScope = rememberCoroutineScope()
+
+        ArchiveTopBar(
+            onSortClick = { sort ->
+                sortType = if (sort != prevSortType) Pair(sort, true)
+                else Pair(sort, !sortType.second)
+                coroutineScope.launch { lazyListState.animateScrollToItem(0) }
+            },
+        )
         if (archivedNotes.isEmpty()) {
             Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                 Text(
@@ -78,11 +77,36 @@ fun ArchiveScreen(viewModel: ArchiveViewModel, routing: IAppRouting) {
             }
         } else {
             var swipedNote by remember { mutableIntStateOf(0) }
+            val sortedList = when(sortType.first) {
+                SortType.CREATE_DATE -> {
+                    if (sortType.second) {
+                        archivedNotes.sortedByDescending { it.createDateMS }
+                    } else {
+                        archivedNotes.sortedBy { it.createDateMS }
+                    }
+                }
+                SortType.EDIT_DATE -> {
+                    if (sortType.second) {
+                        archivedNotes.sortedByDescending { it.editDateMS }
+                    } else {
+                        archivedNotes.sortedBy { it.editDateMS }
+                    }
+                }
+                SortType.ALPHABET -> {
+                    if (sortType.second) {
+                        archivedNotes.sortedBy { it.title.lowercase() }
+                    } else {
+                        archivedNotes.sortedByDescending { it.title.lowercase() }
+                    }
+                }
+            }
+            prevSortType = sortType.first
             LazyColumn(
                 modifier = Modifier,
                 contentPadding = PaddingValues(bottom = 8.dp, top = 8.dp),
             ) {
-                items(items = archivedNotes, key = { it.id }) { item ->
+
+                items(items = sortedList, key = { it.id }) { item ->
                     SwipeableNote(
                         isRevealed = item.id == swipedNote,
                         actions = {
@@ -96,7 +120,6 @@ fun ArchiveScreen(viewModel: ArchiveViewModel, routing: IAppRouting) {
                                 size = 52.dp,
                                 modifier = Modifier,
                             )
-
                             ActionOnSwipe(
                                 onClick = {
                                     swipedNote = 0

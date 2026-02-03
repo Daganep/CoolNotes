@@ -31,7 +31,6 @@ import com.openkin.presentation.ui.notesboard.widgets.GradientDivider
 import com.openkin.presentation.ui.notesboard.widgets.NotesBlocks
 import com.openkin.presentation.ui.notesboard.widgets.NotesCommonList
 import com.openkin.presentation.ui.notesboard.widgets.TopAppBar
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
