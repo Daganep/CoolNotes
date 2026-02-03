@@ -33,7 +33,7 @@ fun SortNotesButton(
     Box {
         Image(
             painter = painterResource(id = R.drawable.image_sort),
-            contentDescription = stringResource(R.string.notes_sort_button),
+            contentDescription = stringResource(R.string.notes_board_sort_button),
             modifier = Modifier
                 .padding(start = 24.dp)
                 .size(28.dp)
