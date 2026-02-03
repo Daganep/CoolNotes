@@ -34,10 +34,11 @@
     <string name="navigation_bar_settings">Настройки</string>
 
     <string name="notes_board_view_button">Вид</string>
-    <string name="notes_sort_button">Сортировать</string>
+    <string name="notes_board_sort_button">Сортировать</string>
     <string name="notes_board_add_note_button">Добавить заметку</string>
     <string name="notes_board_replace_to_archive_button">Переместить в архив</string>
 
     <string name="archive_screen_delete_archive_button">Удалить</string>
 
+    <string name="add_note_screen_clear_field_button">Очистить поле</string>
 </resources>

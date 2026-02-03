@@ -3,8 +3,8 @@ package com.openkin.presentation.ui.addnote
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.imePadding
@@ -35,6 +35,7 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.openkin.domain.model.NoteUi
+import com.openkin.domain.utils.EMPTY_STRING
 import com.openkin.presentation.R
 import com.openkin.presentation.navigation.IAppRouting
 import org.koin.androidx.compose.koinViewModel
@@ -80,7 +81,7 @@ fun AddNoteScreen(
             .padding(top = 16.dp, start = 16.dp, end = 16.dp),
     ) {
         val (topBar, noteTitleField, noteTextField, saveButton) = createRefs()
-        Box(modifier = Modifier
+        Row(modifier = Modifier
             .constrainAs(topBar) {
                 top.linkTo(anchor = parent.top)
                 start.linkTo(anchor = parent.start)
@@ -88,12 +89,12 @@ fun AddNoteScreen(
                 height = Dimension.value(56.dp)
                 width = Dimension.fillToConstraints
             },
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             Image(
                 painter = painterResource(id = R.drawable.image_go_back_arrow),
                 contentDescription = stringResource(R.string.add_note_screen_return),
                 modifier = Modifier
-                    .padding(top = 16.dp)
                     .size(42.dp)
                     .clickable(
                         interactionSource = null,
@@ -106,7 +107,7 @@ fun AddNoteScreen(
                 color = Color.Black,
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Bold,
-                modifier = Modifier.align(Alignment.Center),
+                modifier = Modifier.padding(start = 16.dp),
             )
         }
         OutlinedTextField(
@@ -114,9 +115,25 @@ fun AddNoteScreen(
             onValueChange = { noteTitle = it },
             label = { Text(text = "Название заметки") },
             singleLine = true,
+            trailingIcon = {
+                if (noteTitle.isNotEmpty()) {
+                    Image(
+                        painter = painterResource(id = R.drawable.icon_clear_edit_text),
+                        contentDescription =
+                            stringResource(R.string.add_note_screen_clear_field_button),
+                        modifier = Modifier
+                            .size(28.dp)
+                            .clickable(
+                                interactionSource = null,
+                                indication = null,
+                                onClick = { noteTitle = EMPTY_STRING }
+                            ),
+                    )
+                }
+            },
             modifier = Modifier
                 .constrainAs(noteTitleField) {
-                    top.linkTo(anchor = topBar.bottom)
+                    top.linkTo(anchor = topBar.bottom, margin = 4.dp)
                     start.linkTo(anchor = parent.start)
                     end.linkTo(anchor = parent.end)
                     height = Dimension.wrapContent
@@ -140,9 +157,20 @@ fun AddNoteScreen(
         )
         Button(
             onClick = {
-                currentNote?.let {
-                    viewModel.updateNote(noteTitle = noteTitle, noteText = noteText, note = it)
-                } ?: viewModel.saveNote(noteTitle = noteTitle, noteText = noteText)
+                val editedNote = currentNote
+                if (editedNote == null) {
+                    viewModel.saveNote(
+                        noteTitle = noteTitle,
+                        noteText = noteText,
+                    )
+                    routing.home()
+                } else {
+                    viewModel.updateNote(
+                        noteTitle = noteTitle,
+                        noteText = noteText,
+                        note = editedNote,
+                    )
+                }
             },
             shape = RoundedCornerShape(5.dp),
             modifier = Modifier
