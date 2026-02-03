@@ -3,6 +3,7 @@ package com.openkin.presentation.ui.notesboard.widgets
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -18,10 +19,12 @@ fun NotesCommonList(
     onNoteClick: (Int) -> Unit,
     onArchiveClicked: (Int) -> Unit,
     isDetailedList: Boolean,
+    listState: LazyListState,
 ) {
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
         contentPadding = PaddingValues(bottom = 8.dp),
+        state = listState,
     ) {
         itemsIndexed(items = notesList, key = { _, item -> item.id }) { index, item ->
             SwipeableNote(
@@ -38,7 +41,8 @@ fun NotesCommonList(
                     )
                 },
                 onExpanded = { onNoteSwiped(item.id, index) },
-                onCollapsed = { onNoteSwiped(0, -1) }
+                onCollapsed = { onNoteSwiped(0, -1) },
+                modifier = Modifier.animateItem(),
             ) {
                 if(!isDetailedList) HorizontalSimpleNote(item, onNoteClick)
                 else HorizontalDetailsNote(item, onNoteClick)

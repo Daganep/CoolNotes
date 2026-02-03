@@ -30,10 +30,8 @@ import com.openkin.domain.model.NoteUi
 import com.openkin.domain.utils.ID_EXAMPLE_INT
 import com.openkin.domain.utils.ID_EXAMPLE_LONG
 import com.openkin.domain.utils.LONG_TEXT_EXAMPLE
-import com.openkin.domain.utils.SHORT_TEXT_EXAMPLE
 import com.openkin.presentation.R
 import com.openkin.presentation.utils.DETAILS_NOTE_DATE_FORMAT
-import com.openkin.presentation.utils.SIMPLE_NOTE_DATE_FORMAT
 import com.openkin.presentation.utils.getDate
 
 @Composable

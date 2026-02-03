@@ -5,12 +5,15 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -28,6 +31,8 @@ import com.openkin.presentation.ui.notesboard.widgets.GradientDivider
 import com.openkin.presentation.ui.notesboard.widgets.NotesBlocks
 import com.openkin.presentation.ui.notesboard.widgets.NotesCommonList
 import com.openkin.presentation.ui.notesboard.widgets.TopAppBar
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -51,9 +56,13 @@ fun NotesBoard(viewModel: NotesViewModel, routing: IAppRouting) {
         viewModel.getStoredViewType()
         val notesList by viewModel.notesState.collectAsState()
         val viewType by viewModel.viewTypeState.collectAsState()
+        val lazyListState = rememberLazyListState()
+        val lazyGridState = rememberLazyGridState()
+        val coroutineScope = rememberCoroutineScope()
         var sortType by remember { mutableStateOf(Pair(SortType.CREATE_DATE, true)) }
         var prevSortType = SortType.ALPHABET
         var swipedNote by remember { mutableStateOf(Pair(0, -1)) }
+
         val (
             topBar,
             topGradientDivider,
@@ -76,6 +85,10 @@ fun NotesBoard(viewModel: NotesViewModel, routing: IAppRouting) {
             onSortClick = { sort ->
                 sortType = if (sort != prevSortType) Pair(sort, true)
                 else Pair(sort, !sortType.second)
+                coroutineScope.launch {
+                    lazyListState.animateScrollToItem(0)
+                    lazyGridState.animateScrollToItem(0)
+                }
             },
         )
         //Список заметок
@@ -121,6 +134,7 @@ fun NotesBoard(viewModel: NotesViewModel, routing: IAppRouting) {
                                 notesList = sortedList,
                                 onNoteClick = routing::addNote,
                                 columnCount = BIG_BLOCKS_COLUMN_COUNT,
+                                gridState = lazyGridState,
                             )
                         }
                         ViewType.CommonList -> {
@@ -131,6 +145,7 @@ fun NotesBoard(viewModel: NotesViewModel, routing: IAppRouting) {
                                 onNoteClick = routing::addNote,
                                 onArchiveClicked = viewModel::sendNoteToArchive,
                                 isDetailedList = false,
+                                listState = lazyListState,
                             )
                         }
                         ViewType.DetailsList -> {
@@ -141,6 +156,7 @@ fun NotesBoard(viewModel: NotesViewModel, routing: IAppRouting) {
                                 onNoteClick = routing::addNote,
                                 onArchiveClicked = viewModel::sendNoteToArchive,
                                 isDetailedList = true,
+                                listState = lazyListState,
                             )
                         }
                         ViewType.Blocks -> {
@@ -148,6 +164,7 @@ fun NotesBoard(viewModel: NotesViewModel, routing: IAppRouting) {
                                 notesList = sortedList,
                                 onNoteClick = routing::addNote,
                                 columnCount = SMALL_BLOCKS_COLUMN_COUNT,
+                                gridState = lazyGridState,
                             )
                         }
                     }
