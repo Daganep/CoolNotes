@@ -59,6 +59,7 @@ class EditNoteViewModel(
                     createDateMS = note.createDateMS,
                 )
                 updatedNote.editDateMS = System.currentTimeMillis()
+                updatedNote.archived = note.archived
                 updatedNote.color = _viewState.value.color.name
                 notesInteractor.saveNote(updatedNote)
             }

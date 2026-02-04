@@ -13,10 +13,10 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
@@ -46,8 +46,9 @@ fun ArchiveScreen(routing: IAppRouting) {
 
 @Composable
 fun ArchiveScreen(viewModel: ArchiveViewModel, routing: IAppRouting) {
-    viewModel.getArchive()
-    val archivedNotes by viewModel.notesState.collectAsState()
+
+    val state by viewModel.viewState.collectAsState()
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -56,19 +57,20 @@ fun ArchiveScreen(viewModel: ArchiveViewModel, routing: IAppRouting) {
             .background(Color.White)
             .padding(top = 16.dp, start = 16.dp, end = 16.dp),
     ) {
-        var sortType by remember { mutableStateOf(Pair(SortType.CREATE_DATE, true)) }
-        var prevSortType = SortType.ALPHABET
         val lazyListState = rememberLazyListState()
         val coroutineScope = rememberCoroutineScope()
 
         ArchiveTopBar(
             onSortClick = { sort ->
-                sortType = if (sort != prevSortType) Pair(sort, true)
-                else Pair(sort, !sortType.second)
+                if (sort != state.prevSortType) {
+                    viewModel.updateSortType(sort, true)
+                } else {
+                    viewModel.updateSortType(sort, !state.sortType.second)
+                }
                 coroutineScope.launch { lazyListState.animateScrollToItem(0) }
             },
         )
-        if (archivedNotes.isEmpty()) {
+        if (state.notesList.isEmpty()) {
             Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                 Text(
                     text = stringResource(R.string.archive_screen_empty_list),
@@ -77,30 +79,30 @@ fun ArchiveScreen(viewModel: ArchiveViewModel, routing: IAppRouting) {
             }
         } else {
             var swipedNote by remember { mutableIntStateOf(0) }
-            val sortedList = when(sortType.first) {
+            val sortedList = when(state.sortType.first) {
                 SortType.CREATE_DATE -> {
-                    if (sortType.second) {
-                        archivedNotes.sortedByDescending { it.createDateMS }
+                    if (state.sortType.second) {
+                        state.notesList.sortedByDescending { it.createDateMS }
                     } else {
-                        archivedNotes.sortedBy { it.createDateMS }
+                        state.notesList.sortedBy { it.createDateMS }
                     }
                 }
                 SortType.EDIT_DATE -> {
-                    if (sortType.second) {
-                        archivedNotes.sortedByDescending { it.editDateMS }
+                    if (state.sortType.second) {
+                        state.notesList.sortedByDescending { it.editDateMS }
                     } else {
-                        archivedNotes.sortedBy { it.editDateMS }
+                        state.notesList.sortedBy { it.editDateMS }
                     }
                 }
                 SortType.ALPHABET -> {
-                    if (sortType.second) {
-                        archivedNotes.sortedBy { it.title.lowercase() }
+                    if (state.sortType.second) {
+                        state.notesList.sortedBy { it.title.lowercase() }
                     } else {
-                        archivedNotes.sortedByDescending { it.title.lowercase() }
+                        state.notesList.sortedByDescending { it.title.lowercase() }
                     }
                 }
             }
-            prevSortType = sortType.first
+            viewModel.updatePrevSortType(state.sortType.first)
             LazyColumn(
                 modifier = Modifier,
                 contentPadding = PaddingValues(bottom = 8.dp, top = 8.dp),
@@ -138,5 +140,9 @@ fun ArchiveScreen(viewModel: ArchiveViewModel, routing: IAppRouting) {
                 }
             }
         }
+    }
+
+    LaunchedEffect(key1 = state.notesList.isNotEmpty()) {
+        viewModel.getArchive()
     }
 }
