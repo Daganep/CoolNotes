@@ -9,6 +9,7 @@ import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -23,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.openkin.domain.utils.BIG_BLOCKS_COLUMN_COUNT
+import com.openkin.domain.utils.SIMPLE_NOTES_TO_HIDE_ADD_BUTTON
 import com.openkin.domain.utils.SMALL_BLOCKS_COLUMN_COUNT
 import com.openkin.presentation.R
 import com.openkin.presentation.navigation.IAppRouting
@@ -53,16 +55,12 @@ fun NotesBoard(viewModel: NotesViewModel, routing: IAppRouting) {
             .navigationBarsPadding()
             .background(Color.White),
     ) {
-        viewModel.getNotes()
-        viewModel.getStoredViewType()
-        val notesList by viewModel.notesState.collectAsState()
-        val viewType by viewModel.viewTypeState.collectAsState()
+
+        val state by viewModel.viewState.collectAsState()
+        var swipedNote by remember { mutableStateOf(Pair(0, -1)) }
         val lazyListState = rememberLazyListState()
         val lazyGridState = rememberLazyGridState()
         val coroutineScope = rememberCoroutineScope()
-        var sortType by remember { mutableStateOf(Pair(SortType.CREATE_DATE, true)) }
-        var prevSortType = SortType.ALPHABET
-        var swipedNote by remember { mutableStateOf(Pair(0, -1)) }
 
         val (
             topBar,
@@ -84,8 +82,11 @@ fun NotesBoard(viewModel: NotesViewModel, routing: IAppRouting) {
                 },
             onViewTypeClick = { newViewType -> viewModel.saveViewType(newViewType) },
             onSortClick = { sort ->
-                sortType = if (sort != prevSortType) Pair(sort, true)
-                else Pair(sort, !sortType.second)
+                if (sort != state.prevSortType) {
+                    viewModel.updateSortType(sort, true)
+                } else {
+                    viewModel.updateSortType(sort, !state.sortType.second)
+                }
                 coroutineScope.launch {
                     lazyListState.animateScrollToItem(0)
                     lazyGridState.animateScrollToItem(0)
@@ -104,32 +105,32 @@ fun NotesBoard(viewModel: NotesViewModel, routing: IAppRouting) {
             },
             contentAlignment = Alignment.Center,
         ) {
-                if (notesList.isNotEmpty()) {
-                    val sortedList = when(sortType.first) {
+                if (state.notesList.isNotEmpty()) {
+                    val sortedList = when(state.sortType.first) {
                         SortType.CREATE_DATE -> {
-                            if (sortType.second) {
-                                notesList.sortedByDescending { it.createDateMS }
+                            if (state.sortType.second) {
+                                state.notesList.sortedByDescending { it.createDateMS }
                             } else {
-                                notesList.sortedBy { it.createDateMS }
+                                state.notesList.sortedBy { it.createDateMS }
                             }
                         }
                         SortType.EDIT_DATE -> {
-                            if (sortType.second) {
-                                notesList.sortedByDescending { it.editDateMS }
+                            if (state.sortType.second) {
+                                state.notesList.sortedByDescending { it.editDateMS }
                             } else {
-                                notesList.sortedBy { it.editDateMS }
+                                state.notesList.sortedBy { it.editDateMS }
                             }
                         }
                         SortType.ALPHABET -> {
-                            if (sortType.second) {
-                                notesList.sortedBy { it.title.lowercase() }
+                            if (state.sortType.second) {
+                                state.notesList.sortedBy { it.title.lowercase() }
                             } else {
-                                notesList.sortedByDescending { it.title.lowercase() }
+                                state.notesList.sortedByDescending { it.title.lowercase() }
                             }
                         }
                     }
-                    prevSortType = sortType.first
-                    when (viewType) {
+                    viewModel.updatePrevSortType(state.sortType.first)
+                    when (state.viewType) {
                         ViewType.BigBlocks -> {
                             NotesBlocks(
                                 notesList = sortedList,
@@ -198,7 +199,12 @@ fun NotesBoard(viewModel: NotesViewModel, routing: IAppRouting) {
                 }
         )
         //Кнопка добавления заметки
-        if (notesList.size < 5 || (swipedNote.first == 0 || swipedNote.second != notesList.size-1)) {
+        //показать, если заметок меньше чем SIMPLE_NOTES_TO_HIDE_ADD_BUTTON
+        //или если ни одна не свайпнута
+        //или если свайпнута ни самая последняя из списка заметок
+        val isAddButtonNeedToShow = state.notesList.size < SIMPLE_NOTES_TO_HIDE_ADD_BUTTON
+                || (swipedNote.first == 0 || swipedNote.second != state.notesList.size-1)
+        if (isAddButtonNeedToShow) {
             AddNoteFloatButton(
                 onClick = { routing.addNote() },
                 modifier = Modifier
@@ -209,6 +215,11 @@ fun NotesBoard(viewModel: NotesViewModel, routing: IAppRouting) {
                         width = Dimension.wrapContent
                     },
             )
+        }
+
+        LaunchedEffect(key1 = state.notesList.isNotEmpty()) {
+            viewModel.getNotes()
+            viewModel.getStoredViewType()
         }
     }
 }
