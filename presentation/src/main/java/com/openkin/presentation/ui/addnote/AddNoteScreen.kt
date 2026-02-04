@@ -130,7 +130,7 @@ fun AddNoteScreen(
                 )
                 routing.home()
             },
-            enabled = !hasError,
+            enabled = !hasError && noteTitle.isNotEmpty() && noteTitle.isNotBlank(),
             shape = RoundedCornerShape(5.dp),
             modifier = Modifier
                 .constrainAs(saveButton) {
