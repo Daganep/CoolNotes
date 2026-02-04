@@ -19,7 +19,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
@@ -27,11 +26,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
-import com.openkin.domain.utils.EMPTY_STRING
-import com.openkin.domain.utils.NOTE_TITLE_MAX_LENGTH
 import com.openkin.presentation.R
 import com.openkin.presentation.navigation.IAppRouting
-import com.openkin.presentation.ui.addnote.model.NotesColors
 import com.openkin.presentation.ui.addnote.widgets.AddNoteAppBar
 import com.openkin.presentation.ui.addnote.widgets.AddNoteColorBar
 import com.openkin.presentation.ui.addnote.widgets.AddNoteTitleField
@@ -53,12 +49,9 @@ fun AddNoteScreen(
     routing: IAppRouting,
     scaffoldContentPaddings: PaddingValues,
 ) {
-    val noteTitle by viewModel.newNoteTitle.collectAsState()
-    val isNoteTitleExists by viewModel.noteExists.collectAsState()
-    var noteText by remember { mutableStateOf(EMPTY_STRING) }
-    var noteColor by remember { mutableStateOf(NotesColors.Yellow) }
+
+    val state by viewModel.viewState.collectAsState()
     val openConfirmDialog = remember { mutableStateOf(false) }
-    val hasError = isNoteTitleExists || noteTitle.length > NOTE_TITLE_MAX_LENGTH
 
     ConstraintLayout (
         modifier = Modifier
@@ -74,7 +67,7 @@ fun AddNoteScreen(
         AddNoteAppBar(
             topAppBarTitle = stringResource(R.string.add_note_screen_appbar_new_title),
             onBackButtonClick = {
-                if (noteTitle.isNotEmpty() || noteText.isNotEmpty()) {
+                if (state.noteTitle.isNotEmpty() || state.noteText.isNotEmpty()) {
                     openConfirmDialog.value = true
                 } else routing.goBack()
             },
@@ -88,8 +81,8 @@ fun AddNoteScreen(
                 },
         )
         AddNoteTitleField(
-            noteTitle = noteTitle,
-            isNoteTitleExists = isNoteTitleExists,
+            noteTitle = state.noteTitle,
+            isNoteTitleExists = state.isNoteTitleExists,
             onNoteTitleChanged = { newTitle -> viewModel.updateTitle(newTitle) },
             modifier = Modifier
                 .constrainAs(noteTitleField) {
@@ -101,8 +94,8 @@ fun AddNoteScreen(
                 },
         )
         OutlinedTextField(
-            value = noteText,
-            onValueChange = { noteText = it },
+            value = state.noteText,
+            onValueChange = { newText -> viewModel.updateNoteText(newText) },
             label = { Text(text = stringResource(R.string.add_note_screen_new_text)) },
             textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Justify),
             modifier = Modifier
@@ -116,7 +109,8 @@ fun AddNoteScreen(
                 },
         )
         AddNoteColorBar(
-            onColorClicked = { color -> noteColor = color },
+            onColorClicked = { color -> viewModel.updateCurrentColor(color) },
+            currentColor = state.color.startColor,
             modifier = Modifier
                 .constrainAs(colorBar) {
                     top.linkTo(anchor = noteTextField.bottom)
@@ -130,14 +124,12 @@ fun AddNoteScreen(
         )
         Button(
             onClick = {
-                viewModel.saveNote(
-                    noteTitle = noteTitle,
-                    noteText = noteText,
-                    color = noteColor,
-                )
+                viewModel.saveNote()
                 routing.home()
             },
-            enabled = !hasError && noteTitle.isNotEmpty() && noteTitle.isNotBlank(),
+            enabled = !state.isError
+                && state.noteTitle.isNotEmpty()
+                && state.noteTitle.isNotBlank(),
             shape = RoundedCornerShape(5.dp),
             modifier = Modifier
                 .constrainAs(saveButton) {
@@ -165,7 +157,7 @@ fun AddNoteScreen(
             )
         }
         BackHandler {
-            if (noteTitle.isNotEmpty() || noteText.isNotEmpty()) {
+            if (state.noteTitle.isNotEmpty() || state.noteText.isNotEmpty()) {
                 openConfirmDialog.value = true
             } else routing.goBack()
         }

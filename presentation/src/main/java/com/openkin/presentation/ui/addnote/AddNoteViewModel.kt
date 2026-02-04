@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.openkin.domain.interactor.INotesInteractor
 import com.openkin.domain.model.NoteUi
 import com.openkin.domain.utils.EMPTY_STRING
+import com.openkin.domain.utils.NOTE_TITLE_MAX_LENGTH
 import com.openkin.presentation.ui.addnote.model.NotesColors
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
@@ -22,10 +23,16 @@ class AddNoteViewModel(
     private val notesInteractor: INotesInteractor,
 ) : ViewModel() {
 
+    private val defaultState = AddNoteState(
+        noteTitle = EMPTY_STRING,
+        noteText = EMPTY_STRING,
+        color = NotesColors.Yellow,
+        isError = false,
+        isNoteTitleExists = false,
+    )
+    private val _viewState = MutableStateFlow<AddNoteState>(defaultState)
+    val viewState: StateFlow<AddNoteState> = _viewState.asStateFlow()
     private val _newNoteTitle = MutableStateFlow<String>(EMPTY_STRING)
-    val newNoteTitle: StateFlow<String> = _newNoteTitle.asStateFlow()
-    private val _noteExists = MutableStateFlow<Boolean>(false)
-    val noteExists: StateFlow<Boolean> = _noteExists.asStateFlow()
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
@@ -39,13 +46,16 @@ class AddNoteViewModel(
         }
     }
 
-    fun saveNote(noteTitle: String, noteText: String, color: NotesColors) {
+    fun saveNote() {
         viewModelScope.launch(Dispatchers.IO) {
+            val title = _viewState.value.noteTitle
+            val text = _viewState.value.noteText
+            val color = _viewState.value.color
             val currentTimeMS = System.currentTimeMillis()
             val newNote = NoteUi(
-                id = getNoteId(noteTitle, noteText, currentTimeMS),
-                title = noteTitle,
-                description = noteText,
+                id = getNoteId(title, text, currentTimeMS),
+                title = title,
+                description = text,
                 createDateMS = currentTimeMS,
             )
             newNote.color = color.name
@@ -54,13 +64,46 @@ class AddNoteViewModel(
     }
 
     fun updateTitle(title: String) {
-        if (title.isEmpty() || title.isBlank()) _noteExists.value = false
+        val state = _viewState.value
+        if (title.isEmpty() || title.isBlank()) {
+            _viewState.value = state.copy(
+                noteTitle = title,
+                isNoteTitleExists = false,
+                isError = false,
+            )
+        } else if (title.length > NOTE_TITLE_MAX_LENGTH) {
+            _viewState.value = state.copy(
+                noteTitle = title,
+                isNoteTitleExists = false,
+                isError = true,
+            )
+        } else {
+            _viewState.value = state.copy(
+                noteTitle = title,
+                isError = false,
+            )
+        }
         _newNoteTitle.value = title
+    }
+
+    fun updateNoteText(newText: String) {
+        val state = _viewState.value
+        _viewState.value = state.copy(noteText = newText)
+    }
+
+    fun updateCurrentColor(newColor: NotesColors) {
+        val state = _viewState.value
+        _viewState.value = state.copy(color = newColor)
     }
 
     private fun checkTitleExists(title: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            _noteExists.value = notesInteractor.checkTitleExists(title)
+            val state = _viewState.value
+            val isTitleExists = notesInteractor.checkTitleExists(title)
+            _viewState.value = state.copy(
+                isNoteTitleExists = isTitleExists,
+                isError = isTitleExists,
+            )
         }
     }
 

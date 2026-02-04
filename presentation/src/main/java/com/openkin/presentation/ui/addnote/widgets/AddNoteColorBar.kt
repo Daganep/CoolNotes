@@ -3,10 +3,6 @@ package com.openkin.presentation.ui.addnote.widgets
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -16,9 +12,10 @@ import com.openkin.presentation.ui.addnote.model.NotesColors
 @Composable
 fun AddNoteColorBar(
     onColorClicked: (NotesColors) -> Unit,
+    currentColor: Color,
     modifier: Modifier,
 ) {
-    var currentColor by remember { mutableStateOf(Color(0xFFFFE87A)) }
+
     Row(
         modifier = modifier,
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -28,10 +25,7 @@ fun AddNoteColorBar(
                 ColorBox(
                     color = noteColor.startColor,
                     isColorPicked = currentColor == noteColor.startColor,
-                    onBoxClicked = {
-                        onColorClicked(noteColor)
-                        currentColor = noteColor.startColor
-                },
+                    onBoxClicked = { onColorClicked(noteColor) },
             )
         }
     }
@@ -40,5 +34,9 @@ fun AddNoteColorBar(
 @Preview(showBackground = true)
 @Composable
 fun AddNoteColorBarPreview() {
-    AddNoteColorBar(onColorClicked = {}, modifier = Modifier)
+    AddNoteColorBar(
+        onColorClicked = {},
+        currentColor = Color(0xFFFD8484),
+        modifier = Modifier,
+    )
 }
