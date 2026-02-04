@@ -4,7 +4,9 @@ interface IAppRouting {
 
     fun home()
 
-    fun addNote(noteId: Int? = null)
+    fun addNote()
+
+    fun editNote(noteId: Int)
 
     fun openNote()
 

@@ -9,7 +9,9 @@ sealed class Screen: NavKey {
 
     data object NotesBoard: Screen()
 
-    data class AddNote(val noteId: Int?): Screen()
+    data object AddNote: Screen()
+
+    data class EditNote(val noteId: Int): Screen()
 
     data object OpenNote: Screen()
 
@@ -33,8 +35,12 @@ class AppRouting : IAppRouting {
         backStack.add(Screen.NotesBoard)
     }
 
-    override fun addNote(noteId: Int?) {
-        backStack.add(Screen.AddNote(noteId))
+    override fun addNote() {
+        backStack.add(Screen.AddNote)
+    }
+
+    override fun editNote(noteId: Int) {
+        backStack.add(Screen.EditNote(noteId))
     }
 
     override fun openNote() {

@@ -133,7 +133,7 @@ fun ArchiveScreen(viewModel: ArchiveViewModel, routing: IAppRouting) {
                         onExpanded = { swipedNote = item.id },
                         onCollapsed = { swipedNote = 0 }
                     ) {
-                        HorizontalSimpleNote(item, routing::addNote)
+                        HorizontalSimpleNote(item, routing::editNote)
                     }
                 }
             }

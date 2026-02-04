@@ -1,4 +1,4 @@
-package com.openkin.presentation.ui.addnote
+package com.openkin.presentation.ui.editnote
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.PaddingValues
@@ -14,6 +14,7 @@ import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -25,7 +26,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
-import com.openkin.domain.utils.EMPTY_STRING
+import com.openkin.domain.model.NoteUi
 import com.openkin.presentation.R
 import com.openkin.presentation.navigation.IAppRouting
 import com.openkin.presentation.ui.addnote.widgets.AddNoteAppBar
@@ -33,23 +34,32 @@ import com.openkin.presentation.ui.addnote.widgets.AddNoteTitleField
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun AddNoteScreen(routing: IAppRouting, scaffoldContentPaddings: PaddingValues) {
-    AddNoteScreen(
+fun EditNoteScreen(routing: IAppRouting, noteId: Int, scaffoldContentPaddings: PaddingValues) {
+    EditNoteScreen(
         viewModel = koinViewModel(),
         routing = routing,
+        noteId = noteId,
         scaffoldContentPaddings = scaffoldContentPaddings,
     )
 }
 
 @Composable
-fun AddNoteScreen(
-    viewModel: AddNoteViewModel,
+fun EditNoteScreen(
+    viewModel: EditNoteViewModel,
     routing: IAppRouting,
+    noteId: Int,
     scaffoldContentPaddings: PaddingValues,
 ) {
-    var noteTitle by remember { mutableStateOf(EMPTY_STRING) }
-    var noteText by remember { mutableStateOf(EMPTY_STRING) }
+    viewModel.getNote(noteId)
+    val archivedNotes by remember { mutableStateOf<List<NoteUi>>(listOf()) }
+    var noteTitle by remember { mutableStateOf<String>("") }
+    var noteText by remember { mutableStateOf<String>("") }
+    val currentNote by viewModel.currentNote.collectAsState()
 
+    currentNote?.let {
+        noteTitle = it.title
+        noteText = it.description
+    }
     ConstraintLayout (
         modifier = Modifier
             .fillMaxSize()
@@ -62,7 +72,7 @@ fun AddNoteScreen(
     ) {
         val (topBar, noteTitleField, noteTextField, saveButton) = createRefs()
         AddNoteAppBar(
-            topAppBarTitle = stringResource(R.string.add_note_screen_appbar_new_title),
+            topAppBarTitle = stringResource(R.string.add_note_screen_appbar_exist_title),
             onBackButtonClick = routing::goBack,
             modifier = Modifier
                 .constrainAs(topBar) {
@@ -102,11 +112,13 @@ fun AddNoteScreen(
         )
         Button(
             onClick = {
-                viewModel.saveNote(
-                    noteTitle = noteTitle,
-                    noteText = noteText,
-                )
-                routing.home()
+                currentNote?.let {
+                    viewModel.updateNote(
+                        noteTitle = noteTitle,
+                        noteText = noteText,
+                        note = it,
+                    )
+                }
             },
             shape = RoundedCornerShape(5.dp),
             modifier = Modifier
@@ -118,7 +130,7 @@ fun AddNoteScreen(
                     width = Dimension.fillToConstraints
                 },
         ) {
-            Text(text = stringResource(R.string.add_note_save_button))
+            Text(text = stringResource(R.string.add_note_update_button),)
         }
     }
 }

@@ -26,6 +26,7 @@ import com.openkin.presentation.ui.settings.Settings
 import com.openkin.presentation.ui.splash.Splash
 import com.openkin.presentation.ui.addnote.AddNoteScreen
 import com.openkin.presentation.ui.archive.ArchiveScreen
+import com.openkin.presentation.ui.editnote.EditNoteScreen
 import com.openkin.presentation.ui.notesboard.NotesBoard
 import ru.coolnotes.navigation.navigationbar.NavigationBar
 
@@ -56,9 +57,15 @@ fun Navigation(scaffoldContentPaddings: PaddingValues) {
                         NavEntry(key = key, content = { NotesBoard(appRouting) })
                     }
                     is Screen.AddNote -> {
-                        activeScreen = Screen.AddNote(key.noteId)
+                        activeScreen = Screen.AddNote
                         NavEntry(key = key, content = {
-                            AddNoteScreen(appRouting, key.noteId, scaffoldContentPaddings)
+                            AddNoteScreen(appRouting, scaffoldContentPaddings)
+                        })
+                    }
+                    is Screen.EditNote -> {
+                        activeScreen = Screen.EditNote(key.noteId)
+                        NavEntry(key = key, content = {
+                            EditNoteScreen(appRouting, key.noteId, scaffoldContentPaddings)
                         })
                     }
                     is Screen.OpenNote -> NavEntry(key = key, content = {  })

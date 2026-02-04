@@ -131,7 +131,7 @@ fun NotesBoard(viewModel: NotesViewModel, routing: IAppRouting) {
                         ViewType.BigBlocks -> {
                             NotesBlocks(
                                 notesList = sortedList,
-                                onNoteClick = routing::addNote,
+                                onNoteClick = routing::editNote,
                                 columnCount = BIG_BLOCKS_COLUMN_COUNT,
                                 gridState = lazyGridState,
                             )
@@ -141,7 +141,7 @@ fun NotesBoard(viewModel: NotesViewModel, routing: IAppRouting) {
                                 notesList = sortedList,
                                 swipedNote = swipedNote,
                                 onNoteSwiped = { id, index -> swipedNote = Pair(id, index) },
-                                onNoteClick = routing::addNote,
+                                onNoteClick = routing::editNote,
                                 onArchiveClicked = viewModel::sendNoteToArchive,
                                 isDetailedList = false,
                                 listState = lazyListState,
@@ -152,7 +152,7 @@ fun NotesBoard(viewModel: NotesViewModel, routing: IAppRouting) {
                                 notesList = sortedList,
                                 swipedNote = swipedNote,
                                 onNoteSwiped = { id, index -> swipedNote = Pair(id, index) },
-                                onNoteClick = routing::addNote,
+                                onNoteClick = routing::editNote,
                                 onArchiveClicked = viewModel::sendNoteToArchive,
                                 isDetailedList = true,
                                 listState = lazyListState,
@@ -161,7 +161,7 @@ fun NotesBoard(viewModel: NotesViewModel, routing: IAppRouting) {
                         ViewType.Blocks -> {
                             NotesBlocks(
                                 notesList = sortedList,
-                                onNoteClick = routing::addNote,
+                                onNoteClick = routing::editNote,
                                 columnCount = SMALL_BLOCKS_COLUMN_COUNT,
                                 gridState = lazyGridState,
                             )
