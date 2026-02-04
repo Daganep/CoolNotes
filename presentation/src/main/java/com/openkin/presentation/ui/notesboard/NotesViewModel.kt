@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.openkin.domain.interactor.INotesInteractor
 import com.openkin.domain.model.NoteUi
+import com.openkin.presentation.ui.notesboard.model.ViewType
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

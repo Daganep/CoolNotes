@@ -15,7 +15,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.openkin.presentation.R
-import com.openkin.presentation.ui.notesboard.SortType
+import com.openkin.presentation.ui.notesboard.model.SortType
 import com.openkin.presentation.ui.notesboard.widgets.SortNotesButton
 
 @Composable

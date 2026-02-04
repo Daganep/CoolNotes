@@ -26,6 +26,8 @@ import com.openkin.domain.utils.BIG_BLOCKS_COLUMN_COUNT
 import com.openkin.domain.utils.SMALL_BLOCKS_COLUMN_COUNT
 import com.openkin.presentation.R
 import com.openkin.presentation.navigation.IAppRouting
+import com.openkin.presentation.ui.notesboard.model.SortType
+import com.openkin.presentation.ui.notesboard.model.ViewType
 import com.openkin.presentation.ui.notesboard.widgets.AddNoteFloatButton
 import com.openkin.presentation.ui.notesboard.widgets.GradientDivider
 import com.openkin.presentation.ui.notesboard.widgets.NotesBlocks

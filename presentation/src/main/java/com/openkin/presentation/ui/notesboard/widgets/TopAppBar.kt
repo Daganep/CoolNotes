@@ -11,8 +11,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.openkin.presentation.R
-import com.openkin.presentation.ui.notesboard.SortType
-import com.openkin.presentation.ui.notesboard.ViewType
+import com.openkin.presentation.ui.notesboard.model.SortType
+import com.openkin.presentation.ui.notesboard.model.ViewType
 
 @Composable
 fun TopAppBar(

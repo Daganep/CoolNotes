@@ -29,7 +29,7 @@ import androidx.compose.ui.unit.sp
 import com.openkin.presentation.R
 import com.openkin.presentation.navigation.IAppRouting
 import com.openkin.presentation.ui.archive.widgets.ArchiveTopBar
-import com.openkin.presentation.ui.notesboard.SortType
+import com.openkin.presentation.ui.notesboard.model.SortType
 import com.openkin.presentation.ui.notesboard.widgets.ActionOnSwipe
 import com.openkin.presentation.ui.notesboard.widgets.HorizontalSimpleNote
 import com.openkin.presentation.ui.notesboard.widgets.SwipeableNote

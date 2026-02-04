@@ -1,4 +1,4 @@
-package com.openkin.presentation.ui.notesboard
+package com.openkin.presentation.ui.notesboard.model
 
 import androidx.annotation.StringRes
 import com.openkin.presentation.R

@@ -22,7 +22,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.openkin.presentation.R
-import com.openkin.presentation.ui.notesboard.SortType
+import com.openkin.presentation.ui.notesboard.model.SortType
 
 @Composable
 fun SortNotesButton(
