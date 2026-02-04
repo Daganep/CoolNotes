@@ -9,6 +9,7 @@ data class NoteDbo(
     @PrimaryKey(autoGenerate = false) val id: Int,
     @ColumnInfo("title") val title: String,
     @ColumnInfo("description") val description: String,
+    @ColumnInfo("color") val color: String,
     @ColumnInfo("createDateMS") val createDateMS: Long,
     @ColumnInfo("editDateMS") val editDateMS: Long,
     @ColumnInfo("archived") val archived: Boolean,

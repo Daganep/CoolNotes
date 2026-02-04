@@ -12,6 +12,7 @@ fun NoteDto.toNoteUi(): NoteUi {
     )
     note.archived = this.archived
     note.editDateMS = this.editDateMS
+    note.color = this.color
     return note
 }
 
@@ -20,6 +21,7 @@ fun NoteUi.toNoteDto(): NoteDto =
         id = this.id,
         title = this.title,
         description = this.description,
+        color = this.color,
         createDateMS = this.createDateMS,
         editDateMS = this.editDateMS,
         archived = this.archived,

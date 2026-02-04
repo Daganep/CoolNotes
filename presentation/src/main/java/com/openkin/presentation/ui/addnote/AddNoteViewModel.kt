@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.openkin.domain.interactor.INotesInteractor
 import com.openkin.domain.model.NoteUi
 import com.openkin.domain.utils.EMPTY_STRING
+import com.openkin.presentation.ui.addnote.model.NotesColors
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -38,17 +39,17 @@ class AddNoteViewModel(
         }
     }
 
-    fun saveNote(noteTitle: String, noteText: String) {
+    fun saveNote(noteTitle: String, noteText: String, color: NotesColors) {
         viewModelScope.launch(Dispatchers.IO) {
             val currentTimeMS = System.currentTimeMillis()
-            notesInteractor.saveNote(
-                NoteUi(
-                    id = getNoteId(noteTitle, noteText, currentTimeMS),
-                    title = noteTitle,
-                    description = noteText,
-                    createDateMS = currentTimeMS,
-                )
+            val newNote = NoteUi(
+                id = getNoteId(noteTitle, noteText, currentTimeMS),
+                title = noteTitle,
+                description = noteText,
+                createDateMS = currentTimeMS,
             )
+            newNote.color = color.name
+            notesInteractor.saveNote(newNote)
         }
     }
 
