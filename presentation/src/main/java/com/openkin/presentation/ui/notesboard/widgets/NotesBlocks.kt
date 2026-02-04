@@ -1,6 +1,7 @@
 package com.openkin.presentation.ui.notesboard.widgets
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyGridState
@@ -22,6 +23,7 @@ fun NotesBlocks(
     LazyVerticalGrid(
         columns = GridCells.Fixed(columnCount),
         modifier = Modifier.fillMaxSize(),
+        contentPadding = PaddingValues(vertical = 8.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         state = gridState,
