@@ -10,6 +10,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
 import com.openkin.presentation.ui.addnote.model.NotesColors
 
 @Composable
@@ -25,13 +26,19 @@ fun AddNoteColorBar(
     ) {
         NotesColors.entries.forEach { noteColor ->
                 ColorBox(
-                color = noteColor.startColor,
-                isColorPicked = currentColor == noteColor.startColor,
-                onBoxClicked = {
-                    onColorClicked(noteColor)
-                    currentColor = noteColor.startColor
+                    color = noteColor.startColor,
+                    isColorPicked = currentColor == noteColor.startColor,
+                    onBoxClicked = {
+                        onColorClicked(noteColor)
+                        currentColor = noteColor.startColor
                 },
             )
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun AddNoteColorBarPreview() {
+    AddNoteColorBar(onColorClicked = {}, modifier = Modifier)
 }

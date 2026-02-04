@@ -1,5 +1,6 @@
 package com.openkin.presentation.ui.addnote
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.consumeWindowInsets
@@ -34,6 +35,7 @@ import com.openkin.presentation.ui.addnote.model.NotesColors
 import com.openkin.presentation.ui.addnote.widgets.AddNoteAppBar
 import com.openkin.presentation.ui.addnote.widgets.AddNoteColorBar
 import com.openkin.presentation.ui.addnote.widgets.AddNoteTitleField
+import com.openkin.presentation.ui.addnote.widgets.ConfirmDialog
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -55,6 +57,7 @@ fun AddNoteScreen(
     val isNoteTitleExists by viewModel.noteExists.collectAsState()
     var noteText by remember { mutableStateOf(EMPTY_STRING) }
     var noteColor by remember { mutableStateOf(NotesColors.Yellow) }
+    val openConfirmDialog = remember { mutableStateOf(false) }
     val hasError = isNoteTitleExists || noteTitle.length > NOTE_TITLE_MAX_LENGTH
 
     ConstraintLayout (
@@ -70,7 +73,11 @@ fun AddNoteScreen(
         val (topBar, noteTitleField, noteTextField, colorBar, saveButton) = createRefs()
         AddNoteAppBar(
             topAppBarTitle = stringResource(R.string.add_note_screen_appbar_new_title),
-            onBackButtonClick = routing::goBack,
+            onBackButtonClick = {
+                if (noteTitle.isNotEmpty() || noteText.isNotEmpty()) {
+                    openConfirmDialog.value = true
+                } else routing.goBack()
+            },
             modifier = Modifier
                 .constrainAs(topBar) {
                     top.linkTo(anchor = parent.top)
@@ -142,6 +149,25 @@ fun AddNoteScreen(
                 },
         ) {
             Text(text = stringResource(R.string.add_note_save_button))
+        }
+
+        if (openConfirmDialog.value) {
+            ConfirmDialog(
+                onDismissRequest = { openConfirmDialog.value = false },
+                onConfirmation = {
+                    openConfirmDialog.value = false
+                    routing.home()
+                },
+                confirmButtonText = stringResource(R.string.confirm_button_exit_without_save),
+                dismissButtonText = stringResource(R.string.dismiss_button_return),
+                dialogText = stringResource(R.string.text_exit_without_save),
+                iconId = R.drawable.note_to_bin,
+            )
+        }
+        BackHandler {
+            if (noteTitle.isNotEmpty() || noteText.isNotEmpty()) {
+                openConfirmDialog.value = true
+            } else routing.goBack()
         }
     }
 }

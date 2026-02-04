@@ -31,7 +31,7 @@ fun AddNoteAppBar(
     ) {
         Image(
             painter = painterResource(id = R.drawable.image_go_back_arrow),
-            contentDescription = stringResource(R.string.add_note_screen_return),
+            contentDescription = stringResource(R.string.back_button),
             modifier = Modifier
                 .size(42.dp)
                 .clickable(

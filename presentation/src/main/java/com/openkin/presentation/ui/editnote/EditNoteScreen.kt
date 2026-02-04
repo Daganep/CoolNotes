@@ -72,7 +72,7 @@ fun EditNoteScreen(
     ) {
         val (topBar, noteTitleField, noteTextField, saveButton) = createRefs()
         AddNoteAppBar(
-            topAppBarTitle = stringResource(R.string.add_note_screen_appbar_exist_title),
+            topAppBarTitle = stringResource(R.string.edit_note_screen_appbar_exist_title),
             onBackButtonClick = routing::goBack,
             modifier = Modifier
                 .constrainAs(topBar) {
@@ -99,7 +99,7 @@ fun EditNoteScreen(
         OutlinedTextField(
             value = noteText,
             onValueChange = { noteText = it },
-            label = { Text(text = stringResource(R.string.add_note_screen_new_text)) },
+            label = { Text(text = stringResource(R.string.edit_note_screen_new_text)) },
             textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Justify),
             modifier = Modifier
                 .constrainAs(noteTextField) {
@@ -131,7 +131,7 @@ fun EditNoteScreen(
                     width = Dimension.fillToConstraints
                 },
         ) {
-            Text(text = stringResource(R.string.add_note_update_button),)
+            Text(text = stringResource(R.string.edit_note_update_button))
         }
     }
 }
