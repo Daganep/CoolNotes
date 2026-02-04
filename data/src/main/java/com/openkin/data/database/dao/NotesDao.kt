@@ -1,7 +1,6 @@
 package com.openkin.data.database.dao
 
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -22,6 +21,9 @@ interface NotesDao {
 
     @Query("SELECT * FROM table_notes_database " + "WHERE id = :id")
     suspend fun getNote(id: Int) : NoteDbo?
+
+    @Query("SELECT * FROM table_notes_database " + "WHERE title = :title")
+    suspend fun getNoteWithTitle(title: String) : NoteDbo?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(request: NoteDbo)

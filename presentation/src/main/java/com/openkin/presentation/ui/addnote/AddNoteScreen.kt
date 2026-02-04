@@ -14,6 +14,7 @@ import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -26,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.openkin.domain.utils.EMPTY_STRING
+import com.openkin.domain.utils.NOTE_TITLE_MAX_LENGTH
 import com.openkin.presentation.R
 import com.openkin.presentation.navigation.IAppRouting
 import com.openkin.presentation.ui.addnote.widgets.AddNoteAppBar
@@ -47,8 +49,10 @@ fun AddNoteScreen(
     routing: IAppRouting,
     scaffoldContentPaddings: PaddingValues,
 ) {
-    var noteTitle by remember { mutableStateOf(EMPTY_STRING) }
+    val noteTitle by viewModel.newNoteTitle.collectAsState()
+    val isNoteTitleExists by viewModel.noteExists.collectAsState()
     var noteText by remember { mutableStateOf(EMPTY_STRING) }
+    val hasError = isNoteTitleExists || noteTitle.length > NOTE_TITLE_MAX_LENGTH
 
     ConstraintLayout (
         modifier = Modifier
@@ -75,7 +79,8 @@ fun AddNoteScreen(
         )
         AddNoteTitleField(
             noteTitle = noteTitle,
-            onNoteTitleChanged = { newTitle -> noteTitle = newTitle },
+            isNoteTitleExists = isNoteTitleExists,
+            onNoteTitleChanged = { newTitle -> viewModel.updateTitle(newTitle) },
             modifier = Modifier
                 .constrainAs(noteTitleField) {
                     top.linkTo(anchor = topBar.bottom, margin = 4.dp)
@@ -108,6 +113,7 @@ fun AddNoteScreen(
                 )
                 routing.home()
             },
+            enabled = !hasError,
             shape = RoundedCornerShape(5.dp),
             modifier = Modifier
                 .constrainAs(saveButton) {

@@ -13,4 +13,5 @@ interface INotesInteractor {
     suspend fun returnNoteToBoard(noteId: Int): Boolean
     suspend fun saveViewType(viewType: Int)
     suspend fun getStoredViewType(): Int
+    suspend fun checkTitleExists(noteTitle: String): Boolean
 }

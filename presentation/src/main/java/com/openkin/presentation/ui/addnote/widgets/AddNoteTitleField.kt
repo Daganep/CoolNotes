@@ -15,6 +15,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.openkin.domain.utils.EMPTY_STRING
 import com.openkin.domain.utils.NOTE_TITLE_MAX_LENGTH
 import com.openkin.domain.utils.SHORT_TEXT_EXAMPLE
 import com.openkin.presentation.R
@@ -22,10 +23,12 @@ import com.openkin.presentation.R
 @Composable
 fun AddNoteTitleField(
     noteTitle: String,
+    isNoteTitleExists: Boolean,
     onNoteTitleChanged: (String) -> Unit,
     modifier: Modifier,
 ) {
     var isError by remember { mutableStateOf(false) }
+    var errorMessage = EMPTY_STRING
     Column(
         modifier = modifier,
     ) {
@@ -42,17 +45,28 @@ fun AddNoteTitleField(
             },
             modifier = Modifier.fillMaxWidth()
         )
+
         if (noteTitle.length > NOTE_TITLE_MAX_LENGTH) {
             isError = true
-            Text(
-                modifier = Modifier.padding(start = 8.dp),
-                text = stringResource(
-                    R.string.add_note_error_title_length,
-                    NOTE_TITLE_MAX_LENGTH,
-                ),
-                color = Color.Red,
+            errorMessage = stringResource(
+                R.string.add_note_error_title_length,
+                NOTE_TITLE_MAX_LENGTH,
+            )
+        } else if (isNoteTitleExists) {
+            isError = true
+            errorMessage = stringResource(
+                R.string.add_note_error_title_exists,
+                NOTE_TITLE_MAX_LENGTH,
             )
         } else isError = false
+
+        if (isError) {
+            Text(
+                modifier = Modifier.padding(start = 8.dp),
+                text = errorMessage,
+                color = Color.Red,
+            )
+        }
     }
 }
 
@@ -61,6 +75,7 @@ fun AddNoteTitleField(
 fun AddNoteTitleFieldPreview() {
     AddNoteTitleField(
         noteTitle = SHORT_TEXT_EXAMPLE,
+        isNoteTitleExists = false,
         onNoteTitleChanged = {},
         modifier = Modifier,
     )

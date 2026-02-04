@@ -4,12 +4,39 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.openkin.domain.interactor.INotesInteractor
 import com.openkin.domain.model.NoteUi
+import com.openkin.domain.utils.EMPTY_STRING
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filterNot
 import kotlinx.coroutines.launch
 
+@OptIn(FlowPreview::class)
 class AddNoteViewModel(
     private val notesInteractor: INotesInteractor,
 ) : ViewModel() {
+
+    private val _newNoteTitle = MutableStateFlow<String>(EMPTY_STRING)
+    val newNoteTitle: StateFlow<String> = _newNoteTitle.asStateFlow()
+    private val _noteExists = MutableStateFlow<Boolean>(false)
+    val noteExists: StateFlow<Boolean> = _noteExists.asStateFlow()
+
+    init {
+        viewModelScope.launch(Dispatchers.IO) {
+            _newNoteTitle
+                .debounce(300L)
+                .filterNot { query -> query.isEmpty() || query.isBlank() }
+                .distinctUntilChanged()
+                .collectLatest { title ->
+                    checkTitleExists(title)
+                }
+        }
+    }
 
     fun saveNote(noteTitle: String, noteText: String) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -22,6 +49,17 @@ class AddNoteViewModel(
                     createDateMS = currentTimeMS,
                 )
             )
+        }
+    }
+
+    fun updateTitle(title: String) {
+        if (title.isEmpty() || title.isBlank()) _noteExists.value = false
+        _newNoteTitle.value = title
+    }
+
+    private fun checkTitleExists(title: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            _noteExists.value = notesInteractor.checkTitleExists(title)
         }
     }
 

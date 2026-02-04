@@ -85,6 +85,7 @@ fun EditNoteScreen(
         )
         AddNoteTitleField(
             noteTitle = noteTitle,
+            isNoteTitleExists = false,
             onNoteTitleChanged = { newTitle -> noteTitle = newTitle },
             modifier = Modifier
                 .constrainAs(noteTitleField) {

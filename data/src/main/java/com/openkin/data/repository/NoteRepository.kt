@@ -70,4 +70,7 @@ class NoteRepository(
 
     override suspend fun getStoredViewType(): Int =
         sharedPrefsStorage.getViewType()
+
+    override suspend fun checkTitleExists(noteTitle: String): Boolean =
+        database.requestsDao.getNoteWithTitle(noteTitle) != null
 }
