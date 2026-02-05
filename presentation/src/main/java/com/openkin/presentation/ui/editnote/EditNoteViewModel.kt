@@ -35,6 +35,8 @@ class EditNoteViewModel(
     )
     private val _viewState = MutableStateFlow<EditNoteState>(defaultState)
     val viewState: StateFlow<EditNoteState> = _viewState.asStateFlow()
+    private val _editNoteEvent = MutableStateFlow<Boolean>(false)
+    val editNoteEvent: StateFlow<Boolean> = _editNoteEvent.asStateFlow()
     private val _newNoteTitle = MutableStateFlow<String>(EMPTY_STRING)
 
     init {
@@ -115,6 +117,7 @@ class EditNoteViewModel(
             )
         }
         _newNoteTitle.value = title
+        _editNoteEvent.value = false
     }
 
     fun onUpdateNoteText(newText: String) {
@@ -123,6 +126,7 @@ class EditNoteViewModel(
             noteText = newText,
             isChangeWasSaved = false,
         )
+        _editNoteEvent.value = false
     }
 
     fun onUpdateCurrentColor(newColor: NotesColors) {
@@ -131,6 +135,7 @@ class EditNoteViewModel(
             color = newColor,
             isChangeWasSaved = false,
         )
+        _editNoteEvent.value = false
     }
 
     fun onArchiveClicked() {
@@ -139,11 +144,13 @@ class EditNoteViewModel(
             isArchived = !state.isArchived,
             isChangeWasSaved = false,
         )
+        _editNoteEvent.value = false
     }
 
     private fun updateChangeSavedState() {
         val state = _viewState.value
         _viewState.value = state.copy(isChangeWasSaved = true)
+        _editNoteEvent.value = true
     }
 
     private fun checkTitleExists(title: String) {

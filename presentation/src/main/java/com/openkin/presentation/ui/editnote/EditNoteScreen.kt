@@ -1,5 +1,6 @@
 package com.openkin.presentation.ui.editnote
 
+import android.widget.Toast
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.PaddingValues
@@ -22,6 +23,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -56,6 +58,7 @@ fun EditNoteScreen(
 ) {
 
     val state by viewModel.viewState.collectAsState()
+    val event by viewModel.editNoteEvent.collectAsState()
     val openConfirmDialog = remember { mutableStateOf(false) }
     val noteWasChanged = state.noteTitle != state.currentNote?.title
             || state.noteText != state.currentNote?.description
@@ -174,6 +177,13 @@ fun EditNoteScreen(
                 dialogText = stringResource(R.string.text_exit_without_save),
                 iconId = R.drawable.note_to_bin,
             )
+        }
+        if (event) {
+            Toast.makeText(
+                LocalContext.current,
+                stringResource(R.string.edit_note_data_was_saved),
+                Toast.LENGTH_SHORT
+            ).show()
         }
         BackHandler {
             if (noteWasChanged && !state.isChangeWasSaved) openConfirmDialog.value = true

@@ -33,6 +33,7 @@
     <string name="edit_note_error_title_exists">Заметка с этим названием существует</string>
     <string name="edit_note_send_to_archive">Отправить в архив</string>
     <string name="edit_note_remove_from_archive">Восстановить</string>
+    <string name="edit_note_data_was_saved">Изменения сохранены</string>
 
     //archive screen
     <string name="archive_screen_appbar_title">Архивные заметки</string>
