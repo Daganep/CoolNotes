@@ -34,7 +34,7 @@ fun ViewTypesButton(
         Image(
             painter = painterResource(id = R.drawable.ic_menu_views),
             contentDescription = stringResource(R.string.notes_board_view_button),
-            modifier = Modifier
+            modifier = modifier
                 .padding(start = 24.dp)
                 .size(24.dp)
                 .clickable(
