@@ -4,9 +4,11 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -57,6 +59,9 @@ fun NotesBoard(viewModel: NotesViewModel, routing: IAppRouting) {
     ) {
 
         val state by viewModel.viewState.collectAsState()
+        val loadingState by viewModel.loadingState.collectAsState()
+
+        //Первое число - id заметки, второе - позиция в списке заметок
         var swipedNote by remember { mutableStateOf(Pair(0, -1)) }
         val lazyListState = rememberLazyListState()
         val lazyGridState = rememberLazyGridState()
@@ -105,81 +110,83 @@ fun NotesBoard(viewModel: NotesViewModel, routing: IAppRouting) {
             },
             contentAlignment = Alignment.Center,
         ) {
-                if (state.notesList.isNotEmpty()) {
-                    val sortedList = when(state.sortType.first) {
-                        SortType.CREATE_DATE -> {
-                            if (state.sortType.second) {
-                                state.notesList.sortedByDescending { it.createDateMS }
-                            } else {
-                                state.notesList.sortedBy { it.createDateMS }
-                            }
-                        }
-                        SortType.EDIT_DATE -> {
-                            if (state.sortType.second) {
-                                state.notesList.sortedByDescending { it.editDateMS }
-                            } else {
-                                state.notesList.sortedBy { it.editDateMS }
-                            }
-                        }
-                        SortType.ALPHABET -> {
-                            if (state.sortType.second) {
-                                state.notesList.sortedBy { it.title.lowercase() }
-                            } else {
-                                state.notesList.sortedByDescending { it.title.lowercase() }
-                            }
-                        }
-                        SortType.COLOR -> {
-                            if (state.sortType.second) {
-                                state.notesList.sortedBy { it.color }
-                            } else {
-                                state.notesList.sortedByDescending { it.color }
-                            }
+            if (loadingState) {
+                CircularProgressIndicator(modifier = Modifier.size(50.dp))
+            } else if (state.notesList.isNotEmpty()) {
+                val sortedList = when(state.sortType.first) {
+                    SortType.CREATE_DATE -> {
+                        if (state.sortType.second) {
+                            state.notesList.sortedByDescending { it.createDateMS }
+                        } else {
+                            state.notesList.sortedBy { it.createDateMS }
                         }
                     }
-                    viewModel.updatePrevSortType(state.sortType.first)
-                    when (state.viewType) {
-                        ViewType.BigBlocks -> {
-                            NotesBlocks(
-                                notesList = sortedList,
-                                onNoteClick = routing::editNote,
-                                columnCount = BIG_BLOCKS_COLUMN_COUNT,
-                                gridState = lazyGridState,
-                            )
-                        }
-                        ViewType.CommonList -> {
-                            NotesCommonList(
-                                notesList = sortedList,
-                                swipedNote = swipedNote,
-                                onNoteSwiped = { id, index -> swipedNote = Pair(id, index) },
-                                onNoteClick = routing::editNote,
-                                onArchiveClicked = viewModel::sendNoteToArchive,
-                                isDetailedList = false,
-                                listState = lazyListState,
-                            )
-                        }
-                        ViewType.DetailsList -> {
-                            NotesCommonList(
-                                notesList = sortedList,
-                                swipedNote = swipedNote,
-                                onNoteSwiped = { id, index -> swipedNote = Pair(id, index) },
-                                onNoteClick = routing::editNote,
-                                onArchiveClicked = viewModel::sendNoteToArchive,
-                                isDetailedList = true,
-                                listState = lazyListState,
-                            )
-                        }
-                        ViewType.Blocks -> {
-                            NotesBlocks(
-                                notesList = sortedList,
-                                onNoteClick = routing::editNote,
-                                columnCount = SMALL_BLOCKS_COLUMN_COUNT,
-                                gridState = lazyGridState,
-                            )
+                    SortType.EDIT_DATE -> {
+                        if (state.sortType.second) {
+                            state.notesList.sortedByDescending { it.editDateMS }
+                        } else {
+                            state.notesList.sortedBy { it.editDateMS }
                         }
                     }
-                } else {
-                    Text(text = stringResource(R.string.notes_screen_empty_list))
+                    SortType.ALPHABET -> {
+                        if (state.sortType.second) {
+                            state.notesList.sortedBy { it.title.lowercase() }
+                        } else {
+                            state.notesList.sortedByDescending { it.title.lowercase() }
+                        }
+                    }
+                    SortType.COLOR -> {
+                        if (state.sortType.second) {
+                            state.notesList.sortedBy { it.color }
+                        } else {
+                            state.notesList.sortedByDescending { it.color }
+                        }
+                    }
                 }
+                viewModel.updatePrevSortType(state.sortType.first)
+                when (state.viewType) {
+                    ViewType.BigBlocks -> {
+                        NotesBlocks(
+                            notesList = sortedList,
+                            onNoteClick = routing::editNote,
+                            columnCount = BIG_BLOCKS_COLUMN_COUNT,
+                            gridState = lazyGridState,
+                        )
+                    }
+                    ViewType.CommonList -> {
+                        NotesCommonList(
+                            notesList = sortedList,
+                            swipedNote = swipedNote,
+                            onNoteSwiped = { id, index -> swipedNote = Pair(id, index) },
+                            onNoteClick = routing::editNote,
+                            onArchiveClicked = viewModel::sendNoteToArchive,
+                            isDetailedList = false,
+                            listState = lazyListState,
+                        )
+                    }
+                    ViewType.DetailsList -> {
+                        NotesCommonList(
+                            notesList = sortedList,
+                            swipedNote = swipedNote,
+                            onNoteSwiped = { id, index -> swipedNote = Pair(id, index) },
+                            onNoteClick = routing::editNote,
+                            onArchiveClicked = viewModel::sendNoteToArchive,
+                            isDetailedList = true,
+                            listState = lazyListState,
+                        )
+                    }
+                    ViewType.Blocks -> {
+                        NotesBlocks(
+                            notesList = sortedList,
+                            onNoteClick = routing::editNote,
+                            columnCount = SMALL_BLOCKS_COLUMN_COUNT,
+                            gridState = lazyGridState,
+                        )
+                    }
+                }
+            } else {
+                Text(text = stringResource(R.string.notes_screen_empty_list))
+            }
         }
         //Верхний градиент-разделитель
         GradientDivider(
@@ -224,7 +231,7 @@ fun NotesBoard(viewModel: NotesViewModel, routing: IAppRouting) {
             )
         }
 
-        LaunchedEffect(key1 = state.notesList.isNotEmpty()) {
+        LaunchedEffect(key1 = !loadingState) {
             viewModel.getNotes()
             viewModel.getStoredViewType()
         }

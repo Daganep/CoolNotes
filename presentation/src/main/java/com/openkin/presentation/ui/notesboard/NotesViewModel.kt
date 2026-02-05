@@ -23,12 +23,15 @@ class NotesViewModel(
     )
     private val _viewState = MutableStateFlow<NotesBoardState>(defaultState)
     val viewState: StateFlow<NotesBoardState> = _viewState.asStateFlow()
+    private val _loadingState = MutableStateFlow<Boolean>(true)
+    val loadingState: StateFlow<Boolean> = _loadingState.asStateFlow()
 
     fun getNotes() {
         viewModelScope.launch(Dispatchers.IO) {
             notesInteractor.getActualNotes().collect { notes ->
                 val state = _viewState.value
                 _viewState.value = state.copy(notesList = notes)
+                _loadingState.value = false
             }
         }
     }
