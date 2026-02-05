@@ -3,14 +3,14 @@ package com.openkin.presentation.ui.editnote
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -33,6 +33,8 @@ import com.openkin.presentation.ui.addnote.widgets.AddNoteAppBar
 import com.openkin.presentation.ui.addnote.widgets.AddNoteColorBar
 import com.openkin.presentation.ui.addnote.widgets.AddNoteTitleField
 import com.openkin.presentation.ui.addnote.widgets.ConfirmDialog
+import com.openkin.presentation.ui.editnote.widgets.SaveChangesButton
+import com.openkin.presentation.ui.editnote.widgets.ArchiveButton
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -58,6 +60,7 @@ fun EditNoteScreen(
     val noteWasChanged = state.noteTitle != state.currentNote?.title
             || state.noteText != state.currentNote?.description
             || state.color.name != state.currentNote?.color
+            || state.isArchived != state.currentNote?.archived
 
     ConstraintLayout (
         modifier = Modifier
@@ -69,7 +72,7 @@ fun EditNoteScreen(
             .background(Color.White)
             .padding(top = 16.dp, start = 16.dp, end = 16.dp),
     ) {
-        val (topBar, noteTitleField, noteTextField, colorBar, saveButton) = createRefs()
+        val (topBar, noteTitleField, noteTextField, colorBar, bottomButtons) = createRefs()
         AddNoteAppBar(
             topAppBarTitle = stringResource(R.string.edit_note_screen_appbar_exist_title),
             onBackButtonClick = {
@@ -88,7 +91,7 @@ fun EditNoteScreen(
         AddNoteTitleField(
             noteTitle = state.noteTitle,
             isNoteTitleExists = false,
-            onNoteTitleChanged = { newTitle -> viewModel.updateTitle(newTitle) },
+            onNoteTitleChanged = { newTitle -> viewModel.onUpdateTitle(newTitle) },
             modifier = Modifier
                 .constrainAs(noteTitleField) {
                     top.linkTo(anchor = topBar.bottom, margin = 4.dp)
@@ -100,7 +103,7 @@ fun EditNoteScreen(
         )
         OutlinedTextField(
             value = state.noteText,
-            onValueChange = { newText -> viewModel.updateNoteText(newText) },
+            onValueChange = { newText -> viewModel.onUpdateNoteText(newText) },
             label = {
                 Text(
                     text = stringResource(R.string.edit_note_screen_new_text),
@@ -119,12 +122,12 @@ fun EditNoteScreen(
                 },
         )
         AddNoteColorBar(
-            onColorClicked = { color -> viewModel.updateCurrentColor(color) },
+            onColorClicked = { color -> viewModel.onUpdateCurrentColor(color) },
             currentColor = state.color.startColor,
             modifier = Modifier
                 .constrainAs(colorBar) {
                     top.linkTo(anchor = noteTextField.bottom)
-                    bottom.linkTo(anchor = saveButton.top, margin = 8.dp)
+                    bottom.linkTo(anchor = bottomButtons.top, margin = 8.dp)
                     start.linkTo(anchor = parent.start)
                     end.linkTo(anchor = parent.end)
                     height = Dimension.preferredWrapContent
@@ -132,14 +135,9 @@ fun EditNoteScreen(
                     verticalBias = 1F
                 },
         )
-        Button(
-            onClick = {
-                state.currentNote?.let { viewModel.updateNote() }
-            },
-            enabled = !state.isError && noteWasChanged && !state.isChangeWasSaved,
-            shape = RoundedCornerShape(5.dp),
+        Row(
             modifier = Modifier
-                .constrainAs(saveButton) {
+                .constrainAs(bottomButtons) {
                     start.linkTo(anchor = parent.start)
                     end.linkTo(anchor = parent.end)
                     bottom.linkTo(anchor = parent.bottom, margin = 4.dp)
@@ -147,7 +145,21 @@ fun EditNoteScreen(
                     width = Dimension.fillToConstraints
                 },
         ) {
-            Text(text = stringResource(R.string.edit_note_update_button))
+            SaveChangesButton(
+                onSaveClick = { state.currentNote?.let { viewModel.onUpdateNote() } },
+                isButtonEnabled = !state.isError && noteWasChanged && !state.isChangeWasSaved,
+                modifier = Modifier
+                    .fillMaxWidth(fraction = 0.5F)
+                    .padding(end = 2.dp),
+            )
+            ArchiveButton(
+                onButtonClick = { viewModel.onArchiveClicked() },
+                isButtonEnabled = state.currentNote != null,
+                inArchive = state.isArchived,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 2.dp),
+            )
         }
 
         if (openConfirmDialog.value) {

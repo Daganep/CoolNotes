@@ -9,6 +9,7 @@ data class EditNoteState(
     val noteText: String,
     val color: NotesColors,
     val isError: Boolean,
+    val isArchived: Boolean,
     val isNoteTitleExists: Boolean,
     val isChangeWasSaved: Boolean,
 )

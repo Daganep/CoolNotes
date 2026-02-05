@@ -29,6 +29,7 @@ class EditNoteViewModel(
         noteText = EMPTY_STRING,
         color = NotesColors.Yellow,
         isError = false,
+        isArchived = false,
         isNoteTitleExists = false,
         isChangeWasSaved = false,
     )
@@ -49,7 +50,7 @@ class EditNoteViewModel(
         }
     }
 
-    fun updateNote() {
+    fun onUpdateNote() {
         viewModelScope.launch(Dispatchers.IO) {
             _viewState.value.currentNote?.let { note ->
                 val updatedNote = NoteUi(
@@ -59,7 +60,7 @@ class EditNoteViewModel(
                     createDateMS = note.createDateMS,
                 )
                 updatedNote.editDateMS = System.currentTimeMillis()
-                updatedNote.archived = note.archived
+                updatedNote.archived = _viewState.value.isArchived
                 updatedNote.color = _viewState.value.color.name
                 notesInteractor.saveNote(updatedNote)
             }
@@ -90,7 +91,7 @@ class EditNoteViewModel(
         }
     }
 
-    fun updateTitle(title: String) {
+    fun onUpdateTitle(title: String) {
         val state = _viewState.value
         if (title.isEmpty() || title.isBlank()) {
             _viewState.value = state.copy(
@@ -116,7 +117,7 @@ class EditNoteViewModel(
         _newNoteTitle.value = title
     }
 
-    fun updateNoteText(newText: String) {
+    fun onUpdateNoteText(newText: String) {
         val state = _viewState.value
         _viewState.value = state.copy(
             noteText = newText,
@@ -124,10 +125,18 @@ class EditNoteViewModel(
         )
     }
 
-    fun updateCurrentColor(newColor: NotesColors) {
+    fun onUpdateCurrentColor(newColor: NotesColors) {
         val state = _viewState.value
         _viewState.value = state.copy(
             color = newColor,
+            isChangeWasSaved = false,
+        )
+    }
+
+    fun onArchiveClicked() {
+        val state = _viewState.value
+        _viewState.value = state.copy(
+            isArchived = !state.isArchived,
             isChangeWasSaved = false,
         )
     }
