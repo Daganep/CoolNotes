@@ -68,8 +68,10 @@ fun Navigation(scaffoldContentPaddings: PaddingValues) {
                             EditNoteScreen(appRouting, key.noteId, scaffoldContentPaddings)
                         })
                     }
-                    is Screen.OpenNote -> NavEntry(key = key, content = {  })
-                    is Screen.Calendar -> NavEntry(key = key, content = {  })
+                    is Screen.Calendar -> {
+                        activeScreen = Screen.Calendar
+                        NavEntry(key = key, content = { })
+                    }
                     is Screen.Settings -> {
                         activeScreen = Screen.Settings
                         NavEntry(key = key, content = { Settings(appRouting::goBack) })
@@ -78,7 +80,10 @@ fun Navigation(scaffoldContentPaddings: PaddingValues) {
                         activeScreen = Screen.Archive
                         NavEntry(key = key, content = { ArchiveScreen(appRouting) })
                     }
-                    is Screen.Search -> NavEntry(key = key, content = {  })
+                    is Screen.Search -> {
+                        activeScreen = Screen.Search
+                        NavEntry(key = key, content = { })
+                    }
                     is Screen.Bin -> NavEntry(key = key, content = {  })
                 }
             },

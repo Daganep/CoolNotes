@@ -13,8 +13,6 @@ sealed class Screen: NavKey {
 
     data class EditNote(val noteId: Int): Screen()
 
-    data object OpenNote: Screen()
-
     data object Calendar: Screen()
 
     data object Settings: Screen()
@@ -41,10 +39,6 @@ class AppRouting : IAppRouting {
 
     override fun editNote(noteId: Int) {
         backStack.add(Screen.EditNote(noteId))
-    }
-
-    override fun openNote() {
-        backStack.add(Screen.OpenNote)
     }
 
     override fun openCalendar() {

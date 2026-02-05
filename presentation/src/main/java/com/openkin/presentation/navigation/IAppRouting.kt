@@ -8,8 +8,6 @@ interface IAppRouting {
 
     fun editNote(noteId: Int)
 
-    fun openNote()
-
     fun openCalendar()
 
     fun openSettings()

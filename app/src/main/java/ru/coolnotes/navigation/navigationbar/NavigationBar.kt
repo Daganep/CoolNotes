@@ -52,12 +52,12 @@ fun NavigationBar(
             isActive = activeScreen == Screen.Calendar,
             onClick = routing::openCalendar,
         )
-        NavigationButton(
-            modifier = Modifier,
-            imageId = R.drawable.image_bottom_menu,
-            descriptionId = R.string.navigation_bar_settings,
-            isActive = activeScreen == Screen.Settings,
-            onClick = routing::openSettings,
-        )
+//        NavigationButton(
+//            modifier = Modifier,
+//            imageId = R.drawable.image_bottom_menu,
+//            descriptionId = R.string.navigation_bar_settings,
+//            isActive = activeScreen == Screen.Settings,
+//            onClick = routing::openSettings,
+//        )
     }
 }
