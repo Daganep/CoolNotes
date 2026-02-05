@@ -101,6 +101,13 @@ fun ArchiveScreen(viewModel: ArchiveViewModel, routing: IAppRouting) {
                         state.notesList.sortedByDescending { it.title.lowercase() }
                     }
                 }
+                SortType.COLOR -> {
+                    if (state.sortType.second) {
+                        state.notesList.sortedBy { it.color }
+                    } else {
+                        state.notesList.sortedByDescending { it.color }
+                    }
+                }
             }
             viewModel.updatePrevSortType(state.sortType.first)
             LazyColumn(

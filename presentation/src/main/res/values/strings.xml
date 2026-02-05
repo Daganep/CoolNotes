@@ -11,6 +11,7 @@
     <string name="sort_type_create_date">по дате создания</string>
     <string name="sort_type_edit_date">по дате изменения</string>
     <string name="sort_type_alphabet">по алфавиту</string>
+    <string name="sort_type_color">по цвету</string>
     <string name="details_note_create_date">Создана: %1$s</string>
     <string name="details_note_edit_date">Изменена: %1$s</string>
 
