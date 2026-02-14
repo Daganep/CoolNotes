@@ -6,9 +6,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.imePadding
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.LocalTextStyle
@@ -58,10 +56,8 @@ fun AddNoteScreen(
             .fillMaxSize()
             .consumeWindowInsets(scaffoldContentPaddings)
             .imePadding()
-            .statusBarsPadding()
-            .navigationBarsPadding()
             .background(Color.White)
-            .padding(top = 16.dp, start = 16.dp, end = 16.dp),
+            .padding(horizontal = 16.dp),
     ) {
         val (topBar, noteTitleField, noteTextField, colorBar, saveButton) = createRefs()
         AddNoteAppBar(
@@ -77,7 +73,6 @@ fun AddNoteScreen(
                     start.linkTo(anchor = parent.start)
                     end.linkTo(anchor = parent.end)
                     height = Dimension.value(56.dp)
-                    width = Dimension.fillToConstraints
                 },
         )
         AddNoteTitleField(

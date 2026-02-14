@@ -3,9 +3,7 @@ package com.openkin.presentation.ui.notesboard
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.CircularProgressIndicator
@@ -53,8 +51,6 @@ fun NotesBoard(viewModel: NotesViewModel, routing: IAppRouting) {
     ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()
-            .statusBarsPadding()
-            .navigationBarsPadding()
             .background(Color.White),
     ) {
 
@@ -79,11 +75,10 @@ fun NotesBoard(viewModel: NotesViewModel, routing: IAppRouting) {
         TopAppBar(
             modifier = Modifier
                 .constrainAs(topBar) {
-                    top.linkTo(parent.top, margin = 16.dp)
-                    start.linkTo(anchor = parent.start, margin = 16.dp)
-                    end.linkTo(anchor = parent.end, margin = 16.dp)
+                    top.linkTo(parent.top)
+                    start.linkTo(anchor = parent.start)
+                    end.linkTo(anchor = parent.end)
                     height = Dimension.value(56.dp)
-                    width = Dimension.fillToConstraints
                 },
             onViewTypeClick = { newViewType -> viewModel.saveViewType(newViewType) },
             onSortClick = { sort ->

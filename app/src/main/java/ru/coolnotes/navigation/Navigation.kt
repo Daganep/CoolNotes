@@ -3,8 +3,10 @@ package ru.coolnotes.navigation
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -28,6 +30,7 @@ import com.openkin.presentation.ui.addnote.AddNoteScreen
 import com.openkin.presentation.ui.archive.ArchiveScreen
 import com.openkin.presentation.ui.editnote.EditNoteScreen
 import com.openkin.presentation.ui.notesboard.NotesBoard
+import com.openkin.presentation.ui.search.SearchScreen
 import ru.coolnotes.navigation.navigationbar.NavigationBar
 
 @Composable
@@ -36,8 +39,8 @@ fun Navigation(scaffoldContentPaddings: PaddingValues) {
     ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()
-            .statusBarsPadding()
-            .navigationBarsPadding()
+            .consumeWindowInsets(scaffoldContentPaddings)
+            .padding(scaffoldContentPaddings)
             .background(Color.White)
     ) {
         val (currentScreen, bottomBar) = createRefs()
@@ -78,11 +81,13 @@ fun Navigation(scaffoldContentPaddings: PaddingValues) {
                     }
                     is Screen.Archive -> {
                         activeScreen = Screen.Archive
-                        NavEntry(key = key, content = { ArchiveScreen(appRouting) })
+                        NavEntry(key = key, content = {
+                            ArchiveScreen(appRouting)
+                        })
                     }
                     is Screen.Search -> {
                         activeScreen = Screen.Search
-                        NavEntry(key = key, content = { })
+                        NavEntry(key = key, content = { SearchScreen((appRouting)) })
                     }
                     is Screen.Bin -> NavEntry(key = key, content = {  })
                 }
