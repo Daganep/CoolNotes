@@ -19,12 +19,15 @@ class ArchiveViewModel(private val notesInteractor: INotesInteractor): ViewModel
     )
     private val _viewState = MutableStateFlow<ArchiveState>(defaultState)
     val viewState: StateFlow<ArchiveState> = _viewState.asStateFlow()
+    private val _loadingState = MutableStateFlow<Boolean>(true)
+    val loadingState: StateFlow<Boolean> = _loadingState.asStateFlow()
 
     fun getArchive() {
         viewModelScope.launch(Dispatchers.IO) {
             notesInteractor.getArchivedNotes().collect { notes ->
                 val state = _viewState.value
                 _viewState.value = state.copy(notesList = notes)
+                _loadingState.value = false
             }
         }
     }
