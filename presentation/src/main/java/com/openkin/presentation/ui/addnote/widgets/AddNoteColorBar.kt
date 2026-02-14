@@ -33,7 +33,7 @@ fun AddNoteColorBar(
 
 @Preview(showBackground = true)
 @Composable
-fun AddNoteColorBarPreview() {
+private fun AddNoteColorBarPreview() {
     AddNoteColorBar(
         onColorClicked = {},
         currentColor = Color(0xFFFD8484),

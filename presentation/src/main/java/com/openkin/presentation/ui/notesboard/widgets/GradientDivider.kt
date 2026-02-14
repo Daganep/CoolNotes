@@ -26,6 +26,6 @@ fun GradientDivider(
 
 @Preview(showBackground = true)
 @Composable
-fun GradientDividerPreview() {
+private fun GradientDividerPreview() {
     GradientDivider(Color.Red, Color.White, Modifier.width(50.dp))
 }

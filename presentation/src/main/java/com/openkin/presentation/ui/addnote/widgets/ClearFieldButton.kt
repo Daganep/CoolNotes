@@ -33,6 +33,6 @@ fun ClearFieldButton(
 
 @Preview(showBackground = true)
 @Composable
-fun ClearFieldButtonPreview() {
+private fun ClearFieldButtonPreview() {
     ClearFieldButton(onNoteTitleChanged = {})
 }

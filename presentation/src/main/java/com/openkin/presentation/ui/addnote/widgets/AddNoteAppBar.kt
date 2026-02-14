@@ -55,7 +55,7 @@ fun AddNoteAppBar(
 
 @Preview(showBackground = true)
 @Composable
-fun AddNoteAppBarPreview() {
+private fun AddNoteAppBarPreview() {
     AddNoteAppBar(
         topAppBarTitle = SHORT_TEXT_EXAMPLE,
         onBackButtonClick = {},

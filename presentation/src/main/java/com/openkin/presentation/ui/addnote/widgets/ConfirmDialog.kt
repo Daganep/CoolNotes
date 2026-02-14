@@ -79,7 +79,7 @@ fun ConfirmDialog(
 
 @Preview(showBackground = true)
 @Composable
-fun ConfirmDialogPreview() {
+private fun ConfirmDialogPreview() {
     ConfirmDialog(
         onDismissRequest = {},
         onConfirmation = {},

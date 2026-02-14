@@ -45,6 +45,6 @@ fun AddNoteFloatButton(
 
 @Preview(showBackground = true)
 @Composable
-fun AddNoteFloatButtonPreview() {
+private fun AddNoteFloatButtonPreview() {
     AddNoteFloatButton(onClick = {}, modifier = Modifier)
 }

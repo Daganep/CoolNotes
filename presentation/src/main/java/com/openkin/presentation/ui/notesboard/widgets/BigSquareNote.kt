@@ -115,7 +115,7 @@ fun BigSquareNote(
 
 @Preview(showBackground = true)
 @Composable
-fun BigSquareNotePreview() {
+private fun BigSquareNotePreview() {
     BigSquareNote(
         note = NoteUi(
             id = ID_EXAMPLE_INT,

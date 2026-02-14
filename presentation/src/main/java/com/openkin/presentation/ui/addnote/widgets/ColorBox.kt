@@ -49,12 +49,12 @@ fun ColorBox(
 
 @Preview(showBackground = true)
 @Composable
-fun PickedColorBoxPreview() {
+private fun PickedColorBoxPreview() {
     ColorBox(color = Color.Red, isColorPicked = true, onBoxClicked = {}, modifier = Modifier)
 }
 
 @Preview(showBackground = true)
 @Composable
-fun ColorBoxPreview() {
+private fun ColorBoxPreview() {
     ColorBox(color = Color.Red, isColorPicked = false, onBoxClicked = {}, modifier = Modifier)
 }

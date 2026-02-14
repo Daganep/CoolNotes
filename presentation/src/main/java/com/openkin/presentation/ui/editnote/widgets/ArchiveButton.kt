@@ -50,7 +50,7 @@ fun ArchiveButton(
 
 @Preview(showBackground = true)
 @Composable
-fun ArchiveButtonEnabledButtonPreview() {
+private fun ArchiveButtonEnabledButtonPreview() {
     ArchiveButton(
         onButtonClick = {},
         isButtonEnabled = true,
@@ -61,7 +61,7 @@ fun ArchiveButtonEnabledButtonPreview() {
 
 @Preview(showBackground = true)
 @Composable
-fun ArchiveButtonDisabledButtonPreview() {
+private fun ArchiveButtonDisabledButtonPreview() {
     ArchiveButton(
         onButtonClick = {},
         isButtonEnabled = false,
@@ -72,7 +72,7 @@ fun ArchiveButtonDisabledButtonPreview() {
 
 @Preview(showBackground = true)
 @Composable
-fun RemoveEnabledButtonPreview() {
+private fun RemoveEnabledButtonPreview() {
     ArchiveButton(
         onButtonClick = {},
         isButtonEnabled = true,
@@ -83,7 +83,7 @@ fun RemoveEnabledButtonPreview() {
 
 @Preview(showBackground = true)
 @Composable
-fun RemoveDisabledButtonPreview() {
+private fun RemoveDisabledButtonPreview() {
     ArchiveButton(
         onButtonClick = {},
         isButtonEnabled = false,

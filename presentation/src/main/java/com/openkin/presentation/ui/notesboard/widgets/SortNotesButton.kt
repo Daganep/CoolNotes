@@ -88,6 +88,6 @@ fun SortNotesButton(
 
 @Preview(showBackground = true)
 @Composable
-fun SortNotesButtonPreview() {
+private fun SortNotesButtonPreview() {
     SortNotesButton(modifier = Modifier, onSortClick = {})
 }

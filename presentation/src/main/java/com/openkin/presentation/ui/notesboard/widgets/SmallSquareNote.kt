@@ -115,7 +115,7 @@ fun SmallSquareNote(
 
 @Preview(showBackground = true)
 @Composable
-fun SmallSquareNotePreview() {
+private fun SmallSquareNotePreview() {
     SmallSquareNote(
         note = NoteUi(
             id = ID_EXAMPLE_INT,

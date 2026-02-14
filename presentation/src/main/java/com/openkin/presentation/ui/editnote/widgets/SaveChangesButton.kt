@@ -41,12 +41,12 @@ fun SaveChangesButton(
 
 @Preview(showBackground = true)
 @Composable
-fun SaveChangesButtonEnablePreview() {
+private fun SaveChangesButtonEnablePreview() {
     SaveChangesButton(onSaveClick = {}, isButtonEnabled = true, modifier = Modifier)
 }
 
 @Preview(showBackground = true)
 @Composable
-fun SaveChangesButtonDisablePreview() {
+private fun SaveChangesButtonDisablePreview() {
     SaveChangesButton(onSaveClick = {}, isButtonEnabled = false, modifier = Modifier)
 }

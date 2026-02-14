@@ -72,7 +72,7 @@ fun AddNoteTitleField(
 
 @Preview(showBackground = true)
 @Composable
-fun AddNoteTitleFieldPreview() {
+private fun AddNoteTitleFieldPreview() {
     AddNoteTitleField(
         noteTitle = SHORT_TEXT_EXAMPLE,
         isNoteTitleExists = false,

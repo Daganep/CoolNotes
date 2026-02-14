@@ -112,7 +112,7 @@ fun HorizontalSimpleNote(
 
 @Preview(showBackground = true)
 @Composable
-fun HorizontalNotePreview() {
+private fun HorizontalNotePreview() {
     HorizontalSimpleNote(
         note = NoteUi(
             id = ID_EXAMPLE_INT,
