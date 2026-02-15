@@ -31,10 +31,11 @@ import com.openkin.presentation.navigation.IAppRouting
 import com.openkin.presentation.ui.notesboard.model.SortType
 import com.openkin.presentation.ui.notesboard.model.ViewType
 import com.openkin.presentation.ui.notesboard.widgets.AddNoteFloatButton
-import com.openkin.presentation.ui.notesboard.widgets.GradientDivider
+import com.openkin.presentation.ui.notesboard.widgets.BottomGradientDivider
 import com.openkin.presentation.ui.notesboard.widgets.NotesBlocks
 import com.openkin.presentation.ui.notesboard.widgets.NotesCommonList
 import com.openkin.presentation.ui.notesboard.widgets.TopAppBar
+import com.openkin.presentation.ui.notesboard.widgets.TopGradientDivider
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
@@ -184,9 +185,7 @@ fun NotesBoard(viewModel: NotesViewModel, routing: IAppRouting) {
             }
         }
         //Верхний градиент-разделитель
-        GradientDivider(
-            startColor = Color.White,
-            endColor = Color.Transparent,
+        TopGradientDivider(
             modifier = Modifier
                 .constrainAs(topGradientDivider) {
                     top.linkTo(anchor = topBar.bottom)
@@ -196,9 +195,7 @@ fun NotesBoard(viewModel: NotesViewModel, routing: IAppRouting) {
                 }
         )
         //Нижний градиент-разделитель
-        GradientDivider(
-            startColor = Color.Transparent,
-            endColor = Color.White,
+        BottomGradientDivider(
             modifier = Modifier
                 .constrainAs(bottomGradientDivider) {
                     bottom.linkTo(anchor = parent.bottom)

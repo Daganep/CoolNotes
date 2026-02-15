@@ -31,9 +31,10 @@ import com.openkin.presentation.navigation.IAppRouting
 import com.openkin.presentation.ui.archive.widgets.ArchiveTopBar
 import com.openkin.presentation.ui.notesboard.model.SortType
 import com.openkin.presentation.ui.notesboard.widgets.ActionOnSwipe
-import com.openkin.presentation.ui.notesboard.widgets.GradientDivider
+import com.openkin.presentation.ui.notesboard.widgets.BottomGradientDivider
 import com.openkin.presentation.ui.notesboard.widgets.HorizontalSimpleNote
 import com.openkin.presentation.ui.notesboard.widgets.SwipeableNote
+import com.openkin.presentation.ui.notesboard.widgets.TopGradientDivider
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
@@ -181,9 +182,7 @@ fun ArchiveScreen(viewModel: ArchiveViewModel, routing: IAppRouting) {
         }
 
         //Верхний градиент-разделитель
-        GradientDivider(
-            startColor = Color.White,
-            endColor = Color.Transparent,
+        TopGradientDivider(
             modifier = Modifier
                 .constrainAs(topGradientDivider) {
                     top.linkTo(anchor = topBar.bottom)
@@ -194,9 +193,7 @@ fun ArchiveScreen(viewModel: ArchiveViewModel, routing: IAppRouting) {
         )
 
         //Нижний градиент-разделитель
-        GradientDivider(
-            startColor = Color.Transparent,
-            endColor = Color.White,
+        BottomGradientDivider(
             modifier = Modifier
                 .constrainAs(bottomGradientDivider) {
                     bottom.linkTo(anchor = parent.bottom)

@@ -12,9 +12,23 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun GradientDivider(
-    startColor: Color,
-    endColor: Color,
+fun TopGradientDivider(modifier: Modifier) {
+    DefaultGradientDivider(modifier = modifier)
+}
+
+@Composable
+fun BottomGradientDivider(modifier: Modifier) {
+    DefaultGradientDivider(
+        startColor = Color.Transparent,
+        endColor = Color.White,
+        modifier = modifier,
+    )
+}
+
+@Composable
+private fun DefaultGradientDivider(
+    startColor: Color = Color.White,
+    endColor: Color = Color.Transparent,
     modifier: Modifier
 ) {
     Box(
@@ -26,6 +40,6 @@ fun GradientDivider(
 
 @Preview(showBackground = true)
 @Composable
-private fun GradientDividerPreview() {
-    GradientDivider(Color.Red, Color.White, Modifier.width(50.dp))
+private fun DefaultGradientDividerPreview() {
+    DefaultGradientDivider(Color.Red, Color.White, Modifier.width(50.dp))
 }
