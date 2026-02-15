@@ -87,7 +87,9 @@ fun Navigation(scaffoldContentPaddings: PaddingValues) {
                     }
                     is Screen.Search -> {
                         activeScreen = Screen.Search
-                        NavEntry(key = key, content = { SearchScreen((appRouting)) })
+                        NavEntry(key = key, content = {
+                            SearchScreen(appRouting, scaffoldContentPaddings)
+                        })
                     }
                     is Screen.Bin -> NavEntry(key = key, content = {  })
                 }
@@ -108,7 +110,7 @@ fun Navigation(scaffoldContentPaddings: PaddingValues) {
                     start.linkTo(anchor = parent.start, margin = 16.dp)
                     end.linkTo(anchor = parent.end, margin = 16.dp)
                     bottom.linkTo(anchor = parent.bottom, margin = 8.dp)
-                    height = Dimension.value(56.dp)
+                    height = Dimension.preferredWrapContent
                     width = Dimension.fillToConstraints
                 }
         ) {
