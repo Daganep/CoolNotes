@@ -13,5 +13,5 @@ val viewModelModule = module {
     viewModel { ArchiveViewModel(notesInteractor = get()) }
     viewModel { AddNoteViewModel(notesInteractor = get()) }
     viewModel { EditNoteViewModel(notesInteractor = get()) }
-    viewModel { SearchViewModel() }
+    viewModel { SearchViewModel(notesInteractor = get()) }
 }

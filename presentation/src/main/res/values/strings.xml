@@ -40,6 +40,9 @@
 
     //search screen
     <string name="search_screen_appbar_title">Поиск</string>
+    <string name="search_screen_start_search">Начните поиск</string>
+    <string name="search_screen_empty_result">Поиск не дал результатов</string>
+    <string name="search_screen_top_bar_placeholder">Введите текст</string>
 
     //confirm dialog
     <string name="confirm_button_exit_without_save">Выйти</string>
@@ -62,5 +65,9 @@
     <string name="archive_screen_delete_archive_button">Удалить</string>
 
     <string name="add_note_screen_clear_field_button">Очистить поле</string>
+
+    <string name="search_screen_clear_search_field">Очистить</string>
+    <string name="search_screen_search_icon">Лупа</string>
+
     <string name="back_button">Назад</string>
 </resources>

@@ -1,16 +1,10 @@
 package com.openkin.presentation.ui.search
 
-import androidx.compose.foundation.text.input.TextFieldState
 import com.openkin.domain.model.NoteUi
 
-sealed class SearchState(val textFieldState: TextFieldState) {
+sealed class SearchState {
 
-    data class SearchInProgress(
-        val searchTextFieldState: TextFieldState,
-    ) : SearchState(searchTextFieldState)
+    data object SearchInProgress : SearchState()
 
-    data class SearchComplete(
-        val searchResult: List<NoteUi>,
-        val searchTextFieldState: TextFieldState,
-    ) : SearchState(searchTextFieldState)
+    data class SearchComplete(val searchResult: List<NoteUi>) : SearchState()
 }

@@ -42,4 +42,7 @@ interface NotesDao {
 
     @Query("DELETE FROM table_notes_database")
     suspend fun clearDatabase()
+
+    @Query("SELECT * FROM table_notes_database WHERE title LIKE :search ESCAPE '@'")
+    fun searchByTitle(search: String): Flow<List<NoteDbo>>
 }

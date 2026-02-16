@@ -14,4 +14,5 @@ interface INoteRepository {
     suspend fun saveViewType(viewType: Int)
     suspend fun getStoredViewType(): Int
     suspend fun checkTitleExists(noteTitle: String): Boolean
+    suspend fun searchByTitle(query: String): Flow<List<NoteDto>>
 }

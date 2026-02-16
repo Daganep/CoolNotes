@@ -73,4 +73,14 @@ class NoteRepository(
 
     override suspend fun checkTitleExists(noteTitle: String): Boolean =
         database.requestsDao.getNoteWithTitle(noteTitle) != null
+
+    override suspend fun searchByTitle(query: String): Flow<List<NoteDto>> {
+        val newQuery = query.replace("%", "@%")
+        return database.requestsDao.searchByTitle("%$newQuery%")
+            .catch {
+                //TODO обработать ошибку
+            }.map { result ->
+                result.map { noteDbo -> noteDbo.toNoteDto() }
+            }
+    }
 }
