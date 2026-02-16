@@ -97,8 +97,8 @@ fun NotesBoard(viewModel: NotesViewModel, routing: IAppRouting) {
         //Список заметок
         Box(
             modifier = Modifier.constrainAs(notesBoard) {
-                top.linkTo(topBar.bottom, margin = 8.dp)
-                bottom.linkTo(parent.bottom, margin = 8.dp)
+                top.linkTo(topBar.bottom)
+                bottom.linkTo(parent.bottom)
                 start.linkTo(anchor = parent.start, margin = 16.dp)
                 end.linkTo(anchor = parent.end, margin = 16.dp)
                 height = Dimension.fillToConstraints
