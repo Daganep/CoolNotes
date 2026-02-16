@@ -6,6 +6,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.openkin.domain.interactor.INotesInteractor
 import com.openkin.domain.utils.EMPTY_STRING
+import com.openkin.domain.utils.SEARCH_FIELD_MIN_LENGTH
+import com.openkin.domain.utils.SEARCH_FIELD_TIMEOUT_MS
+import com.openkin.domain.utils.STOP_TIMEOUT_MS
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -21,37 +24,57 @@ class SearchViewModel(
     private val notesInteractor: INotesInteractor,
 ) : ViewModel() {
 
-    private val _viewState = MutableStateFlow<SearchState>(SearchState.SearchComplete(listOf()))
+    private val _viewState = MutableStateFlow(
+        SearchState(
+            searchResult = listOf(),
+            isFilterByTitle = true,
+            searchInProgress = false,
+        )
+    )
     val viewState: StateFlow<SearchState> = _viewState.asStateFlow()
     val searchTextFieldState = TextFieldState()
 
     @OptIn(FlowPreview::class)
     private val searchTextState = snapshotFlow { searchTextFieldState.text }
-        .debounce(500)
-        .filter { it.isEmpty() || it.length > 2 }
+        .debounce(SEARCH_FIELD_TIMEOUT_MS)
+        .filter { it.isEmpty() || it.length > SEARCH_FIELD_MIN_LENGTH }
         .stateIn(
             scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(stopTimeoutMillis = 2000),
+            started = SharingStarted.WhileSubscribed(stopTimeoutMillis = STOP_TIMEOUT_MS),
             initialValue = EMPTY_STRING,
         )
 
     fun observeSearchFieldChanges() {
-        viewModelScope.launch(Dispatchers.IO) {
-            searchTextState.collect { query ->
-                if (query.isBlank() || query.isEmpty()) {
-                    _viewState.value = SearchState.SearchComplete(searchResult = listOf())
-                } else {
-                    _viewState.value = SearchState.SearchInProgress
-                    searchNotes(query.toString())
-                }
-            }
+        viewModelScope.launch(Dispatchers.Default) {
+            searchTextState.collect { query -> searchNotes(query.toString()) }
         }
+    }
+
+    fun onChangeFieldFilter(isFilteredByTitle: Boolean) {
+        _viewState.value = _viewState.value.copy(
+            isFilterByTitle = isFilteredByTitle,
+            searchInProgress = true,
+        )
+        searchNotes(searchTextState.value.toString())
     }
 
     private fun searchNotes(query: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            notesInteractor.searchByTitle(query).collect { result ->
-                _viewState.value = SearchState.SearchComplete(searchResult = result)
+            val isFilteredByTitle = _viewState.value.isFilterByTitle
+
+            if (query.isBlank() || query.isEmpty()) {
+                _viewState.value = _viewState.value.copy(
+                    searchResult = listOf(),
+                    searchInProgress = false,
+                )
+            } else {
+                _viewState.value = _viewState.value.copy(searchInProgress = true)
+                notesInteractor.searchByText(query, isFilteredByTitle).collect { result ->
+                    _viewState.value = _viewState.value.copy(
+                        searchResult = result,
+                        searchInProgress = false,
+                    )
+                }
             }
         }
     }

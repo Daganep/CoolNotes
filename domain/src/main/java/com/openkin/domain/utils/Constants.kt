@@ -13,6 +13,10 @@ const val EMPTY_STRING = ""
 const val NOTE_TITLE_MAX_LENGTH = 50
 const val SIMPLE_NOTES_TO_HIDE_ADD_BUTTON = 5
 
+const val SEARCH_FIELD_TIMEOUT_MS = 500L
+const val SEARCH_FIELD_MIN_LENGTH = 2
+const val STOP_TIMEOUT_MS = 2000L
+
 const val ID_EXAMPLE_INT = 12345
 const val ID_EXAMPLE_LONG = 753232L
 const val SHORT_TEXT_EXAMPLE = "Пример короткого текста"

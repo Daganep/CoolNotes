@@ -45,4 +45,7 @@ interface NotesDao {
 
     @Query("SELECT * FROM table_notes_database WHERE title LIKE :search ESCAPE '@'")
     fun searchByTitle(search: String): Flow<List<NoteDbo>>
+
+    @Query("SELECT * FROM table_notes_database WHERE description LIKE :search ESCAPE '@'")
+    fun searchByDescription(search: String): Flow<List<NoteDbo>>
 }

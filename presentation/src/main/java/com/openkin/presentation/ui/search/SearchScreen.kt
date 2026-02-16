@@ -30,6 +30,7 @@ import com.openkin.presentation.navigation.IAppRouting
 import com.openkin.presentation.ui.notesboard.widgets.BottomGradientDivider
 import com.openkin.presentation.ui.notesboard.widgets.HorizontalSimpleNote
 import com.openkin.presentation.ui.notesboard.widgets.TopGradientDivider
+import com.openkin.presentation.ui.search.widgets.FieldFilter
 import com.openkin.presentation.ui.search.widgets.SearchTopBar
 import org.koin.androidx.compose.koinViewModel
 
@@ -61,6 +62,7 @@ fun SearchScreen(
     ) {
         val (
             topBar,
+            fieldFilter,
             topGradientDivider,
             bottomGradientDivider,
             resultList,
@@ -76,11 +78,25 @@ fun SearchScreen(
                 }
         )
 
+        FieldFilter(
+            onFilterChanged = { isFilteredByTitle ->
+                viewModel.onChangeFieldFilter(isFilteredByTitle)
+            },
+            modifier = Modifier
+                .constrainAs(fieldFilter) {
+                    top.linkTo(anchor = topBar.bottom)
+                    start.linkTo(anchor = parent.start, margin = 16.dp)
+                    end.linkTo(anchor = parent.end, margin = 16.dp)
+                    width = Dimension.fillToConstraints
+
+                }
+        )
+
         //Результаты поиска
         Box(
             modifier = Modifier
                 .constrainAs(resultList) {
-                    top.linkTo(anchor = topBar.bottom)
+                    top.linkTo(anchor = fieldFilter.bottom)
                     bottom.linkTo(anchor = parent.bottom)
                     start.linkTo(anchor = parent.start, margin = 16.dp)
                     end.linkTo(anchor = parent.end, margin = 16.dp)
@@ -89,36 +105,33 @@ fun SearchScreen(
                 },
             contentAlignment = Alignment.Center,
         ) {
-            when (screenState) {
-                is SearchState.SearchInProgress -> {
-                    CircularProgressIndicator(modifier = Modifier.size(50.dp))
-                }
-                is SearchState.SearchComplete -> {
-                    val notesList = (screenState as SearchState.SearchComplete).searchResult
-                    if (notesList.isNotEmpty()) {
-                        LazyColumn(
-                            modifier = Modifier.fillMaxSize(),
-                            contentPadding = PaddingValues(bottom = 8.dp),
-                            state = lazyListState,
-                        ) {
-                            items(items = notesList, key = { it.id }) { item ->
-                                Box(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(top = 8.dp),
-                                    contentAlignment = Alignment.CenterEnd,
-                                ) {
-                                    HorizontalSimpleNote(item, routing::editNote)
-                                }
+            if (!screenState.searchInProgress) {
+                val notesList = screenState.searchResult
+                if (notesList.isNotEmpty()) {
+                    LazyColumn(
+                        modifier = Modifier.fillMaxSize(),
+                        contentPadding = PaddingValues(bottom = 8.dp),
+                        state = lazyListState,
+                    ) {
+                        items(items = notesList, key = { it.id }) { item ->
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(top = 8.dp),
+                                contentAlignment = Alignment.CenterEnd,
+                            ) {
+                                HorizontalSimpleNote(item, routing::editNote)
                             }
                         }
-                    } else {
-                        val emptyText = if (viewModel.searchTextFieldState.text.isBlank()) {
-                            stringResource(R.string.search_screen_start_search)
-                        } else stringResource(R.string.search_screen_empty_result)
-                        Text(text = emptyText)
                     }
+                } else {
+                    val emptyText = if (viewModel.searchTextFieldState.text.isBlank()) {
+                        stringResource(R.string.search_screen_start_search)
+                    } else stringResource(R.string.search_screen_empty_result)
+                    Text(text = emptyText)
                 }
+            } else {
+                CircularProgressIndicator(modifier = Modifier.size(50.dp))
             }
         }
 
@@ -126,7 +139,7 @@ fun SearchScreen(
         TopGradientDivider(
             modifier = Modifier
                 .constrainAs(topGradientDivider) {
-                    top.linkTo(anchor = topBar.bottom)
+                    top.linkTo(anchor = fieldFilter.bottom)
                     start.linkTo(anchor = parent.start)
                     end.linkTo(anchor = parent.end)
                     width = Dimension.fillToConstraints

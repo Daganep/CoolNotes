@@ -4,6 +4,7 @@ import com.openkin.data.database.NotesDatabase
 import com.openkin.data.mapper.toNoteDbo
 import com.openkin.data.mapper.toNoteDto
 import com.openkin.data.sharedprefs.ISharedPrefsStorage
+import com.openkin.data.utils.updateQueryForSearchSubstring
 import com.openkin.domain.model.NoteDto
 import com.openkin.domain.repository.INoteRepository
 import kotlinx.coroutines.flow.Flow
@@ -74,9 +75,13 @@ class NoteRepository(
     override suspend fun checkTitleExists(noteTitle: String): Boolean =
         database.requestsDao.getNoteWithTitle(noteTitle) != null
 
-    override suspend fun searchByTitle(query: String): Flow<List<NoteDto>> {
-        val newQuery = query.replace("%", "@%")
-        return database.requestsDao.searchByTitle("%$newQuery%")
+    override suspend fun searchByText(query: String, searchByTitle: Boolean): Flow<List<NoteDto>> {
+        val searchResult = if (searchByTitle) {
+            database.requestsDao.searchByTitle(updateQueryForSearchSubstring(query))
+        } else {
+            database.requestsDao.searchByDescription(updateQueryForSearchSubstring(query))
+        }
+        return searchResult
             .catch {
                 //TODO обработать ошибку
             }.map { result ->

@@ -14,5 +14,5 @@ interface INotesInteractor {
     suspend fun saveViewType(viewType: Int)
     suspend fun getStoredViewType(): Int
     suspend fun checkTitleExists(noteTitle: String): Boolean
-    suspend fun searchByTitle(query: String): Flow<List<NoteUi>>
+    suspend fun searchByText(query: String, searchByTitle: Boolean): Flow<List<NoteUi>>
 }

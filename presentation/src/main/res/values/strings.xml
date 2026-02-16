@@ -43,6 +43,9 @@
     <string name="search_screen_start_search">Начните поиск</string>
     <string name="search_screen_empty_result">Поиск не дал результатов</string>
     <string name="search_screen_top_bar_placeholder">Введите текст</string>
+    <string name="search_screen_field_filter_label">Искать в</string>
+    <string name="search_screen_field_filter_type_title">названии</string>
+    <string name="search_screen_field_filter_type_text">тексте заметки</string>
 
     //confirm dialog
     <string name="confirm_button_exit_without_save">Выйти</string>

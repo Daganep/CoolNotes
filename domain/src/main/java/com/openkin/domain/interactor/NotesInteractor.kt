@@ -50,8 +50,8 @@ class NotesInteractor(
     override suspend fun checkTitleExists(noteTitle: String): Boolean =
         notesRepository.checkTitleExists(noteTitle)
 
-    override suspend fun searchByTitle(query: String): Flow<List<NoteUi>> =
-        notesRepository.searchByTitle(query).map { notesDto ->
+    override suspend fun searchByText(query: String, searchByTitle: Boolean): Flow<List<NoteUi>> =
+        notesRepository.searchByText(query, searchByTitle).map { notesDto ->
             notesDto.map { it.toNoteUi() }
         }
 }
