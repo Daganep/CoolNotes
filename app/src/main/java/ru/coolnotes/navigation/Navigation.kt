@@ -73,7 +73,7 @@ fun Navigation(scaffoldContentPaddings: PaddingValues) {
                     }
                     is Screen.Calendar -> {
                         activeScreen = Screen.Calendar
-                        NavEntry(key = key, content = { })
+                        NavEntry(key = key, content = {  })
                     }
                     is Screen.Settings -> {
                         activeScreen = Screen.Settings
