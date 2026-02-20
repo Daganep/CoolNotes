@@ -8,8 +8,11 @@ const val DEFAULT_NOTE_COLOR = "Yellow"
 const val BIG_BLOCKS_COLUMN_COUNT = 2
 const val SMALL_BLOCKS_COLUMN_COUNT = 3
 
+const val DAYS_IN_WEEK = 7
+
 const val EMPTY_STRING = ""
 
+const val CALENDAR_NOTES_COUNTER_MAX_VALUE = 10
 const val NOTE_TITLE_MAX_LENGTH = 50
 const val SIMPLE_NOTES_TO_HIDE_ADD_BUTTON = 5
 

@@ -86,6 +86,6 @@ private fun ConfirmDialogPreview() {
         dialogText = SHORT_TEXT_EXAMPLE,
         confirmButtonText = SHORT_TEXT_EXAMPLE,
         dismissButtonText = SHORT_TEXT_EXAMPLE,
-        iconId = R.drawable.note_to_bin,
+        iconId = R.drawable.image_note_to_bin,
     )
 }

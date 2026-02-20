@@ -88,4 +88,23 @@ class NoteRepository(
                 result.map { noteDbo -> noteDbo.toNoteDto() }
             }
     }
+
+    override suspend fun getNotesByDateRange(startTime: Long, endTime: Long): Flow<List<NoteDto>> {
+        return database.requestsDao.getNotesByDateRange(startTime, endTime)
+            .catch {
+                //TODO обработать ошибку
+            }.map { result ->
+                result.map { noteDbo -> noteDbo.toNoteDto() }
+            }
+    }
+
+    override suspend fun getNotesCountForSelectedDate(
+        daysList: List<Pair<Long, Long>>
+    ): Flow<List<Int>> {
+        val resultList = mutableListOf<Int>()
+        daysList.forEach { day ->
+            resultList.add(database.requestsDao.getNotesCountByDateRange(day.first, day.second))
+        }
+        return flowOf(resultList.toList())
+    }
 }

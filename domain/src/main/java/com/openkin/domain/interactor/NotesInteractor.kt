@@ -1,11 +1,13 @@
 package com.openkin.domain.interactor
 
+import com.openkin.domain.mapper.localDateDayToRangeMillis
 import com.openkin.domain.mapper.toNoteDto
 import com.openkin.domain.mapper.toNoteUi
 import com.openkin.domain.model.NoteUi
 import com.openkin.domain.repository.INoteRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import java.time.LocalDate
 
 class NotesInteractor(
     private val notesRepository: INoteRepository,
@@ -54,4 +56,14 @@ class NotesInteractor(
         notesRepository.searchByText(query, searchByTitle).map { notesDto ->
             notesDto.map { it.toNoteUi() }
         }
+
+    override suspend fun getNotesByDateRange(startTime: Long, endTime: Long): Flow<List<NoteUi>> =
+        notesRepository.getNotesByDateRange(startTime, endTime).map { notesDto ->
+            notesDto.map { it.toNoteUi() }
+        }
+
+    override suspend fun getNotesCountForSelectedDate(daysList: List<LocalDate>): Flow<List<Int>> {
+        val rangeList = localDateDayToRangeMillis(daysList)
+        return notesRepository.getNotesCountForSelectedDate(rangeList)
+    }
 }

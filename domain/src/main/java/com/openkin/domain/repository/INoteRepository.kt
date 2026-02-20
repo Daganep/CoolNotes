@@ -15,4 +15,6 @@ interface INoteRepository {
     suspend fun getStoredViewType(): Int
     suspend fun checkTitleExists(noteTitle: String): Boolean
     suspend fun searchByText(query: String, searchByTitle: Boolean): Flow<List<NoteDto>>
+    suspend fun getNotesByDateRange(startTime: Long, endTime: Long): Flow<List<NoteDto>>
+    suspend fun getNotesCountForSelectedDate(daysList: List<Pair<Long, Long>>): Flow<List<Int>>
 }

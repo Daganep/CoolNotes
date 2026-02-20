@@ -175,7 +175,7 @@ fun EditNoteScreen(
                 confirmButtonText = stringResource(R.string.confirm_button_exit_without_save),
                 dismissButtonText = stringResource(R.string.dismiss_button_return),
                 dialogText = stringResource(R.string.text_exit_without_save),
-                iconId = R.drawable.note_to_bin,
+                iconId = R.drawable.image_note_to_bin,
             )
         }
         if (event) {

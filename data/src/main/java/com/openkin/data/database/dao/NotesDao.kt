@@ -19,10 +19,10 @@ interface NotesDao {
     @Query("SELECT * FROM table_notes_database WHERE archived = 1")
     fun getAllArchivedNotes() : Flow<List<NoteDbo>>
 
-    @Query("SELECT * FROM table_notes_database " + "WHERE id = :id")
+    @Query("SELECT * FROM table_notes_database WHERE id = :id")
     suspend fun getNote(id: Int) : NoteDbo?
 
-    @Query("SELECT * FROM table_notes_database " + "WHERE title = :title")
+    @Query("SELECT * FROM table_notes_database WHERE title = :title")
     suspend fun getNoteWithTitle(title: String) : NoteDbo?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -48,4 +48,10 @@ interface NotesDao {
 
     @Query("SELECT * FROM table_notes_database WHERE description LIKE :search ESCAPE '@'")
     fun searchByDescription(search: String): Flow<List<NoteDbo>>
+
+    @Query("SELECT * FROM table_notes_database WHERE createDateMS BETWEEN :startTime AND :endTime")
+    fun getNotesByDateRange(startTime: Long, endTime: Long): Flow<List<NoteDbo>>
+
+    @Query("SELECT COUNT(createDateMS) FROM table_notes_database WHERE createDateMS BETWEEN :startTime AND :endTime")
+    suspend fun getNotesCountByDateRange(startTime: Long, endTime: Long): Int
 }

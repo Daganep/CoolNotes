@@ -2,6 +2,7 @@ package com.openkin.domain.interactor
 
 import com.openkin.domain.model.NoteUi
 import kotlinx.coroutines.flow.Flow
+import java.time.LocalDate
 
 interface INotesInteractor {
     suspend fun saveNote(note: NoteUi)
@@ -15,4 +16,6 @@ interface INotesInteractor {
     suspend fun getStoredViewType(): Int
     suspend fun checkTitleExists(noteTitle: String): Boolean
     suspend fun searchByText(query: String, searchByTitle: Boolean): Flow<List<NoteUi>>
+    suspend fun getNotesByDateRange(startTime: Long, endTime: Long): Flow<List<NoteUi>>
+    suspend fun getNotesCountForSelectedDate(daysList: List<LocalDate>): Flow<List<Int>>
 }

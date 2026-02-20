@@ -47,7 +47,7 @@ fun HorizontalSimpleNote(
         shape = RoundedCornerShape(0.dp),
         elevation = CardDefaults.cardElevation(5.dp),
         modifier = modifier
-            .height(120.dp)
+            .height(100.dp)
             .fillMaxWidth()
             .clickable(
                 indication = null,
@@ -102,7 +102,7 @@ fun HorizontalSimpleNote(
                 modifier = Modifier
                     .constrainAs(date) {
                         bottom.linkTo(anchor = parent.bottom)
-                        end.linkTo(anchor = parent.end, margin = 8.dp)
+                        start.linkTo(anchor = parent.start, margin = 8.dp)
                     },
             )
         }

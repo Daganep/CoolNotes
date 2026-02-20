@@ -52,6 +52,9 @@
     <string name="dismiss_button_return">Вернуться</string>
     <string name="text_exit_without_save">Выйти без сохранения</string>
 
+    //calendar screen
+    <string name="calendar_screen_top_bar_title">Календарь</string>
+    <string name="calendar_screen_counter_more_then_10">9+</string>
 
     //content description
     <string name="navigation_bar_notes">Заметки</string>
@@ -71,6 +74,11 @@
 
     <string name="search_screen_clear_search_field">Очистить</string>
     <string name="search_screen_search_icon">Лупа</string>
+
+    <string name="calendar_screen_top_bar_date">Текущая дата</string>
+    <string name="calendar_screen_notes_on_that_day">Заметки в этот день</string>
+    <string name="calendar_screen_previous_month">Предыдущий месяц</string>
+    <string name="calendar_screen_next_month">Следующий месяц</string>
 
     <string name="back_button">Назад</string>
 </resources>

@@ -5,9 +5,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -24,13 +22,14 @@ import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
 import com.openkin.presentation.navigation.AppRouting
 import com.openkin.presentation.navigation.Screen
-import com.openkin.presentation.ui.settings.Settings
-import com.openkin.presentation.ui.splash.Splash
 import com.openkin.presentation.ui.addnote.AddNoteScreen
 import com.openkin.presentation.ui.archive.ArchiveScreen
+import com.openkin.presentation.ui.calendar.CalendarScreen
 import com.openkin.presentation.ui.editnote.EditNoteScreen
 import com.openkin.presentation.ui.notesboard.NotesBoard
 import com.openkin.presentation.ui.search.SearchScreen
+import com.openkin.presentation.ui.settings.Settings
+import com.openkin.presentation.ui.splash.Splash
 import ru.coolnotes.navigation.navigationbar.NavigationBar
 
 @Composable
@@ -73,7 +72,7 @@ fun Navigation(scaffoldContentPaddings: PaddingValues) {
                     }
                     is Screen.Calendar -> {
                         activeScreen = Screen.Calendar
-                        NavEntry(key = key, content = {  })
+                        NavEntry(key = key, content = { CalendarScreen(appRouting) })
                     }
                     is Screen.Settings -> {
                         activeScreen = Screen.Settings

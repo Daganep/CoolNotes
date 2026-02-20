@@ -2,6 +2,8 @@ package com.openkin.domain.mapper
 
 import com.openkin.domain.model.NoteDto
 import com.openkin.domain.model.NoteUi
+import java.time.LocalDate
+import java.time.ZoneOffset
 
 fun NoteDto.toNoteUi(): NoteUi {
     val note = NoteUi(
@@ -26,3 +28,13 @@ fun NoteUi.toNoteDto(): NoteDto =
         editDateMS = this.editDateMS,
         archived = this.archived,
     )
+
+fun localDateDayToRangeMillis(daysList: List<LocalDate>): List<Pair<Long, Long>> {
+    val resultList = mutableListOf<Pair<Long, Long>>()
+    daysList.forEach { day ->
+        val startOfDay = day.atStartOfDay(ZoneOffset.UTC).toInstant().toEpochMilli()
+        val endOfDay = day.plusDays(1).atStartOfDay(ZoneOffset.UTC).toInstant().toEpochMilli()
+        resultList.add(Pair(startOfDay, endOfDay))
+    }
+    return resultList
+}
