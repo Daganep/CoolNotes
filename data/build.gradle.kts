@@ -38,9 +38,9 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
+
+    //data store
+    implementation(libs.datastore.preferences)
 
     //room
     implementation(libs.androidx.room.runtime)

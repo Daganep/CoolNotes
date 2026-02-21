@@ -46,7 +46,7 @@ class NotesInteractor(
         notesRepository.saveViewType(viewType)
     }
 
-    override suspend fun getStoredViewType(): Int =
+    override suspend fun getStoredViewType(): Flow<Int> =
         notesRepository.getStoredViewType()
 
     override suspend fun checkTitleExists(noteTitle: String): Boolean =

@@ -12,7 +12,7 @@ interface INoteRepository {
     suspend fun sendNoteToArchive(noteId: Int): Boolean
     suspend fun returnNoteToBoard(noteId: Int): Boolean
     suspend fun saveViewType(viewType: Int)
-    suspend fun getStoredViewType(): Int
+    suspend fun getStoredViewType(): Flow<Int>
     suspend fun checkTitleExists(noteTitle: String): Boolean
     suspend fun searchByText(query: String, searchByTitle: Boolean): Flow<List<NoteDto>>
     suspend fun getNotesByDateRange(startTime: Long, endTime: Long): Flow<List<NoteDto>>

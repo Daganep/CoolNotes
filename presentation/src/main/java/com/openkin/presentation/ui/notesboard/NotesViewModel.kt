@@ -56,11 +56,12 @@ class NotesViewModel(
 
     fun getStoredViewType() {
         viewModelScope.launch(Dispatchers.IO) {
-            val storedViewType = notesInteractor.getStoredViewType()
-            ViewType.entries.forEach {
-                if (it.typePosition == storedViewType) {
-                    val state = _viewState.value
-                    _viewState.value = state.copy(viewType = it)
+            notesInteractor.getStoredViewType().collect { storedViewType ->
+                ViewType.entries.forEach {
+                    if (it.typePosition == storedViewType) {
+                        val state = _viewState.value
+                        _viewState.value = state.copy(viewType = it)
+                    }
                 }
             }
         }
