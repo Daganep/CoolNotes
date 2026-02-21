@@ -3,12 +3,10 @@ package com.openkin.data.repository
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.intPreferencesKey
 import com.openkin.data.database.NotesDatabase
 import com.openkin.data.datastorekeys.LAST_SELECTED_VIEW_TYPE
 import com.openkin.data.mapper.toNoteDbo
 import com.openkin.data.mapper.toNoteDto
-import com.openkin.data.sharedprefs.ISharedPrefsStorage
 import com.openkin.data.utils.updateQueryForSearchSubstring
 import com.openkin.domain.model.NoteDto
 import com.openkin.domain.repository.INoteRepository
@@ -20,7 +18,6 @@ import kotlinx.coroutines.flow.map
 
 class NoteRepository(
     private val database: NotesDatabase,
-    private val sharedPrefsStorage: ISharedPrefsStorage,
     private val stateDataStore: DataStore<Preferences>,
 ) : INoteRepository {
 
@@ -73,7 +70,6 @@ class NoteRepository(
     }
 
     override suspend fun saveViewType(viewType: Int) {
-        sharedPrefsStorage.saveViewType(viewType)
         stateDataStore.edit { state -> state[LAST_SELECTED_VIEW_TYPE] = viewType }
     }
 

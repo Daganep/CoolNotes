@@ -1,9 +1,7 @@
 package com.openkin.domain.utils
 
-const val COOL_NOTES_SHARED_PREFS = "COOL_NOTES_SHARED_PREFS"
 const val COOL_NOTES_STATE_PREFS = "COOL_NOTES_STATE_PREFS"
 
-const val SHARED_PREFS_VIEW_TYPE = "SHARED_PREFS_VIEW_TYPE"
 const val DEFAULT_VIEW_TYPE = 0
 const val DEFAULT_NOTE_COLOR = "Yellow"
 const val BIG_BLOCKS_COLUMN_COUNT = 2
