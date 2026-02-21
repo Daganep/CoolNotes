@@ -70,10 +70,8 @@ fun EditNoteScreen(
             .fillMaxSize()
             .consumeWindowInsets(scaffoldContentPaddings)
             .imePadding()
-            .statusBarsPadding()
-            .navigationBarsPadding()
             .background(Color.White)
-            .padding(top = 16.dp, start = 16.dp, end = 16.dp),
+            .padding(horizontal = 16.dp),
     ) {
         val (topBar, noteTitleField, noteTextField, colorBar, bottomButtons) = createRefs()
         AddNoteAppBar(
@@ -170,7 +168,7 @@ fun EditNoteScreen(
                 onDismissRequest = { openConfirmDialog.value = false },
                 onConfirmation = {
                     openConfirmDialog.value = false
-                    routing.home()
+                    routing.goBack()
                 },
                 confirmButtonText = stringResource(R.string.confirm_button_exit_without_save),
                 dismissButtonText = stringResource(R.string.dismiss_button_return),
