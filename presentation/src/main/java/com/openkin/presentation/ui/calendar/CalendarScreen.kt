@@ -177,5 +177,6 @@ fun CalendarScreen(
 
     LaunchedEffect(true) {
         viewModel.setCurrentDaysList()
+        viewModel.onLoadStoredSelectedDay()
     }
 }

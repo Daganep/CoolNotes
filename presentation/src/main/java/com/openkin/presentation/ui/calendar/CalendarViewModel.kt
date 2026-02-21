@@ -3,17 +3,17 @@ package com.openkin.presentation.ui.calendar
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.openkin.domain.interactor.INotesInteractor
-import com.openkin.domain.utils.SEARCH_FIELD_TIMEOUT_MS
 import com.openkin.domain.model.DaysList
+import com.openkin.domain.utils.SEARCH_FIELD_TIMEOUT_MS
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import java.time.LocalDate
-import java.time.ZoneOffset
 
 class CalendarViewModel(
     private val notesInteractor: INotesInteractor,
@@ -56,23 +56,25 @@ class CalendarViewModel(
     }
 
     fun onSelectedDayChanged(day: LocalDate) {
-        val startOfDay = day.atStartOfDay(ZoneOffset.UTC)
-            .toInstant()
-            .toEpochMilli()
-        val endOfDay = day.plusDays(1)
-            .atStartOfDay(ZoneOffset.UTC)
-            .toInstant()
-            .toEpochMilli()
-        searchNotesByDate(Pair(startOfDay, endOfDay))
+        searchNotesByDate(day)
         _viewState.value = _viewState.value.copy(
             loadingInProgress = true,
             selectedDay = day,
         )
     }
 
-    private fun searchNotesByDate(period: Pair<Long, Long>) {
+    fun onLoadStoredSelectedDay() {
         viewModelScope.launch(Dispatchers.IO) {
-            notesInteractor.getNotesByDateRange(period.first, period.second).collect { notes ->
+            notesInteractor
+                .getSelectedDay()
+                .first()
+                ?.let { onSelectedDayChanged(it) }
+        }
+    }
+
+    private fun searchNotesByDate(day: LocalDate) {
+        viewModelScope.launch(Dispatchers.IO) {
+            notesInteractor.getNotesByDateRange(day).collect { notes ->
                 _viewState.value = _viewState.value.copy(
                     notesList = notes,
                     loadingInProgress = false,

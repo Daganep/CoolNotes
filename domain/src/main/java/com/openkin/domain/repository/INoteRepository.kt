@@ -2,6 +2,7 @@ package com.openkin.domain.repository
 
 import com.openkin.domain.model.NoteDto
 import kotlinx.coroutines.flow.Flow
+import java.time.LocalDate
 
 interface INoteRepository {
     suspend fun saveNote(note: NoteDto)
@@ -15,6 +16,7 @@ interface INoteRepository {
     suspend fun getStoredViewType(): Flow<Int>
     suspend fun checkTitleExists(noteTitle: String): Boolean
     suspend fun searchByText(query: String, searchByTitle: Boolean): Flow<List<NoteDto>>
-    suspend fun getNotesByDateRange(startTime: Long, endTime: Long): Flow<List<NoteDto>>
+    suspend fun getNotesByDateRange(day: LocalDate): Flow<List<NoteDto>>
     suspend fun getNotesCountForSelectedDate(daysList: List<Pair<Long, Long>>): Flow<List<Int>>
+    suspend fun getSelectedDay(): Flow<LocalDate?>
 }

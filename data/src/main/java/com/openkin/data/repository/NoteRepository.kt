@@ -4,6 +4,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import com.openkin.data.database.NotesDatabase
+import com.openkin.data.datastorekeys.CALENDAR_SELECTED_DAY
 import com.openkin.data.datastorekeys.LAST_SELECTED_VIEW_TYPE
 import com.openkin.data.mapper.toNoteDbo
 import com.openkin.data.mapper.toNoteDto
@@ -15,6 +16,8 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
+import java.time.LocalDate
+import java.time.ZoneOffset
 
 class NoteRepository(
     private val database: NotesDatabase,
@@ -93,7 +96,15 @@ class NoteRepository(
             }
     }
 
-    override suspend fun getNotesByDateRange(startTime: Long, endTime: Long): Flow<List<NoteDto>> {
+    override suspend fun getNotesByDateRange(day: LocalDate): Flow<List<NoteDto>> {
+        storeSelectedDay(day)
+        val startTime = day.atStartOfDay(ZoneOffset.UTC)
+            .toInstant()
+            .toEpochMilli()
+        val endTime = day.plusDays(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant()
+            .toEpochMilli()
         return database.requestsDao.getNotesByDateRange(startTime, endTime)
             .catch {
                 //TODO обработать ошибку
@@ -110,5 +121,20 @@ class NoteRepository(
             resultList.add(database.requestsDao.getNotesCountByDateRange(day.first, day.second))
         }
         return flowOf(resultList.toList())
+    }
+
+    override suspend fun getSelectedDay(): Flow<LocalDate?> =
+        stateDataStore.data.map { state ->
+            val storedDay = state[CALENDAR_SELECTED_DAY]
+            val selectedDay = if (storedDay != null) {
+                val (year, month, day) = storedDay.split(";")
+                LocalDate.of(year.toInt(), month.toInt(), day.toInt())
+            } else null
+            return@map selectedDay
+        }
+
+    private suspend fun storeSelectedDay(day: LocalDate) {
+        val selectedDay = "${day.year};${day.month.value};${day.dayOfMonth}"
+        stateDataStore.edit { state -> state[CALENDAR_SELECTED_DAY] = selectedDay }
     }
 }

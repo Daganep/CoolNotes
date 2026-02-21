@@ -57,8 +57,8 @@ class NotesInteractor(
             notesDto.map { it.toNoteUi() }
         }
 
-    override suspend fun getNotesByDateRange(startTime: Long, endTime: Long): Flow<List<NoteUi>> =
-        notesRepository.getNotesByDateRange(startTime, endTime).map { notesDto ->
+    override suspend fun getNotesByDateRange(day: LocalDate): Flow<List<NoteUi>> =
+        notesRepository.getNotesByDateRange(day).map { notesDto ->
             notesDto.map { it.toNoteUi() }
         }
 
@@ -66,4 +66,7 @@ class NotesInteractor(
         val rangeList = localDateDayToRangeMillis(daysList)
         return notesRepository.getNotesCountForSelectedDate(rangeList)
     }
+
+    override suspend fun getSelectedDay(): Flow<LocalDate?> =
+        notesRepository.getSelectedDay()
 }
