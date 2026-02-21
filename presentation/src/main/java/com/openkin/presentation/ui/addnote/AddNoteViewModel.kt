@@ -17,6 +17,7 @@ import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filterNot
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 
 @OptIn(FlowPreview::class)
 class AddNoteViewModel(
@@ -29,6 +30,7 @@ class AddNoteViewModel(
         color = NotesColors.Yellow,
         isError = false,
         isNoteTitleExists = false,
+        selectedDate = LocalDate.now(),
     )
     private val _viewState = MutableStateFlow<AddNoteState>(defaultState)
     val viewState: StateFlow<AddNoteState> = _viewState.asStateFlow()
@@ -94,6 +96,10 @@ class AddNoteViewModel(
     fun updateCurrentColor(newColor: NotesColors) {
         val state = _viewState.value
         _viewState.value = state.copy(color = newColor)
+    }
+
+    fun onSelectDateChanged(newDate: LocalDate) {
+        _viewState.value = _viewState.value.copy(selectedDate = newDate)
     }
 
     private fun checkTitleExists(title: String) {

@@ -44,12 +44,12 @@ fun NotesCounter(
 
 @Preview(showBackground = true)
 @Composable
-fun NotesCounterLessThenTenPreview() {
+private fun NotesCounterLessThenTenPreview() {
     NotesCounter(5, Modifier)
 }
 
 @Preview(showBackground = true)
 @Composable
-fun NotesCounterMoreThenTenPreview() {
+private fun NotesCounterMoreThenTenPreview() {
     NotesCounter(15, Modifier)
 }
