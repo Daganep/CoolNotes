@@ -111,7 +111,7 @@ fun MonthSelector(
                                             val newDate = LocalDate.of(
                                                 selectedDate.year,
                                                 month,
-                                                selectedDate.dayOfYear,
+                                                selectedDate.dayOfMonth,
                                             )
                                             onMonthSelected(newDate)
                                             isMenuExpanded = false
