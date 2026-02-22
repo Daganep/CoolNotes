@@ -25,7 +25,7 @@ class CalendarViewModel(
         notesList = listOf(),
         notesCount = listOf(),
         loadingInProgress = true,
-        selectedDate = LocalDate.now(),
+        selectedMonth = LocalDate.now(),
         selectedDay = LocalDate.now(),
     )
     private val _viewState = MutableStateFlow<CalendarState>(initialState)
@@ -34,24 +34,24 @@ class CalendarViewModel(
     fun setCurrentDaysList() {
         val daysList = DaysList()
         val today = daysList.getToday()
-        getNotesCountForSelectedDate(daysList.getDaysList())
+        getNotesCountForSelectedMonth(daysList.getDaysList())
         onSelectedDayChanged(today)
         _viewState.value = _viewState.value.copy(
             listOfDays = daysList.getDaysList(),
             currentDay = today,
             loadingInProgress = false,
-            selectedDate = today,
+            selectedMonth = today,
         )
     }
 
     fun onMonthChanged(selectedDate: LocalDate) {
         val daysList = DaysList(selectedDate)
-        getNotesCountForSelectedDate(daysList.getDaysList())
+        getNotesCountForSelectedMonth(daysList.getDaysList())
         _viewState.value = _viewState.value.copy(
             listOfDays = daysList.getDaysList(),
             currentDay = daysList.getToday(),
             loadingInProgress = false,
-            selectedDate = selectedDate,
+            selectedMonth = selectedDate,
         )
     }
 
@@ -68,13 +68,17 @@ class CalendarViewModel(
             notesInteractor
                 .getSelectedDay()
                 .first()
-                ?.let { onSelectedDayChanged(it) }
+                ?.let {
+                    val month = LocalDate.of(it.year, it.month, _viewState.value.currentDay.dayOfMonth)
+                    onMonthChanged(month)
+                    onSelectedDayChanged(it)
+                }
         }
     }
 
     private fun searchNotesByDate(day: LocalDate) {
         viewModelScope.launch(Dispatchers.IO) {
-            notesInteractor.getNotesByDateRange(day).collect { notes ->
+            notesInteractor.getNotesByDay(day).collect { notes ->
                 _viewState.value = _viewState.value.copy(
                     notesList = notes,
                     loadingInProgress = false,
@@ -84,7 +88,7 @@ class CalendarViewModel(
     }
 
     @OptIn(FlowPreview::class)
-    private fun getNotesCountForSelectedDate(daysList: List<LocalDate>) {
+    private fun getNotesCountForSelectedMonth(daysList: List<LocalDate>) {
         viewModelScope.launch(Dispatchers.IO) {
             notesInteractor.getNotesCountForSelectedDate(daysList)
                 .debounce(SEARCH_FIELD_TIMEOUT_MS)

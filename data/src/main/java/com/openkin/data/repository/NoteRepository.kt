@@ -97,7 +97,7 @@ class NoteRepository(
             }
     }
 
-    override suspend fun getNotesByDateRange(day: LocalDate): Flow<List<NoteDto>> {
+    override suspend fun getNotesByDay(day: LocalDate): Flow<List<NoteDto>> {
         storeSelectedDay(day)
         return database.requestsDao.getNotesByStringDate(localDateToString(day))
             .catch {

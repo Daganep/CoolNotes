@@ -16,7 +16,7 @@ interface INotesInteractor {
     suspend fun getStoredViewType(): Flow<Int>
     suspend fun checkTitleExists(noteTitle: String): Boolean
     suspend fun searchByText(query: String, searchByTitle: Boolean): Flow<List<NoteUi>>
-    suspend fun getNotesByDateRange(day: LocalDate): Flow<List<NoteUi>>
+    suspend fun getNotesByDay(day: LocalDate): Flow<List<NoteUi>>
     suspend fun getNotesCountForSelectedDate(daysList: List<LocalDate>): Flow<List<Int>>
     suspend fun getSelectedDay(): Flow<LocalDate?>
 }

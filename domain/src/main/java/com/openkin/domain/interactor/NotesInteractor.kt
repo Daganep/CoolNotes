@@ -56,8 +56,8 @@ class NotesInteractor(
             notesDto.map { it.toNoteUi() }
         }
 
-    override suspend fun getNotesByDateRange(day: LocalDate): Flow<List<NoteUi>> =
-        notesRepository.getNotesByDateRange(day).map { notesDto ->
+    override suspend fun getNotesByDay(day: LocalDate): Flow<List<NoteUi>> =
+        notesRepository.getNotesByDay(day).map { notesDto ->
             notesDto.map { it.toNoteUi() }
         }
 

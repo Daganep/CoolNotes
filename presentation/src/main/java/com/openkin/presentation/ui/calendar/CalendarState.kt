@@ -9,6 +9,6 @@ data class CalendarState(
     val notesList: List<NoteUi>,
     val notesCount: List<Int>,
     val loadingInProgress: Boolean,
-    val selectedDate: LocalDate,
+    val selectedMonth: LocalDate,
     val selectedDay: LocalDate,
 )

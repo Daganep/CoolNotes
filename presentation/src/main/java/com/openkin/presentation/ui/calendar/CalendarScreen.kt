@@ -79,7 +79,7 @@ fun CalendarScreen(
         )
 
         MonthSelector(
-            selectedDate = state.selectedDate,
+            selectedDate = state.selectedMonth,
             onMonthSelected = { selectedDate ->
                 viewModel.onMonthChanged(selectedDate)
             },
@@ -94,7 +94,7 @@ fun CalendarScreen(
         Calendar(
             listOfDays = state.listOfDays,
             currentDay = state.currentDay,
-            selectedDate = state.selectedDate,
+            selectedDate = state.selectedMonth,
             selectedDay = state.selectedDay,
             notesCount = state.notesCount,
             onDayClicked = { day -> viewModel.onSelectedDayChanged(day) },
