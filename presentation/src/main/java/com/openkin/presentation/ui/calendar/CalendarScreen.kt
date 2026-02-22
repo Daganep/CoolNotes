@@ -164,7 +164,7 @@ fun CalendarScreen(
                 }
         )
         AddNoteFloatButton(
-            onClick = { routing.addNote() },
+            onClick = { routing.addNote(state.selectedDay) },
             modifier = Modifier
                 .constrainAs(addNoteButton) {
                     bottom.linkTo(parent.bottom, margin = 32.dp)

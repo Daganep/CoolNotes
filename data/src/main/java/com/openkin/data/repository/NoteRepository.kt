@@ -6,6 +6,8 @@ import androidx.datastore.preferences.core.edit
 import com.openkin.data.database.NotesDatabase
 import com.openkin.data.datastorekeys.CALENDAR_SELECTED_DAY
 import com.openkin.data.datastorekeys.LAST_SELECTED_VIEW_TYPE
+import com.openkin.data.mapper.localDateFromString
+import com.openkin.data.mapper.localDateToString
 import com.openkin.data.mapper.toNoteDbo
 import com.openkin.data.mapper.toNoteDto
 import com.openkin.data.utils.updateQueryForSearchSubstring
@@ -17,7 +19,6 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import java.time.LocalDate
-import java.time.ZoneOffset
 
 class NoteRepository(
     private val database: NotesDatabase,
@@ -98,14 +99,7 @@ class NoteRepository(
 
     override suspend fun getNotesByDateRange(day: LocalDate): Flow<List<NoteDto>> {
         storeSelectedDay(day)
-        val startTime = day.atStartOfDay(ZoneOffset.UTC)
-            .toInstant()
-            .toEpochMilli()
-        val endTime = day.plusDays(1)
-            .atStartOfDay(ZoneOffset.UTC)
-            .toInstant()
-            .toEpochMilli()
-        return database.requestsDao.getNotesByDateRange(startTime, endTime)
+        return database.requestsDao.getNotesByStringDate(localDateToString(day))
             .catch {
                 //TODO обработать ошибку
             }.map { result ->
@@ -113,12 +107,10 @@ class NoteRepository(
             }
     }
 
-    override suspend fun getNotesCountForSelectedDate(
-        daysList: List<Pair<Long, Long>>
-    ): Flow<List<Int>> {
+    override suspend fun getNotesCountForSelectedDate(daysList: List<LocalDate>): Flow<List<Int>> {
         val resultList = mutableListOf<Int>()
         daysList.forEach { day ->
-            resultList.add(database.requestsDao.getNotesCountByDateRange(day.first, day.second))
+            resultList.add(database.requestsDao.getNotesCountByStringDate(localDateToString(day)))
         }
         return flowOf(resultList.toList())
     }
@@ -127,14 +119,12 @@ class NoteRepository(
         stateDataStore.data.map { state ->
             val storedDay = state[CALENDAR_SELECTED_DAY]
             val selectedDay = if (storedDay != null) {
-                val (year, month, day) = storedDay.split(";")
-                LocalDate.of(year.toInt(), month.toInt(), day.toInt())
+                localDateFromString(storedDay)
             } else null
             return@map selectedDay
         }
 
     private suspend fun storeSelectedDay(day: LocalDate) {
-        val selectedDay = "${day.year};${day.month.value};${day.dayOfMonth}"
-        stateDataStore.edit { state -> state[CALENDAR_SELECTED_DAY] = selectedDay }
+        stateDataStore.edit { state -> state[CALENDAR_SELECTED_DAY] = localDateToString(day) }
     }
 }

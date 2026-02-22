@@ -13,6 +13,7 @@ import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -32,12 +33,18 @@ import com.openkin.presentation.ui.addnote.widgets.AddNoteTitleField
 import com.openkin.presentation.ui.addnote.widgets.ConfirmDialog
 import com.openkin.presentation.ui.addnote.widgets.TargetDate
 import org.koin.androidx.compose.koinViewModel
+import java.time.LocalDate
 
 @Composable
-fun AddNoteScreen(routing: IAppRouting, scaffoldContentPaddings: PaddingValues) {
+fun AddNoteScreen(
+    routing: IAppRouting,
+    targetDate: LocalDate?,
+    scaffoldContentPaddings: PaddingValues,
+) {
     AddNoteScreen(
         viewModel = koinViewModel(),
         routing = routing,
+        targetDate = targetDate,
         scaffoldContentPaddings = scaffoldContentPaddings,
     )
 }
@@ -46,6 +53,7 @@ fun AddNoteScreen(routing: IAppRouting, scaffoldContentPaddings: PaddingValues) 
 fun AddNoteScreen(
     viewModel: AddNoteViewModel,
     routing: IAppRouting,
+    targetDate: LocalDate?,
     scaffoldContentPaddings: PaddingValues,
 ) {
 
@@ -66,7 +74,7 @@ fun AddNoteScreen(
             noteTextField,
             colorBar,
             saveButton,
-            targetDate,
+            targetDateSelector,
         ) = createRefs()
         AddNoteAppBar(
             topAppBarTitle = stringResource(R.string.add_note_screen_appbar_new_title),
@@ -104,7 +112,7 @@ fun AddNoteScreen(
             modifier = Modifier
                 .constrainAs(noteTextField) {
                     top.linkTo(anchor = noteTitleField.bottom, margin = 4.dp)
-                    bottom.linkTo(anchor = targetDate.top)
+                    bottom.linkTo(anchor = targetDateSelector.top)
                     start.linkTo(anchor = parent.start)
                     end.linkTo(anchor = parent.end)
                     height = Dimension.fillToConstraints
@@ -115,7 +123,7 @@ fun AddNoteScreen(
             selectedDate = state.targetDate,
             onDateChanged = { newDate -> viewModel.onTargetDateChanged(newDate) },
             modifier = Modifier
-                .constrainAs(targetDate) {
+                .constrainAs(targetDateSelector) {
                     top.linkTo(anchor = noteTextField.bottom, margin = 8.dp)
                     bottom.linkTo(anchor = colorBar.top)
                     start.linkTo(anchor = parent.start)
@@ -128,7 +136,7 @@ fun AddNoteScreen(
             currentColor = state.color.startColor,
             modifier = Modifier
                 .constrainAs(colorBar) {
-                    top.linkTo(anchor = targetDate.bottom, margin = 8.dp)
+                    top.linkTo(anchor = targetDateSelector.bottom, margin = 8.dp)
                     bottom.linkTo(anchor = saveButton.top, margin = 8.dp)
                     start.linkTo(anchor = parent.start)
                     end.linkTo(anchor = parent.end)
@@ -176,5 +184,8 @@ fun AddNoteScreen(
                 openConfirmDialog.value = true
             } else routing.goBack()
         }
+    }
+    LaunchedEffect(key1 = true) {
+        targetDate?.let { viewModel.onTargetDateChanged(it) }
     }
 }

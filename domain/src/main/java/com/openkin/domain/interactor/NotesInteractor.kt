@@ -1,6 +1,5 @@
 package com.openkin.domain.interactor
 
-import com.openkin.domain.mapper.localDateDayToRangeMillis
 import com.openkin.domain.mapper.toNoteDto
 import com.openkin.domain.mapper.toNoteUi
 import com.openkin.domain.model.NoteUi
@@ -63,8 +62,7 @@ class NotesInteractor(
         }
 
     override suspend fun getNotesCountForSelectedDate(daysList: List<LocalDate>): Flow<List<Int>> {
-        val rangeList = localDateDayToRangeMillis(daysList)
-        return notesRepository.getNotesCountForSelectedDate(rangeList)
+        return notesRepository.getNotesCountForSelectedDate(daysList)
     }
 
     override suspend fun getSelectedDay(): Flow<LocalDate?> =

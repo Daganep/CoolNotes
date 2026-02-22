@@ -17,6 +17,6 @@ interface INoteRepository {
     suspend fun checkTitleExists(noteTitle: String): Boolean
     suspend fun searchByText(query: String, searchByTitle: Boolean): Flow<List<NoteDto>>
     suspend fun getNotesByDateRange(day: LocalDate): Flow<List<NoteDto>>
-    suspend fun getNotesCountForSelectedDate(daysList: List<Pair<Long, Long>>): Flow<List<Int>>
+    suspend fun getNotesCountForSelectedDate(daysList: List<LocalDate>): Flow<List<Int>>
     suspend fun getSelectedDay(): Flow<LocalDate?>
 }

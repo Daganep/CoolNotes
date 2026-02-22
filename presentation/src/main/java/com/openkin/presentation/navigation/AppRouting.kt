@@ -2,6 +2,7 @@ package com.openkin.presentation.navigation
 
 import androidx.compose.runtime.mutableStateListOf
 import androidx.navigation3.runtime.NavKey
+import java.time.LocalDate
 
 sealed class Screen: NavKey {
 
@@ -9,7 +10,7 @@ sealed class Screen: NavKey {
 
     data object NotesBoard: Screen()
 
-    data object AddNote: Screen()
+    data class AddNote(val targetDate: LocalDate?): Screen()
 
     data class EditNote(val noteId: Int): Screen()
 
@@ -33,8 +34,8 @@ class AppRouting : IAppRouting {
         backStack.add(Screen.NotesBoard)
     }
 
-    override fun addNote() {
-        backStack.add(Screen.AddNote)
+    override fun addNote(targetDate: LocalDate?) {
+        backStack.add(Screen.AddNote(targetDate))
     }
 
     override fun editNote(noteId: Int) {

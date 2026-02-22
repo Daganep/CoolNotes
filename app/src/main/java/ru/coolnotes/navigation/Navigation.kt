@@ -59,9 +59,9 @@ fun Navigation(scaffoldContentPaddings: PaddingValues) {
                         NavEntry(key = key, content = { NotesBoard(appRouting) })
                     }
                     is Screen.AddNote -> {
-                        activeScreen = Screen.AddNote
+                        activeScreen = Screen.AddNote(key.targetDate)
                         NavEntry(key = key, content = {
-                            AddNoteScreen(appRouting, scaffoldContentPaddings)
+                            AddNoteScreen(appRouting, key.targetDate, scaffoldContentPaddings)
                         })
                     }
                     is Screen.EditNote -> {

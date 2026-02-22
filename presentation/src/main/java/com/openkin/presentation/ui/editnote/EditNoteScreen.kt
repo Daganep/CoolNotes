@@ -33,6 +33,7 @@ import com.openkin.presentation.ui.addnote.widgets.AddNoteAppBar
 import com.openkin.presentation.ui.addnote.widgets.AddNoteColorBar
 import com.openkin.presentation.ui.addnote.widgets.AddNoteTitleField
 import com.openkin.presentation.ui.addnote.widgets.ConfirmDialog
+import com.openkin.presentation.ui.addnote.widgets.TargetDate
 import com.openkin.presentation.ui.editnote.widgets.SaveChangesButton
 import com.openkin.presentation.ui.editnote.widgets.ArchiveButton
 import org.koin.androidx.compose.koinViewModel
@@ -76,7 +77,7 @@ fun EditNoteScreen(
             topBar,
             noteTitleField,
             noteTextField,
-            targetDate,
+            targetDateSelector,
             colorBar,
             bottomButtons
         ) = createRefs()
@@ -121,10 +122,22 @@ fun EditNoteScreen(
             modifier = Modifier
                 .constrainAs(noteTextField) {
                     top.linkTo(anchor = noteTitleField.bottom, margin = 4.dp)
-                    bottom.linkTo(anchor = colorBar.top, margin = 8.dp)
+                    bottom.linkTo(anchor = targetDateSelector.top)
                     start.linkTo(anchor = parent.start)
                     end.linkTo(anchor = parent.end)
                     height = Dimension.fillToConstraints
+                    width = Dimension.fillToConstraints
+                },
+        )
+        TargetDate(
+            selectedDate = state.targetDate,
+            onDateChanged = { newDate -> viewModel.onTargetDateChanged(newDate) },
+            modifier = Modifier
+                .constrainAs(targetDateSelector) {
+                    top.linkTo(anchor = noteTextField.bottom, margin = 8.dp)
+                    bottom.linkTo(anchor = colorBar.top)
+                    start.linkTo(anchor = parent.start)
+                    end.linkTo(anchor = parent.end)
                     width = Dimension.fillToConstraints
                 },
         )
@@ -133,7 +146,7 @@ fun EditNoteScreen(
             currentColor = state.color.startColor,
             modifier = Modifier
                 .constrainAs(colorBar) {
-                    top.linkTo(anchor = noteTextField.bottom)
+                    top.linkTo(anchor = targetDateSelector.bottom, margin = 8.dp)
                     bottom.linkTo(anchor = bottomButtons.top, margin = 8.dp)
                     start.linkTo(anchor = parent.start)
                     end.linkTo(anchor = parent.end)
