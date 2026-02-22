@@ -1,6 +1,7 @@
 package com.openkin.domain.model
 
 import com.openkin.domain.utils.DEFAULT_NOTE_COLOR
+import java.time.LocalDate
 
 data class NoteUi(
     val id: Int,
@@ -11,6 +12,7 @@ data class NoteUi(
     var archived: Boolean = false
     var editDateMS: Long = 0L
     var color: String = DEFAULT_NOTE_COLOR
+    var targetDate: LocalDate = LocalDate.now()
 
     override fun hashCode(): Int =
         title.hashCode() +
@@ -26,4 +28,5 @@ data class NoteUi(
             && this.archived == other.archived
             && this.editDateMS == other.editDateMS
             && this.color == other.color
+            && this.targetDate == other.targetDate
 }

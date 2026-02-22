@@ -32,7 +32,6 @@ import com.openkin.presentation.ui.addnote.widgets.AddNoteTitleField
 import com.openkin.presentation.ui.addnote.widgets.ConfirmDialog
 import com.openkin.presentation.ui.addnote.widgets.TargetDate
 import org.koin.androidx.compose.koinViewModel
-import java.time.LocalDate
 
 @Composable
 fun AddNoteScreen(routing: IAppRouting, scaffoldContentPaddings: PaddingValues) {
@@ -87,7 +86,7 @@ fun AddNoteScreen(
         AddNoteTitleField(
             noteTitle = state.noteTitle,
             isNoteTitleExists = state.isNoteTitleExists,
-            onNoteTitleChanged = { newTitle -> viewModel.updateTitle(newTitle) },
+            onNoteTitleChanged = { newTitle -> viewModel.onUpdateTitle(newTitle) },
             modifier = Modifier
                 .constrainAs(noteTitleField) {
                     top.linkTo(anchor = topBar.bottom, margin = 4.dp)
@@ -99,7 +98,7 @@ fun AddNoteScreen(
         )
         OutlinedTextField(
             value = state.noteText,
-            onValueChange = { newText -> viewModel.updateNoteText(newText) },
+            onValueChange = { newText -> viewModel.onUpdateNoteText(newText) },
             label = { Text(text = stringResource(R.string.add_note_screen_new_text)) },
             textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Justify),
             modifier = Modifier
@@ -113,8 +112,8 @@ fun AddNoteScreen(
                 },
         )
         TargetDate(
-            selectedDate = state.selectedDate,
-            onDateChanged = { newDate -> viewModel.onSelectDateChanged(newDate) },
+            selectedDate = state.targetDate,
+            onDateChanged = { newDate -> viewModel.onTargetDateChanged(newDate) },
             modifier = Modifier
                 .constrainAs(targetDate) {
                     top.linkTo(anchor = noteTextField.bottom, margin = 8.dp)
@@ -140,7 +139,7 @@ fun AddNoteScreen(
         )
         Button(
             onClick = {
-                viewModel.saveNote()
+                viewModel.onSaveNote()
                 routing.home()
             },
             enabled = !state.isError

@@ -15,6 +15,7 @@ fun NoteDto.toNoteUi(): NoteUi {
     note.archived = this.archived
     note.editDateMS = this.editDateMS
     note.color = this.color
+    note.targetDate = this.targetDate
     return note
 }
 
@@ -27,6 +28,7 @@ fun NoteUi.toNoteDto(): NoteDto =
         createDateMS = this.createDateMS,
         editDateMS = this.editDateMS,
         archived = this.archived,
+        targetDate = this.targetDate,
     )
 
 fun localDateDayToRangeMillis(daysList: List<LocalDate>): List<Pair<Long, Long>> {

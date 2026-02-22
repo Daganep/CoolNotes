@@ -49,9 +49,9 @@ interface NotesDao {
     @Query("SELECT * FROM table_notes_database WHERE description LIKE :search ESCAPE '@'")
     fun searchByDescription(search: String): Flow<List<NoteDbo>>
 
-    @Query("SELECT * FROM table_notes_database WHERE (createDateMS BETWEEN :startTime AND :endTime) AND archived = 0")
+    @Query("SELECT * FROM table_notes_database WHERE (targetDate BETWEEN :startTime AND :endTime) AND archived = 0")
     fun getNotesByDateRange(startTime: Long, endTime: Long): Flow<List<NoteDbo>>
 
-    @Query("SELECT COUNT(createDateMS) FROM table_notes_database WHERE (createDateMS BETWEEN :startTime AND :endTime) AND archived = 0")
+    @Query("SELECT COUNT(createDateMS) FROM table_notes_database WHERE (targetDate BETWEEN :startTime AND :endTime) AND archived = 0")
     suspend fun getNotesCountByDateRange(startTime: Long, endTime: Long): Int
 }

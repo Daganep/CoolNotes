@@ -1,5 +1,7 @@
 package com.openkin.domain.model
 
+import java.time.LocalDate
+
 data class NoteDto(
     val id: Int,
     val title: String,
@@ -8,4 +10,5 @@ data class NoteDto(
     val createDateMS: Long,
     val editDateMS: Long,
     val archived: Boolean,
+    val targetDate: LocalDate,
 )

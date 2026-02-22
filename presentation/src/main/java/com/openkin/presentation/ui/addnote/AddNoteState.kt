@@ -9,5 +9,5 @@ data class AddNoteState(
     val color: NotesColors,
     val isError: Boolean,
     val isNoteTitleExists: Boolean,
-    val selectedDate: LocalDate,
+    val targetDate: LocalDate,
 )

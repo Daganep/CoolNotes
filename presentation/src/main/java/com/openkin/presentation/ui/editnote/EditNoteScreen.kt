@@ -9,9 +9,7 @@ import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -64,6 +62,7 @@ fun EditNoteScreen(
             || state.noteText != state.currentNote?.description
             || state.color.name != state.currentNote?.color
             || state.isArchived != state.currentNote?.archived
+            || state.targetDate != state.currentNote?.targetDate
 
     ConstraintLayout (
         modifier = Modifier
@@ -73,7 +72,14 @@ fun EditNoteScreen(
             .background(Color.White)
             .padding(horizontal = 16.dp),
     ) {
-        val (topBar, noteTitleField, noteTextField, colorBar, bottomButtons) = createRefs()
+        val (
+            topBar,
+            noteTitleField,
+            noteTextField,
+            targetDate,
+            colorBar,
+            bottomButtons
+        ) = createRefs()
         AddNoteAppBar(
             topAppBarTitle = stringResource(R.string.edit_note_screen_appbar_exist_title),
             onBackButtonClick = {
@@ -188,7 +194,7 @@ fun EditNoteScreen(
             else routing.goBack()
         }
         LaunchedEffect(key1 = state.currentNote != null) {
-            viewModel.getNote(noteId)
+            viewModel.onLoadNote(noteId)
         }
     }
 }

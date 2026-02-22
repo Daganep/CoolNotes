@@ -13,4 +13,5 @@ data class NoteDbo(
     @ColumnInfo("createDateMS") val createDateMS: Long,
     @ColumnInfo("editDateMS") val editDateMS: Long,
     @ColumnInfo("archived") val archived: Boolean,
+    @ColumnInfo("targetDate") val targetDate: String,
 )

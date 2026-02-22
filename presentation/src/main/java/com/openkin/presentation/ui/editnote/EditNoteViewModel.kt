@@ -17,6 +17,7 @@ import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filterNot
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 
 @OptIn(FlowPreview::class)
 class EditNoteViewModel(
@@ -28,6 +29,7 @@ class EditNoteViewModel(
         noteTitle = EMPTY_STRING,
         noteText = EMPTY_STRING,
         color = NotesColors.Yellow,
+        targetDate = LocalDate.now(),
         isError = false,
         isArchived = false,
         isNoteTitleExists = false,
@@ -64,13 +66,14 @@ class EditNoteViewModel(
                 updatedNote.editDateMS = System.currentTimeMillis()
                 updatedNote.archived = _viewState.value.isArchived
                 updatedNote.color = _viewState.value.color.name
+                updatedNote.targetDate = _viewState.value.targetDate
                 notesInteractor.saveNote(updatedNote)
             }
             updateChangeSavedState()
         }
     }
 
-    fun getNote(noteId: Int) {
+    fun onLoadNote(noteId: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             notesInteractor.getNote(noteId).collect { note ->
                 note?.let {
@@ -78,12 +81,12 @@ class EditNoteViewModel(
                         color.name == note.color
                     }
                     _newNoteTitle.value = it.title
-                    val state = _viewState.value
-                    _viewState.value = state.copy(
+                    _viewState.value = _viewState.value.copy(
                         currentNote = note,
                         noteTitle = note.title,
                         noteText = note.description,
                         color = currentColor,
+                        targetDate = note.targetDate,
                         isNoteTitleExists = false,
                         isError = false,
                         isChangeWasSaved = false,
@@ -121,8 +124,7 @@ class EditNoteViewModel(
     }
 
     fun onUpdateNoteText(newText: String) {
-        val state = _viewState.value
-        _viewState.value = state.copy(
+        _viewState.value = _viewState.value.copy(
             noteText = newText,
             isChangeWasSaved = false,
         )
@@ -130,8 +132,7 @@ class EditNoteViewModel(
     }
 
     fun onUpdateCurrentColor(newColor: NotesColors) {
-        val state = _viewState.value
-        _viewState.value = state.copy(
+        _viewState.value = _viewState.value.copy(
             color = newColor,
             isChangeWasSaved = false,
         )
@@ -140,16 +141,22 @@ class EditNoteViewModel(
 
     fun onArchiveClicked() {
         val state = _viewState.value
-        _viewState.value = state.copy(
+        _viewState.value = _viewState.value.copy(
             isArchived = !state.isArchived,
             isChangeWasSaved = false,
         )
         _editNoteEvent.value = false
     }
 
+    fun onTargetDateChanged(newDate: LocalDate) {
+        _viewState.value = _viewState.value.copy(
+            targetDate = newDate,
+            isChangeWasSaved = false,
+        )
+    }
+
     private fun updateChangeSavedState() {
-        val state = _viewState.value
-        _viewState.value = state.copy(isChangeWasSaved = true)
+        _viewState.value = _viewState.value.copy(isChangeWasSaved = true)
         _editNoteEvent.value = true
     }
 

@@ -30,7 +30,7 @@ class AddNoteViewModel(
         color = NotesColors.Yellow,
         isError = false,
         isNoteTitleExists = false,
-        selectedDate = LocalDate.now(),
+        targetDate = LocalDate.now(),
     )
     private val _viewState = MutableStateFlow<AddNoteState>(defaultState)
     val viewState: StateFlow<AddNoteState> = _viewState.asStateFlow()
@@ -48,11 +48,10 @@ class AddNoteViewModel(
         }
     }
 
-    fun saveNote() {
+    fun onSaveNote() {
         viewModelScope.launch(Dispatchers.IO) {
             val title = _viewState.value.noteTitle
             val text = _viewState.value.noteText
-            val color = _viewState.value.color
             val currentTimeMS = System.currentTimeMillis()
             val newNote = NoteUi(
                 id = getNoteId(title, text, currentTimeMS),
@@ -60,12 +59,13 @@ class AddNoteViewModel(
                 description = text,
                 createDateMS = currentTimeMS,
             )
-            newNote.color = color.name
+            newNote.color = _viewState.value.color.name
+            newNote.targetDate = _viewState.value.targetDate
             notesInteractor.saveNote(newNote)
         }
     }
 
-    fun updateTitle(title: String) {
+    fun onUpdateTitle(title: String) {
         val state = _viewState.value
         if (title.isEmpty() || title.isBlank()) {
             _viewState.value = state.copy(
@@ -88,25 +88,22 @@ class AddNoteViewModel(
         _newNoteTitle.value = title
     }
 
-    fun updateNoteText(newText: String) {
-        val state = _viewState.value
-        _viewState.value = state.copy(noteText = newText)
+    fun onUpdateNoteText(newText: String) {
+        _viewState.value = _viewState.value.copy(noteText = newText)
     }
 
     fun updateCurrentColor(newColor: NotesColors) {
-        val state = _viewState.value
-        _viewState.value = state.copy(color = newColor)
+        _viewState.value = _viewState.value.copy(color = newColor)
     }
 
-    fun onSelectDateChanged(newDate: LocalDate) {
-        _viewState.value = _viewState.value.copy(selectedDate = newDate)
+    fun onTargetDateChanged(newDate: LocalDate) {
+        _viewState.value = _viewState.value.copy(targetDate = newDate)
     }
 
     private fun checkTitleExists(title: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            val state = _viewState.value
             val isTitleExists = notesInteractor.checkTitleExists(title)
-            _viewState.value = state.copy(
+            _viewState.value = _viewState.value.copy(
                 isNoteTitleExists = isTitleExists,
                 isError = isTitleExists,
             )
