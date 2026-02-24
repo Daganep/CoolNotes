@@ -1,17 +1,23 @@
 package com.openkin.presentation.ui.notesboard.widgets
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -44,8 +50,8 @@ fun HorizontalSimpleNote(
     val createDate = getDate(SIMPLE_NOTE_DATE_FORMAT, note.createDateMS)
 
     Card(
-        shape = RoundedCornerShape(0.dp),
-        elevation = CardDefaults.cardElevation(5.dp),
+        shape = RoundedCornerShape(4.dp),
+        elevation = CardDefaults.cardElevation(8.dp),
         modifier = modifier
             .height(100.dp)
             .fillMaxWidth()
@@ -96,15 +102,24 @@ fun HorizontalSimpleNote(
                         verticalBias = 0F
                     },
             )
-            Text(
-                text = createDate,
-                fontSize = 9.sp,
+            Row(
                 modifier = Modifier
-                    .constrainAs(date) {
-                        bottom.linkTo(anchor = parent.bottom)
-                        start.linkTo(anchor = parent.start, margin = 8.dp)
-                    },
-            )
+                .constrainAs(date) {
+                    bottom.linkTo(anchor = parent.bottom, margin = 2.dp)
+                    start.linkTo(anchor = parent.start, margin = 8.dp)
+                },
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Image(
+                    painter = painterResource(R.drawable.image_target_calendar),
+                    contentDescription = "",
+                    modifier = Modifier.padding(end = 8.dp).size(12.dp)
+                )
+                Text(
+                    text = createDate,
+                    fontSize = 9.sp,
+                )
+            }
         }
     }
 
