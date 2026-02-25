@@ -31,6 +31,7 @@ class AddNoteViewModel(
         isError = false,
         isNoteTitleExists = false,
         targetDate = LocalDate.now(),
+        notifyTime = null,
     )
     private val _viewState = MutableStateFlow<AddNoteState>(defaultState)
     val viewState: StateFlow<AddNoteState> = _viewState.asStateFlow()
@@ -98,6 +99,10 @@ class AddNoteViewModel(
 
     fun onTargetDateChanged(newDate: LocalDate) {
         _viewState.value = _viewState.value.copy(targetDate = newDate)
+    }
+
+    fun onNotifyTimeChanged(time: Pair<Int, Int>?) {
+        _viewState.value = _viewState.value.copy(notifyTime = time)
     }
 
     private fun checkTitleExists(title: String) {

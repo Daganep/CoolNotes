@@ -30,7 +30,7 @@ import com.openkin.presentation.navigation.IAppRouting
 import com.openkin.presentation.ui.addnote.widgets.AddNoteAppBar
 import com.openkin.presentation.ui.addnote.widgets.AddNoteColorBar
 import com.openkin.presentation.ui.addnote.widgets.AddNoteTitleField
-import com.openkin.presentation.ui.addnote.widgets.ConfirmDialog
+import com.openkin.presentation.ui.dialogs.ConfirmDialog
 import com.openkin.presentation.ui.addnote.widgets.TargetDate
 import org.koin.androidx.compose.koinViewModel
 import java.time.LocalDate
@@ -111,7 +111,7 @@ fun AddNoteScreen(
             textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Justify),
             modifier = Modifier
                 .constrainAs(noteTextField) {
-                    top.linkTo(anchor = noteTitleField.bottom, margin = 4.dp)
+                    top.linkTo(anchor = noteTitleField.bottom)
                     bottom.linkTo(anchor = targetDateSelector.top)
                     start.linkTo(anchor = parent.start)
                     end.linkTo(anchor = parent.end)
@@ -121,7 +121,9 @@ fun AddNoteScreen(
         )
         TargetDate(
             selectedDate = state.targetDate,
+            selectedTime = state.notifyTime,
             onDateChanged = { newDate -> viewModel.onTargetDateChanged(newDate) },
+            onTimeChanged = { newTime -> viewModel.onNotifyTimeChanged(newTime) },
             modifier = Modifier
                 .constrainAs(targetDateSelector) {
                     top.linkTo(anchor = noteTextField.bottom, margin = 8.dp)

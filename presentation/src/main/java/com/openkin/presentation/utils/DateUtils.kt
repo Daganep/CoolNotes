@@ -12,6 +12,8 @@ fun getDate(format: String, date: Long): String =
 fun getDate(format: String, date: LocalDate): String =
     date.format(DateTimeFormatter.ofPattern(format))
 
+fun addZero(time: Int): String = if (time < 10) "0$time" else time.toString()
+
 const val SIMPLE_NOTE_DATE_FORMAT = "dd.MM.yyyy"
 const val SIMPLE_NOTE_DATE_FORMAT_WITH_TIME = "dd.MM hh:mm"
 const val DETAILS_NOTE_DATE_FORMAT = "dd.MM.yy hh:mm:ss"

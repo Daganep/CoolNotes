@@ -22,6 +22,7 @@
     <string name="add_note_save_button">Сохранить</string>
     <string name="add_note_error_title_length">Название более %1$d символов</string>
     <string name="add_note_error_title_exists">Заметка с этим названием существует</string>
+    <string name="add_note_empty_timer">Напомнить</string>
 
     //edit note screen
     <string name="edit_note_screen_appbar_exist_title">Редактировать заметку</string>
@@ -71,6 +72,8 @@
     <string name="archive_screen_delete_archive_button">Удалить</string>
 
     <string name="add_note_screen_clear_field_button">Очистить поле</string>
+    <string name="add_note_target_date_icon">Календарь</string>
+    <string name="add_note_timer_icon">Будильник</string>
 
     <string name="search_screen_clear_search_field">Очистить</string>
     <string name="search_screen_search_icon">Лупа</string>

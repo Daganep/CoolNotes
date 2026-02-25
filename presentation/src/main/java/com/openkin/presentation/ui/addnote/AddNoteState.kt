@@ -10,4 +10,5 @@ data class AddNoteState(
     val isError: Boolean,
     val isNoteTitleExists: Boolean,
     val targetDate: LocalDate,
+    val notifyTime: Pair<Int, Int>?,
 )

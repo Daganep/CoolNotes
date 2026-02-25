@@ -1,98 +1,162 @@
 package com.openkin.presentation.ui.addnote.widgets
 
-import androidx.compose.foundation.background
+import android.app.DatePickerDialog
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.DatePicker
-import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
-import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import java.time.Instant
+import com.openkin.presentation.R
+import com.openkin.presentation.ui.dialogs.RestrictedTimePickerDialog
+import com.openkin.presentation.utils.SIMPLE_NOTE_DATE_FORMAT
+import com.openkin.presentation.utils.addZero
 import java.time.LocalDate
-import java.time.ZoneId
 import java.time.format.DateTimeFormatter
+import java.util.Calendar
 
 @Composable
 fun TargetDate(
     selectedDate: LocalDate,
+    selectedTime: Pair<Int, Int>?,
     modifier: Modifier,
     onDateChanged: (LocalDate) -> Unit,
+    onTimeChanged: (Pair<Int, Int>?) -> Unit,
 ) {
-    var showDialog by remember { mutableStateOf(false) }
-    val datePickerState = rememberDatePickerState()
+    val datesBorderWidth = 0.5
+
+    val calendar = Calendar.getInstance()
+    val hour = calendar.get(Calendar.HOUR_OF_DAY)
+    val minute = calendar.get(Calendar.MINUTE)
+
+    val datePickerDialog = DatePickerDialog(
+        LocalContext.current,
+        { _, selectedYear, selectedMonth, selectedDay ->
+            onDateChanged(LocalDate.of(selectedYear, selectedMonth, selectedDay))
+        },
+        selectedDate.year, selectedDate.month.value, selectedDate.dayOfMonth,
+    )
+    val timePickerDialog = RestrictedTimePickerDialog(
+        context = LocalContext.current,
+        selectedDate = selectedDate,
+        selectedHour = selectedTime?.first ?: hour,
+        selectedMinute = selectedTime?.second ?: minute,
+        onTimeChanged = onTimeChanged,
+    )
+    val timerText = if (selectedTime == null) {
+        stringResource(R.string.add_note_empty_timer)
+    } else {
+        "${addZero(selectedTime.first)}:${addZero(selectedTime.second)}"
+    }
 
     Row(
         modifier = modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceEvenly
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
     ) {
-        Text(
-            text = "Записать на:",
-            fontSize = 16.sp,
-            fontWeight = FontWeight.Bold,
-        )
-        Button(
-            onClick = { showDialog = !showDialog },
-            shape = RoundedCornerShape(4.dp),
-
+        Row(
+            modifier = Modifier
+                .weight(1F)
+                .clickable { datePickerDialog.show() }
+                .border(
+                    width = datesBorderWidth.dp,
+                    color = Color.Black,
+                    shape = RoundedCornerShape(5.dp),
+                )
+                .padding(all = 4.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceEvenly,
         ) {
+            Image(
+                painter = painterResource(R.drawable.image_target_calendar),
+                contentDescription = stringResource(R.string.add_note_target_date_icon),
+                modifier = Modifier.size(24.dp)
+            )
             Text(
-                text = DateTimeFormatter.ofPattern("dd MMMM yyyy").format(selectedDate),
+                text = DateTimeFormatter.ofPattern(SIMPLE_NOTE_DATE_FORMAT).format(selectedDate),
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Bold,
             )
         }
-        if (showDialog) {
-            DatePickerDialog(
-                onDismissRequest = { showDialog = false },
-                confirmButton = {
-                    TextButton(
-                        onClick = {
-                            datePickerState.selectedDateMillis?.let {
-                                onDateChanged(
-                                    Instant.ofEpochMilli(it)
-                                        .atZone(ZoneId.of("UTC"))
-                                        .toLocalDate()
-                                )
-                            }
-                            showDialog = false
-                        }
-                    ) {
-                        Text("OK")
-                    }
-                }
+        Box(
+            modifier = Modifier.weight(1F),
+            contentAlignment = Alignment.Center,
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable { timePickerDialog.show() }
+                    .border(
+                        width = datesBorderWidth.dp,
+                        color = Color.Black,
+                        shape = RoundedCornerShape(5.dp),
+                    )
+                    .padding(all = 4.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Absolute.SpaceEvenly,
             ) {
-                DatePicker(
-                    state = datePickerState,
-                    title = null,
-                    headline = null,
-                    showModeToggle = false,
+                Image(
+                    painter = painterResource(R.drawable.image_timer),
+                    contentDescription = stringResource(R.string.add_note_timer_icon),
+                    modifier = Modifier
+                        .padding(start = 16.dp)
+                        .size(24.dp),
                 )
+                Text(
+                    text = timerText,
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(end = 16.dp),
+                )
+
             }
+        }
+        AnimatedVisibility(visible = (selectedTime != null)) {
+            Image(
+                painter = painterResource(R.drawable.icon_clear_edit_text),
+                contentDescription = stringResource(R.string.search_screen_clear_search_field),
+                modifier = Modifier
+                    .size(20.dp)
+                    .clickable(
+                        interactionSource = remember { MutableInteractionSource() },
+                        indication = null,
+                        onClick = {
+
+                            onTimeChanged(null)
+                        }
+                    ),
+            )
         }
     }
 }
 
 @Preview(showBackground = true)
 @Composable
-fun TargetDatePreview() {
-    TargetDate(LocalDate.now(), Modifier) { }
+private fun TargetDateWithTimePreview() {
+    TargetDate(LocalDate.now(), Pair(5, 5), Modifier, {}, {})
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun TargetDateWithoutTimePreview() {
+    TargetDate(LocalDate.now(), null, Modifier, {}, {})
 }

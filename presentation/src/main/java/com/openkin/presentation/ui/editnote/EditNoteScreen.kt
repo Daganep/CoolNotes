@@ -32,7 +32,7 @@ import com.openkin.presentation.navigation.IAppRouting
 import com.openkin.presentation.ui.addnote.widgets.AddNoteAppBar
 import com.openkin.presentation.ui.addnote.widgets.AddNoteColorBar
 import com.openkin.presentation.ui.addnote.widgets.AddNoteTitleField
-import com.openkin.presentation.ui.addnote.widgets.ConfirmDialog
+import com.openkin.presentation.ui.dialogs.ConfirmDialog
 import com.openkin.presentation.ui.addnote.widgets.TargetDate
 import com.openkin.presentation.ui.editnote.widgets.SaveChangesButton
 import com.openkin.presentation.ui.editnote.widgets.ArchiveButton
@@ -131,7 +131,9 @@ fun EditNoteScreen(
         )
         TargetDate(
             selectedDate = state.targetDate,
+            selectedTime = null,
             onDateChanged = { newDate -> viewModel.onTargetDateChanged(newDate) },
+            onTimeChanged = { newTime ->  },
             modifier = Modifier
                 .constrainAs(targetDateSelector) {
                     top.linkTo(anchor = noteTextField.bottom, margin = 8.dp)
