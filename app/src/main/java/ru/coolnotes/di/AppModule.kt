@@ -1,5 +1,7 @@
 package ru.coolnotes.di
 
+import android.app.AlarmManager
+import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import com.openkin.data.database.NotesDatabase
@@ -21,4 +23,8 @@ val appModule = module {
     single<INotesInteractor> { NotesInteractor(notesRepository = get()) }
 
     single<DataStore<Preferences>> { androidApplication().StateDataStore }
+
+    single<AlarmManager> {
+        androidApplication().getSystemService(Context.ALARM_SERVICE) as AlarmManager
+    }
 }

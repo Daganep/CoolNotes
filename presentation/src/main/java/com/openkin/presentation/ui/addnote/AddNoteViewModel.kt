@@ -1,5 +1,6 @@
 package com.openkin.presentation.ui.addnote
 
+import android.app.AlarmManager
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.openkin.domain.interactor.INotesInteractor
@@ -22,6 +23,7 @@ import java.time.LocalDate
 @OptIn(FlowPreview::class)
 class AddNoteViewModel(
     private val notesInteractor: INotesInteractor,
+    private val alarmManager: AlarmManager,
 ) : ViewModel() {
 
     private val defaultState = AddNoteState(
@@ -102,6 +104,10 @@ class AddNoteViewModel(
     }
 
     fun onNotifyTimeChanged(time: Pair<Int, Int>?) {
+        val pendingIntent = getPend
+
+
+
         _viewState.value = _viewState.value.copy(notifyTime = time)
     }
 
