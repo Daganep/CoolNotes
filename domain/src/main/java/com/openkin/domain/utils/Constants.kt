@@ -2,6 +2,10 @@ package com.openkin.domain.utils
 
 const val COOL_NOTES_STATE_PREFS = "COOL_NOTES_STATE_PREFS"
 
+const val NOTIFY_CHANNEL_NAME = "Cool notes reminders"
+const val NOTIFY_CHANNEL_DESCRIPTION = "Reminders for notes"
+const val NOTIFY_CHANNEL_ID = "Cool notes"
+
 const val DEFAULT_VIEW_TYPE = 0
 const val DEFAULT_NOTE_COLOR = "Yellow"
 const val BIG_BLOCKS_COLUMN_COUNT = 2
