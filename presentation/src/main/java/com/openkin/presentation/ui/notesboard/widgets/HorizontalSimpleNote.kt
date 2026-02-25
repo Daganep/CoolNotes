@@ -35,6 +35,7 @@ import com.openkin.domain.utils.LONG_TEXT_EXAMPLE
 import com.openkin.presentation.R
 import com.openkin.presentation.ui.addnote.model.NotesColors
 import com.openkin.presentation.utils.SIMPLE_NOTE_DATE_FORMAT
+import com.openkin.presentation.utils.SIMPLE_NOTE_DATE_FORMAT_WITH_TIME
 import com.openkin.presentation.utils.getDate
 
 @Composable
@@ -47,7 +48,7 @@ fun HorizontalSimpleNote(
     val linearGradient = Brush.linearGradient(
         colors = listOf(noteColors.startColor, noteColors.endColor)
     )
-    val createDate = getDate(SIMPLE_NOTE_DATE_FORMAT, note.createDateMS)
+    val targetDate = getDate(SIMPLE_NOTE_DATE_FORMAT, note.targetDate)
 
     Card(
         shape = RoundedCornerShape(4.dp),
@@ -116,7 +117,7 @@ fun HorizontalSimpleNote(
                     modifier = Modifier.padding(end = 8.dp).size(12.dp)
                 )
                 Text(
-                    text = createDate,
+                    text = targetDate,
                     fontSize = 9.sp,
                 )
             }
