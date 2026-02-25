@@ -53,7 +53,7 @@ fun SearchTopBar(
                 .fillMaxSize()
                 .padding(top = 16.dp, start = 16.dp, end = 16.dp),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             Box(
                 modifier = Modifier.weight(1F),
@@ -64,7 +64,7 @@ fun SearchTopBar(
                         .background(color = Color.LightGray, shape = RoundedCornerShape(10.dp))
                         .padding(16.dp),
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
                     Image(
                         painter = painterResource(R.drawable.image_search),
@@ -86,7 +86,7 @@ fun SearchTopBar(
                 ) {
                     Text(
                         text = stringResource(R.string.search_screen_top_bar_placeholder),
-                        modifier = Modifier.padding(start = 48.dp)
+                        modifier = Modifier.padding(start = 48.dp),
                     )
                 }
             }
@@ -109,6 +109,6 @@ fun SearchTopBar(
 
 @Preview(showBackground = true)
 @Composable
-fun SearchTopBarPreview() {
+private fun SearchTopBarPreview() {
     SearchTopBar(textFieldState = TextFieldState(), modifier = Modifier)
 }

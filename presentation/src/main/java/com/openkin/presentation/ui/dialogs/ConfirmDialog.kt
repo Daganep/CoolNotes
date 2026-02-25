@@ -1,4 +1,4 @@
-package com.openkin.presentation.ui.addnote.widgets
+package com.openkin.presentation.ui.dialogs
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
