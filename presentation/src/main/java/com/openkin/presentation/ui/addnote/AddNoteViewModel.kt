@@ -1,6 +1,7 @@
 package com.openkin.presentation.ui.addnote
 
 import android.app.AlarmManager
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.openkin.domain.interactor.INotesInteractor
@@ -8,6 +9,9 @@ import com.openkin.domain.model.NoteUi
 import com.openkin.domain.utils.EMPTY_STRING
 import com.openkin.domain.utils.NOTE_TITLE_MAX_LENGTH
 import com.openkin.presentation.ui.addnote.model.NotesColors
+import com.openkin.presentation.utils.getNotifyTime
+import com.openkin.presentation.utils.getPendingIntent
+import com.openkin.presentation.utils.getTriggerTime
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -51,20 +55,24 @@ class AddNoteViewModel(
         }
     }
 
-    fun onSaveNote() {
+    fun onSaveNote(context: Context) {
         viewModelScope.launch(Dispatchers.IO) {
             val title = _viewState.value.noteTitle
             val text = _viewState.value.noteText
+            val notifyTime = getNotifyTime(_viewState.value.notifyTime)
             val currentTimeMS = System.currentTimeMillis()
+            val id = getNoteId(title, text, currentTimeMS)
             val newNote = NoteUi(
-                id = getNoteId(title, text, currentTimeMS),
+                id = id,
                 title = title,
-                description = text,
+                text = text,
                 createDateMS = currentTimeMS,
             )
             newNote.color = _viewState.value.color.name
             newNote.targetDate = _viewState.value.targetDate
+            newNote.notifyTime = notifyTime
             notesInteractor.saveNote(newNote)
+            scheduleNotification(context, newNote)
         }
     }
 
@@ -104,11 +112,17 @@ class AddNoteViewModel(
     }
 
     fun onNotifyTimeChanged(time: Pair<Int, Int>?) {
-        val pendingIntent = getPend
-
-
-
         _viewState.value = _viewState.value.copy(notifyTime = time)
+    }
+
+    private fun scheduleNotification(context: Context, note: NoteUi) {
+        _viewState.value.notifyTime?.let { time ->
+            val pendingIntent = getPendingIntent(context, note.id, note.title, note.text)
+            val triggerTime = getTriggerTime(note.targetDate, time)
+            triggerTime?.let {
+                alarmManager.setExact(AlarmManager.RTC_WAKEUP, triggerTime, pendingIntent)
+            }
+        }
     }
 
     private fun checkTitleExists(title: String) {

@@ -83,7 +83,7 @@ fun BigSquareNote(
                         },
                 )
                 Text(
-                    text = note.description,
+                    text = note.text,
                     fontFamily = FontFamily(Font(R.font.calibri)),
                     fontSize = 14.sp,
                     overflow = TextOverflow.Ellipsis,
@@ -120,7 +120,7 @@ private fun BigSquareNotePreview() {
         note = NoteUi(
             id = ID_EXAMPLE_INT,
             title = LONG_TEXT_EXAMPLE,
-            description = LONG_TEXT_EXAMPLE,
+            text = LONG_TEXT_EXAMPLE,
             createDateMS = ID_EXAMPLE_LONG,
         ),
         onNoteClick = {},

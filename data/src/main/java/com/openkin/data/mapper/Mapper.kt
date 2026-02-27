@@ -14,6 +14,7 @@ fun NoteDto.toNoteDbo() =
         editDateMS = this.editDateMS,
         archived = this.archived,
         targetDate = localDateToString(this.targetDate),
+        notifyTime = this.notifyTime,
     )
 
 fun NoteDbo.toNoteDto() =
@@ -26,6 +27,7 @@ fun NoteDbo.toNoteDto() =
         editDateMS = this.editDateMS,
         archived = this.archived,
         targetDate = localDateFromString(this.targetDate),
+        notifyTime = this.notifyTime,
     )
 
 fun localDateToString(date: LocalDate): String =

@@ -60,7 +60,7 @@ fun EditNoteScreen(
     val event by viewModel.editNoteEvent.collectAsState()
     val openConfirmDialog = remember { mutableStateOf(false) }
     val noteWasChanged = state.noteTitle != state.currentNote?.title
-            || state.noteText != state.currentNote?.description
+            || state.noteText != state.currentNote?.text
             || state.color.name != state.currentNote?.color
             || state.isArchived != state.currentNote?.archived
             || state.targetDate != state.currentNote?.targetDate

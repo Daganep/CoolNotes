@@ -32,6 +32,7 @@ import com.openkin.domain.model.NoteUi
 import com.openkin.domain.utils.ID_EXAMPLE_INT
 import com.openkin.domain.utils.ID_EXAMPLE_LONG
 import com.openkin.domain.utils.LONG_TEXT_EXAMPLE
+import com.openkin.domain.utils.NOTIFY_TIME_EXAMPLE
 import com.openkin.presentation.R
 import com.openkin.presentation.ui.addnote.model.NotesColors
 import com.openkin.presentation.utils.SIMPLE_NOTE_DATE_FORMAT
@@ -53,7 +54,7 @@ fun HorizontalSimpleNote(
         shape = RoundedCornerShape(4.dp),
         elevation = CardDefaults.cardElevation(8.dp),
         modifier = modifier
-            .height(100.dp)
+            .height(105.dp)
             .fillMaxWidth()
             .clickable(
                 indication = null,
@@ -86,7 +87,7 @@ fun HorizontalSimpleNote(
                     },
             )
             Text(
-                text = note.description,
+                text = note.text,
                 fontFamily = FontFamily(Font(R.font.calibri)),
                 fontSize = 14.sp,
                 overflow = TextOverflow.Ellipsis,
@@ -119,6 +120,17 @@ fun HorizontalSimpleNote(
                     text = targetDate,
                     fontSize = 9.sp,
                 )
+                if (note.notifyTime.isNotEmpty()) {
+                    Image(
+                        painter = painterResource(R.drawable.image_timer),
+                        contentDescription = "",
+                        modifier = Modifier.padding(start = 12.dp, end = 6.dp).size(12.dp)
+                    )
+                    Text(
+                        text = note.notifyTime,
+                        fontSize = 9.sp,
+                    )
+                }
             }
         }
     }
@@ -128,13 +140,15 @@ fun HorizontalSimpleNote(
 @Preview(showBackground = true)
 @Composable
 private fun HorizontalNotePreview() {
+    val note = NoteUi(
+        id = ID_EXAMPLE_INT,
+        title = LONG_TEXT_EXAMPLE,
+        text = LONG_TEXT_EXAMPLE,
+        createDateMS = ID_EXAMPLE_LONG,
+    )
+    note.notifyTime = NOTIFY_TIME_EXAMPLE
     HorizontalSimpleNote(
-        note = NoteUi(
-            id = ID_EXAMPLE_INT,
-            title = LONG_TEXT_EXAMPLE,
-            description = LONG_TEXT_EXAMPLE,
-            createDateMS = ID_EXAMPLE_LONG,
-        ),
+        note = note,
         onClick = {},
     )
 }

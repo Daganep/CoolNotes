@@ -11,4 +11,5 @@ data class NoteDto(
     val editDateMS: Long,
     val archived: Boolean,
     val targetDate: LocalDate,
+    val notifyTime: String,
 )

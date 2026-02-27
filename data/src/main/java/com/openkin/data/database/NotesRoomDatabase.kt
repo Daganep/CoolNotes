@@ -8,7 +8,7 @@ import com.openkin.data.database.dao.NotesDao
 import com.openkin.data.database.model.NoteDbo
 
 /**
- * RequestsDatabase — это класс обертка для того чтобы не прокидывать зависимость библиотеки Room
+ * [NotesDatabase] — это класс обертка для того чтобы не прокидывать зависимость библиотеки Room
  * в модуль, в котором будет реализовано взаимодействие с базой данных
  */
 class NotesDatabase internal constructor(private val database: NotesRoomDatabase) {

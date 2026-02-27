@@ -60,7 +60,7 @@ class EditNoteViewModel(
                 val updatedNote = NoteUi(
                     id = note.id,
                     title = _viewState.value.noteTitle,
-                    description = _viewState.value.noteText,
+                    text = _viewState.value.noteText,
                     createDateMS = note.createDateMS,
                 )
                 updatedNote.editDateMS = System.currentTimeMillis()
@@ -84,7 +84,7 @@ class EditNoteViewModel(
                     _viewState.value = _viewState.value.copy(
                         currentNote = note,
                         noteTitle = note.title,
-                        noteText = note.description,
+                        noteText = note.text,
                         color = currentColor,
                         targetDate = note.targetDate,
                         isNoteTitleExists = false,
