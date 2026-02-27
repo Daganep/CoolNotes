@@ -51,9 +51,9 @@ fun TargetDate(
     val datePickerDialog = DatePickerDialog(
         LocalContext.current,
         { _, selectedYear, selectedMonth, selectedDay ->
-            onDateChanged(LocalDate.of(selectedYear, selectedMonth, selectedDay))
+            onDateChanged(LocalDate.of(selectedYear, selectedMonth+1, selectedDay))
         },
-        selectedDate.year, selectedDate.month.value, selectedDate.dayOfMonth,
+        selectedDate.year, selectedDate.month.value-1, selectedDate.dayOfMonth,
     )
     val timePickerDialog = RestrictedTimePickerDialog(
         context = LocalContext.current,
