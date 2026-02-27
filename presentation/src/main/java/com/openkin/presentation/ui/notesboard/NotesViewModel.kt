@@ -29,8 +29,7 @@ class NotesViewModel(
     fun getNotes() {
         viewModelScope.launch(Dispatchers.IO) {
             notesInteractor.getActualNotes().collect { notes ->
-                val state = _viewState.value
-                _viewState.value = state.copy(notesList = notes)
+                _viewState.value = _viewState.value.copy(notesList = notes)
                 _loadingState.value = false
             }
         }

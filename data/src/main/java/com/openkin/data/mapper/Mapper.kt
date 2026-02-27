@@ -1,7 +1,9 @@
 package com.openkin.data.mapper
 
 import com.openkin.data.database.model.NoteDbo
+import com.openkin.data.utils.isReminderInPast
 import com.openkin.domain.model.NoteDto
+import com.openkin.domain.utils.EMPTY_STRING
 import java.time.LocalDate
 
 fun NoteDto.toNoteDbo() =
@@ -17,8 +19,11 @@ fun NoteDto.toNoteDbo() =
         notifyTime = this.notifyTime,
     )
 
-fun NoteDbo.toNoteDto() =
-    NoteDto(
+fun NoteDbo.toNoteDto(): NoteDto {
+    val targetDate = localDateFromString(this.targetDate)
+    val isReminderInPast = isReminderInPast(targetDate, this.notifyTime)
+    val notifyTime = if (isReminderInPast) EMPTY_STRING else this.notifyTime
+    return NoteDto(
         id = this.id,
         title = this.title,
         description = this.description,
@@ -26,9 +31,10 @@ fun NoteDbo.toNoteDto() =
         createDateMS = this.createDateMS,
         editDateMS = this.editDateMS,
         archived = this.archived,
-        targetDate = localDateFromString(this.targetDate),
-        notifyTime = this.notifyTime,
+        targetDate = targetDate,
+        notifyTime = notifyTime,
     )
+}
 
 fun localDateToString(date: LocalDate): String =
     "${date.year};${date.month.value};${date.dayOfMonth}"
