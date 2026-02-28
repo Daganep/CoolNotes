@@ -17,7 +17,7 @@ fun NotesCommonList(
     swipedNote: Pair<Int, Int>,
     onNoteSwiped: (Int, Int) -> Unit,
     onNoteClick: (Int) -> Unit,
-    onArchiveClicked: (Int) -> Unit,
+    onArchiveClicked: (NoteUi) -> Unit,
     isDetailedList: Boolean,
     listState: LazyListState,
 ) {
@@ -33,7 +33,7 @@ fun NotesCommonList(
                     ActionOnSwipe(
                         onClick = {
                             onNoteSwiped(0, -1)
-                            onArchiveClicked(item.id)
+                            onArchiveClicked(item)
                         },
                         drawableId = R.drawable.image_put_to_archive,
                         contentDescriptionId = R.string.notes_board_replace_to_archive_button,

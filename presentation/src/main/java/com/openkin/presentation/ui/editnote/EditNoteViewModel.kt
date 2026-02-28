@@ -65,7 +65,12 @@ class EditNoteViewModel(
     fun onUpdateNote(context: Context) {
         viewModelScope.launch(Dispatchers.IO) {
             _viewState.value.currentNote?.let { note ->
-                val notifyTime = getNotifyTime(_viewState.value.notifyTime)
+                val isArchived = _viewState.value.isArchived
+                val notifyTime = if (!isArchived) {
+                    getNotifyTime(_viewState.value.notifyTime)
+                } else {
+                    EMPTY_STRING
+                }
                 val updatedNote = NoteUi(
                     id = note.id,
                     title = _viewState.value.noteTitle,
@@ -73,7 +78,7 @@ class EditNoteViewModel(
                     createDateMS = note.createDateMS,
                 )
                 updatedNote.editDateMS = System.currentTimeMillis()
-                updatedNote.archived = _viewState.value.isArchived
+                updatedNote.archived = isArchived
                 updatedNote.color = _viewState.value.color.name
                 updatedNote.targetDate = _viewState.value.targetDate
                 updatedNote.notifyTime = notifyTime
