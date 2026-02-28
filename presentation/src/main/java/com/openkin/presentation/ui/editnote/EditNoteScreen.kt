@@ -59,11 +59,6 @@ fun EditNoteScreen(
     val state by viewModel.viewState.collectAsState()
     val event by viewModel.editNoteEvent.collectAsState()
     val openConfirmDialog = remember { mutableStateOf(false) }
-    val noteWasChanged = state.noteTitle != state.currentNote?.title
-            || state.noteText != state.currentNote?.text
-            || state.color.name != state.currentNote?.color
-            || state.isArchived != state.currentNote?.archived
-            || state.targetDate != state.currentNote?.targetDate
 
     ConstraintLayout (
         modifier = Modifier
@@ -84,7 +79,7 @@ fun EditNoteScreen(
         AddNoteAppBar(
             topAppBarTitle = stringResource(R.string.edit_note_screen_appbar_exist_title),
             onBackButtonClick = {
-                if (noteWasChanged && !state.isChangeWasSaved) openConfirmDialog.value = true
+                if (state.isNoteWasChanged && !state.isChangeWasSaved) openConfirmDialog.value = true
                 else routing.goBack()
             },
             modifier = Modifier
@@ -131,9 +126,9 @@ fun EditNoteScreen(
         )
         TargetDate(
             selectedDate = state.targetDate,
-            selectedTime = null,
+            selectedTime = state.notifyTime,
             onDateChanged = { newDate -> viewModel.onTargetDateChanged(newDate) },
-            onTimeChanged = { newTime ->  },
+            onTimeChanged = { newTime -> viewModel.onNotifyTimeChanged(newTime) },
             modifier = Modifier
                 .constrainAs(targetDateSelector) {
                     top.linkTo(anchor = noteTextField.bottom, margin = 8.dp)
@@ -169,7 +164,7 @@ fun EditNoteScreen(
         ) {
             SaveChangesButton(
                 onSaveClick = { state.currentNote?.let { viewModel.onUpdateNote() } },
-                isButtonEnabled = !state.isError && noteWasChanged && !state.isChangeWasSaved,
+                isButtonEnabled = !state.isError && state.isNoteWasChanged && !state.isChangeWasSaved,
                 modifier = Modifier
                     .fillMaxWidth(fraction = 0.5F)
                     .padding(end = 2.dp),
@@ -205,7 +200,7 @@ fun EditNoteScreen(
             ).show()
         }
         BackHandler {
-            if (noteWasChanged && !state.isChangeWasSaved) openConfirmDialog.value = true
+            if (state.isNoteWasChanged && !state.isChangeWasSaved) openConfirmDialog.value = true
             else routing.goBack()
         }
         LaunchedEffect(key1 = state.currentNote != null) {
