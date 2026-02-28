@@ -17,6 +17,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
@@ -54,6 +56,7 @@ fun ConfirmDialog(
                 Text(
                     text = dialogText,
                     fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Center,
                 )
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -63,13 +66,23 @@ fun ConfirmDialog(
                         onClick = { onDismissRequest() },
                         modifier = Modifier.fillMaxWidth(fraction = 0.5F),
                     ) {
-                        Text(dismissButtonText)
+                        Text(
+                            text = dismissButtonText,
+                            overflow = TextOverflow.Ellipsis,
+                            maxLines = 1,
+                            textAlign = TextAlign.Center,
+                        )
                     }
                     if (confirmButtonText.isNotEmpty()) TextButton(
                         onClick = { onConfirmation() },
                         modifier = Modifier.fillMaxWidth().padding(start = 4.dp),
                     ) {
-                        Text(confirmButtonText)
+                        Text(
+                            text = confirmButtonText,
+                            overflow = TextOverflow.Ellipsis,
+                            maxLines = 1,
+                            textAlign = TextAlign.Center,
+                        )
                     }
                 }
             }
