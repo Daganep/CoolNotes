@@ -13,7 +13,7 @@ val viewModelModule = module {
     viewModel { NotesViewModel(notesInteractor = get()) }
     viewModel { ArchiveViewModel(notesInteractor = get()) }
     viewModel { AddNoteViewModel(notesInteractor = get(), alarmManager = get()) }
-    viewModel { EditNoteViewModel(notesInteractor = get()) }
+    viewModel { EditNoteViewModel(notesInteractor = get(), alarmManager = get()) }
     viewModel { SearchViewModel(notesInteractor = get()) }
     viewModel { CalendarViewModel(notesInteractor = get()) }
 }

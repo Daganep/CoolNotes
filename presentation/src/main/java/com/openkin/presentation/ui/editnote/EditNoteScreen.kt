@@ -59,6 +59,7 @@ fun EditNoteScreen(
     val state by viewModel.viewState.collectAsState()
     val event by viewModel.editNoteEvent.collectAsState()
     val openConfirmDialog = remember { mutableStateOf(false) }
+    val context = LocalContext.current
 
     ConstraintLayout (
         modifier = Modifier
@@ -163,8 +164,10 @@ fun EditNoteScreen(
                 },
         ) {
             SaveChangesButton(
-                onSaveClick = { state.currentNote?.let { viewModel.onUpdateNote() } },
-                isButtonEnabled = !state.isError && state.isNoteWasChanged && !state.isChangeWasSaved,
+                onSaveClick = { state.currentNote?.let { viewModel.onUpdateNote(context) } },
+                isButtonEnabled = !state.isError
+                        && state.isNoteWasChanged
+                        && !state.isChangeWasSaved,
                 modifier = Modifier
                     .fillMaxWidth(fraction = 0.5F)
                     .padding(end = 2.dp),

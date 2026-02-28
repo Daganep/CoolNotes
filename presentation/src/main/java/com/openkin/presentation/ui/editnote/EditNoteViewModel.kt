@@ -1,5 +1,7 @@
 package com.openkin.presentation.ui.editnote
 
+import android.app.AlarmManager
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.openkin.domain.interactor.INotesInteractor
@@ -8,6 +10,8 @@ import com.openkin.domain.utils.EMPTY_STRING
 import com.openkin.domain.utils.NOTE_TITLE_MAX_LENGTH
 import com.openkin.presentation.ui.addnote.model.NotesColors
 import com.openkin.presentation.utils.getNotifyTime
+import com.openkin.presentation.utils.getPendingIntent
+import com.openkin.presentation.utils.getTriggerTime
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -23,6 +27,7 @@ import java.time.LocalDate
 @OptIn(FlowPreview::class)
 class EditNoteViewModel(
     private val notesInteractor: INotesInteractor,
+    private val alarmManager: AlarmManager,
 ) : ViewModel() {
 
     private val defaultState = EditNoteState(
@@ -57,7 +62,7 @@ class EditNoteViewModel(
         }
     }
 
-    fun onUpdateNote() {
+    fun onUpdateNote(context: Context) {
         viewModelScope.launch(Dispatchers.IO) {
             _viewState.value.currentNote?.let { note ->
                 val notifyTime = getNotifyTime(_viewState.value.notifyTime)
@@ -73,6 +78,8 @@ class EditNoteViewModel(
                 updatedNote.targetDate = _viewState.value.targetDate
                 updatedNote.notifyTime = notifyTime
                 notesInteractor.saveNote(updatedNote)
+
+                updateNotification(context, updatedNote)
             }
             updateChangeSavedState()
         }
@@ -205,6 +212,26 @@ class EditNoteViewModel(
         else {
             val (hour, minute) = timeString.split(':')
             Pair(hour.toInt(), minute.toInt())
+        }
+    }
+
+    private fun updateNotification(context: Context, updatedNote: NoteUi) {
+        val currentNoteTime = _viewState.value.currentNote?.notifyTime
+        val notifyTime = _viewState.value.notifyTime
+        if (getNotifyTime(notifyTime) != currentNoteTime) {
+            val pendingIntent = getPendingIntent(
+                context = context,
+                id = updatedNote.id,
+                title = updatedNote.title,
+                text = updatedNote.text,
+            )
+            alarmManager.cancel(pendingIntent)
+            if (notifyTime != null) {
+                val triggerTime = getTriggerTime(updatedNote.targetDate, notifyTime)
+                triggerTime?.let {
+                    alarmManager.setExact(AlarmManager.RTC_WAKEUP, triggerTime, pendingIntent)
+                }
+            }
         }
     }
 }

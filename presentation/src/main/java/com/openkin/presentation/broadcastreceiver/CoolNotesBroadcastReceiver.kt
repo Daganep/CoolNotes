@@ -29,7 +29,7 @@ class CoolNotesBroadcastReceiver: BroadcastReceiver() {
             if (notificationId != null && title != null) {
                 val notificationManager = NotificationManagerCompat.from(context)
                 val builder = NotificationCompat.Builder(context, NOTIFY_CHANNEL_ID)
-                    .setSmallIcon(R.drawable.image_notes_app)
+                    .setSmallIcon(R.drawable.ic_notes_app_status_bar)
                     .setContentTitle(title)
                     .setContentText(text)
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
