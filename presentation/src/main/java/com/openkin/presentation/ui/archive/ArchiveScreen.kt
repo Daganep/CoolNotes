@@ -69,6 +69,7 @@ fun ArchiveScreen(viewModel: ArchiveViewModel, routing: IAppRouting) {
         val coroutineScope = rememberCoroutineScope()
 
         ArchiveTopBar(
+            hasArchivedNotes = state.notesList.isNotEmpty(),
             onSortClick = { sort ->
                 if (sort != state.prevSortType) {
                     viewModel.updateSortType(sort, true)
