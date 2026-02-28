@@ -19,6 +19,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -58,7 +59,7 @@ fun EditNoteScreen(
 
     val state by viewModel.viewState.collectAsState()
     val event by viewModel.editNoteEvent.collectAsState()
-    val openConfirmDialog = remember { mutableStateOf(false) }
+    var openConfirmDialog by remember { mutableStateOf(false) }
     val context = LocalContext.current
 
     ConstraintLayout (
@@ -80,7 +81,7 @@ fun EditNoteScreen(
         AddNoteAppBar(
             topAppBarTitle = stringResource(R.string.edit_note_screen_appbar_exist_title),
             onBackButtonClick = {
-                if (state.isNoteWasChanged && !state.isChangeWasSaved) openConfirmDialog.value = true
+                if (state.isNoteWasChanged && !state.isChangeWasSaved) openConfirmDialog = true
                 else routing.goBack()
             },
             modifier = Modifier
@@ -182,11 +183,11 @@ fun EditNoteScreen(
             )
         }
 
-        if (openConfirmDialog.value) {
+        if (openConfirmDialog) {
             ConfirmDialog(
-                onDismissRequest = { openConfirmDialog.value = false },
+                onDismissRequest = { openConfirmDialog = false },
                 onConfirmation = {
-                    openConfirmDialog.value = false
+                    openConfirmDialog = false
                     routing.goBack()
                 },
                 confirmButtonText = stringResource(R.string.confirm_button_exit_without_save),
@@ -203,7 +204,7 @@ fun EditNoteScreen(
             ).show()
         }
         BackHandler {
-            if (state.isNoteWasChanged && !state.isChangeWasSaved) openConfirmDialog.value = true
+            if (state.isNoteWasChanged && !state.isChangeWasSaved) openConfirmDialog = true
             else routing.goBack()
         }
         LaunchedEffect(key1 = state.currentNote != null) {

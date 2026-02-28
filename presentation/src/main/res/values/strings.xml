@@ -50,8 +50,11 @@
 
     //confirm dialog
     <string name="confirm_button_exit_without_save">Выйти</string>
+    <string name="confirm_button_clear_archive">Удалить</string>
     <string name="dismiss_button_return">Вернуться</string>
-    <string name="text_exit_without_save">Выйти без сохранения</string>
+    <string name="dismiss_button_cancel">Отмена</string>
+    <string name="text_exit_without_save">Выйти без сохранения?</string>
+    <string name="text_clear_archive">Удалить все архивные заметки?</string>
 
     //calendar screen
     <string name="calendar_screen_top_bar_title">Календарь</string>

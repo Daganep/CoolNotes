@@ -15,6 +15,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
@@ -29,6 +30,7 @@ import androidx.constraintlayout.compose.Dimension
 import com.openkin.presentation.R
 import com.openkin.presentation.navigation.IAppRouting
 import com.openkin.presentation.ui.archive.widgets.ArchiveTopBar
+import com.openkin.presentation.ui.dialogs.ConfirmDialog
 import com.openkin.presentation.ui.notesboard.model.SortType
 import com.openkin.presentation.ui.notesboard.widgets.ActionOnSwipe
 import com.openkin.presentation.ui.notesboard.widgets.BottomGradientDivider
@@ -51,6 +53,7 @@ fun ArchiveScreen(viewModel: ArchiveViewModel, routing: IAppRouting) {
 
     val state by viewModel.viewState.collectAsState()
     val loadingState by viewModel.loadingState.collectAsState()
+    var openConfirmDialog by remember { mutableStateOf(false) }
 
     ConstraintLayout(
         modifier = Modifier
@@ -78,7 +81,7 @@ fun ArchiveScreen(viewModel: ArchiveViewModel, routing: IAppRouting) {
                 }
                 coroutineScope.launch { lazyListState.animateScrollToItem(0) }
             },
-            onClearClick = { viewModel.clearArchive() },
+            onClearClick = { openConfirmDialog = !openConfirmDialog },
             modifier = Modifier
                 .constrainAs(topBar) {
                     top.linkTo(anchor = parent.top)
@@ -204,6 +207,19 @@ fun ArchiveScreen(viewModel: ArchiveViewModel, routing: IAppRouting) {
                     width = Dimension.fillToConstraints
                 }
         )
+        if (openConfirmDialog) {
+            ConfirmDialog(
+                onDismissRequest = { openConfirmDialog = false },
+                onConfirmation = {
+                    openConfirmDialog = false
+                    viewModel.clearArchive()
+                },
+                confirmButtonText = stringResource(R.string.confirm_button_clear_archive),
+                dismissButtonText = stringResource(R.string.dismiss_button_cancel),
+                dialogText = stringResource(R.string.text_clear_archive),
+                iconId = R.drawable.image_note_to_bin,
+            )
+        }
     }
 
     LaunchedEffect(key1 = !loadingState) {

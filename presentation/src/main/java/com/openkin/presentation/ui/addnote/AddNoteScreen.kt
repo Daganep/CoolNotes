@@ -18,6 +18,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -63,7 +64,7 @@ fun AddNoteScreen(
     val state by viewModel.viewState.collectAsState()
     val context = LocalContext.current
     val density = LocalDensity.current
-    val openConfirmDialog = remember { mutableStateOf(false) }
+    var openConfirmDialog by remember { mutableStateOf(false) }
 
     ConstraintLayout (
         modifier = Modifier
@@ -85,7 +86,7 @@ fun AddNoteScreen(
             topAppBarTitle = stringResource(R.string.add_note_screen_appbar_new_title),
             onBackButtonClick = {
                 if (state.noteTitle.isNotEmpty() || state.noteText.isNotEmpty()) {
-                    openConfirmDialog.value = true
+                    openConfirmDialog = true
                 } else routing.goBack()
             },
             modifier = Modifier
@@ -177,11 +178,11 @@ fun AddNoteScreen(
             )
         }
 
-        if (openConfirmDialog.value) {
+        if (openConfirmDialog) {
             ConfirmDialog(
-                onDismissRequest = { openConfirmDialog.value = false },
+                onDismissRequest = { openConfirmDialog = false },
                 onConfirmation = {
-                    openConfirmDialog.value = false
+                    openConfirmDialog = false
                     routing.home()
                 },
                 confirmButtonText = stringResource(R.string.confirm_button_exit_without_save),
@@ -192,7 +193,7 @@ fun AddNoteScreen(
         }
         BackHandler {
             if (state.noteTitle.isNotEmpty() || state.noteText.isNotEmpty()) {
-                openConfirmDialog.value = true
+                openConfirmDialog = true
             } else routing.goBack()
         }
     }
