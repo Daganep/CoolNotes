@@ -70,6 +70,7 @@
     <string name="notes_board_replace_to_archive_button">Переместить в архив</string>
 
     <string name="archive_screen_delete_archive_button">Удалить</string>
+    <string name="archive_screen_clear_archive_button">Очистить архив</string>
 
     <string name="add_note_screen_clear_field_button">Очистить поле</string>
     <string name="add_note_target_date_icon">Календарь</string>

@@ -22,6 +22,7 @@ import com.openkin.presentation.ui.notesboard.widgets.SortNotesButton
 @Composable
 fun ArchiveTopBar(
     onSortClick: (SortType) -> Unit,
+    onClearClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Row (
@@ -40,15 +41,28 @@ fun ArchiveTopBar(
             overflow = TextOverflow.Ellipsis,
             modifier = Modifier.weight(1F),
         )
-        SortNotesButton(
-            onSortClick = onSortClick,
-            modifier = Modifier.padding(end = 8.dp).weight(1F),
-        )
+        Row(
+            modifier = Modifier.weight(0.5F).padding(end = 8.dp),
+            horizontalArrangement = Arrangement.End,
+        ) {
+            SortNotesButton(
+                onSortClick = onSortClick,
+                modifier = Modifier,
+            )
+            ClearArchiveButtonButton(
+                modifier = Modifier,
+                onClearClick = onClearClick,
+            )
+        }
     }
 }
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 private fun ArchiveTopBarPreview() {
-    ArchiveTopBar(onSortClick = {}, modifier = Modifier.padding(horizontal = 16.dp))
+    ArchiveTopBar(
+        onSortClick = {},
+        onClearClick = {},
+        modifier = Modifier.padding(horizontal = 16.dp),
+    )
 }

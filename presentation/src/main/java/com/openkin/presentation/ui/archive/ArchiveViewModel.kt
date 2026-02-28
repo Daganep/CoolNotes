@@ -25,8 +25,7 @@ class ArchiveViewModel(private val notesInteractor: INotesInteractor): ViewModel
     fun getArchive() {
         viewModelScope.launch(Dispatchers.IO) {
             notesInteractor.getArchivedNotes().collect { notes ->
-                val state = _viewState.value
-                _viewState.value = state.copy(notesList = notes)
+                _viewState.value = _viewState.value.copy(notesList = notes)
                 _loadingState.value = false
             }
         }
@@ -49,13 +48,18 @@ class ArchiveViewModel(private val notesInteractor: INotesInteractor): ViewModel
         }
     }
 
+    fun clearArchive() {
+        viewModelScope.launch(Dispatchers.IO) {
+            notesInteractor.removeAllArchivedNotes()
+            _viewState.value = _viewState.value.copy(notesList = listOf())
+        }
+    }
+
     fun updateSortType(sortType: SortType, order: Boolean) {
-        val state = _viewState.value
-        _viewState.value = state.copy(sortType = Pair(sortType, order))
+        _viewState.value = _viewState.value.copy(sortType = Pair(sortType, order))
     }
 
     fun updatePrevSortType(sortType: SortType) {
-        val state = _viewState.value
-        _viewState.value = state.copy(prevSortType = sortType)
+        _viewState.value = _viewState.value.copy(prevSortType = sortType)
     }
 }

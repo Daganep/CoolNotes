@@ -20,6 +20,10 @@ class NotesInteractor(
         notesRepository.removeNote(noteId)
     }
 
+    override suspend fun removeAllArchivedNotes() {
+        notesRepository.removeAllArchivedNotes()
+    }
+
     override suspend fun getActualNotes(): Flow<List<NoteUi>> {
         return notesRepository.getActualNotes().map { notesDto ->
             notesDto.map { it.toNoteUi() }

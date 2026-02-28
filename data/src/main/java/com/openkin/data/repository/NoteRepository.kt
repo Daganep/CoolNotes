@@ -33,6 +33,10 @@ class NoteRepository(
         database.requestsDao.remove(noteId)
     }
 
+    override suspend fun removeAllArchivedNotes() {
+        database.requestsDao.removeAllArchivedNotes()
+    }
+
     override suspend fun getActualNotes(): Flow<List<NoteDto>> {
         return database.requestsDao.getAllActualNotes()
             .catch {

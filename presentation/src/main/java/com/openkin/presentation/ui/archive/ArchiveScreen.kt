@@ -77,6 +77,7 @@ fun ArchiveScreen(viewModel: ArchiveViewModel, routing: IAppRouting) {
                 }
                 coroutineScope.launch { lazyListState.animateScrollToItem(0) }
             },
+            onClearClick = { viewModel.clearArchive() },
             modifier = Modifier
                 .constrainAs(topBar) {
                     top.linkTo(anchor = parent.top)

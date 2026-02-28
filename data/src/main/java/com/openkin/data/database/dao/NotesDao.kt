@@ -34,6 +34,9 @@ interface NotesDao {
     @Query("DELETE FROM table_notes_database WHERE id = :noteId")
     suspend fun remove(noteId: Int)
 
+    @Query("DELETE FROM table_notes_database WHERE archived = 1")
+    suspend fun removeAllArchivedNotes()
+
     @Query("DELETE FROM table_notes_database")
     suspend fun removeAll()
 

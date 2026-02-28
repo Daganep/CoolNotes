@@ -7,6 +7,7 @@ import java.time.LocalDate
 interface INoteRepository {
     suspend fun saveNote(note: NoteDto)
     suspend fun removeNote(noteId: Int)
+    suspend fun removeAllArchivedNotes()
     suspend fun getActualNotes(): Flow<List<NoteDto>>
     suspend fun getArchivedNotes(): Flow<List<NoteDto>>
     suspend fun getNote(noteId: Int): Flow<NoteDto?>
