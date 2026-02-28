@@ -31,7 +31,7 @@
     <string name="edit_note_update_button">Сохранить изменения</string>
     <string name="edit_note_error_title_length">Название более %1$d символов</string>
     <string name="edit_note_error_title_exists">Заметка с этим названием существует</string>
-    <string name="edit_note_send_to_archive">Отправить в архив</string>
+    <string name="edit_note_send_to_archive">В архив</string>
     <string name="edit_note_remove_from_archive">Восстановить</string>
     <string name="edit_note_data_was_saved">Изменения сохранены</string>
 

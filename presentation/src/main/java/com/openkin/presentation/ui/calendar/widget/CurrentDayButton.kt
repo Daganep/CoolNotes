@@ -9,13 +9,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.openkin.presentation.R
+import com.openkin.presentation.utils.toSp
 import java.time.LocalDate
 import java.time.format.TextStyle
 import java.util.Locale
@@ -28,6 +29,7 @@ fun CurrentDayButton(
 ) {
     val monthName = today.month.getDisplayName(TextStyle.FULL_STANDALONE, Locale.getDefault())
     val buttonText = "${today.dayOfMonth} ${monthName.take(3).uppercase()}"
+    val density = LocalDensity.current
     Box(
         modifier = modifier
             .width(70.dp)
@@ -44,8 +46,9 @@ fun CurrentDayButton(
         )
         Text(
             text = buttonText,
-            fontSize = 14.sp,
+            fontSize = 14.dp.toSp(density),
             fontWeight = FontWeight.Bold,
+            lineHeight = 12.dp.toSp(density),
             modifier = Modifier.padding(top = 12.dp),
         )
     }

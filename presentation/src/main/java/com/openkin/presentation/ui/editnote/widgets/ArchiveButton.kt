@@ -8,11 +8,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.openkin.presentation.R
+import com.openkin.presentation.utils.toSp
 
 @Composable
 fun ArchiveButton(
@@ -21,6 +24,7 @@ fun ArchiveButton(
     inArchive: Boolean,
     modifier: Modifier,
 ) {
+    val density = LocalDensity.current
     val buttonText = if (inArchive) stringResource(R.string.edit_note_remove_from_archive)
     else stringResource(R.string.edit_note_send_to_archive)
     val enabledButtonColor = if (inArchive) {
@@ -44,6 +48,9 @@ fun ArchiveButton(
         Text(
             text = buttonText,
             fontSize = 12.sp,
+            maxLines = 1,
+            overflow = TextOverflow.StartEllipsis,
+            lineHeight = 12.dp.toSp(density),
         )
     }
 }

@@ -21,6 +21,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -33,6 +34,7 @@ import com.openkin.presentation.ui.addnote.widgets.AddNoteColorBar
 import com.openkin.presentation.ui.addnote.widgets.AddNoteTitleField
 import com.openkin.presentation.ui.dialogs.ConfirmDialog
 import com.openkin.presentation.ui.addnote.widgets.TargetDate
+import com.openkin.presentation.utils.toSp
 import org.koin.androidx.compose.koinViewModel
 import java.time.LocalDate
 
@@ -60,6 +62,7 @@ fun AddNoteScreen(
 
     val state by viewModel.viewState.collectAsState()
     val context = LocalContext.current
+    val density = LocalDensity.current
     val openConfirmDialog = remember { mutableStateOf(false) }
 
     ConstraintLayout (
@@ -167,7 +170,11 @@ fun AddNoteScreen(
                     width = Dimension.fillToConstraints
                 },
         ) {
-            Text(text = stringResource(R.string.add_note_save_button))
+            Text(
+                text = stringResource(R.string.add_note_save_button),
+                maxLines = 1,
+                lineHeight = 12.dp.toSp(density),
+            )
         }
 
         if (openConfirmDialog.value) {

@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -36,9 +37,14 @@ fun TopAppBar(
             color = Color.Black,
             fontSize = 24.sp,
             fontWeight = FontWeight.Bold,
-            modifier = Modifier,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+            modifier = Modifier.weight(1F),
         )
-        Row {
+        Row(
+            modifier = Modifier.weight(0.5F),
+            horizontalArrangement = Arrangement.End,
+        ) {
             SortNotesButton(
                 modifier = Modifier,
                 onSortClick = onSortClick,

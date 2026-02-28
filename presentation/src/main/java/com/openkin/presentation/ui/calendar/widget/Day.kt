@@ -16,9 +16,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import com.openkin.presentation.utils.toSp
 import java.time.LocalDate
 
 @Composable
@@ -31,6 +32,7 @@ fun Day(
     notesCount: Int = 0,
     onDayClicked: (LocalDate) -> Unit,
 ) {
+    val density = LocalDensity.current
     val elevation = if (inSelectedMonth) 3.dp else 2.dp
     val border = if (isDaySelected) {
         BorderStroke(1.dp, Color.Red)
@@ -53,8 +55,9 @@ fun Day(
         ) {
             Text(
                 text = day.dayOfMonth.toString(),
-                fontSize = 12.sp,
-                modifier = Modifier.padding(start = 4.dp),
+                fontSize = 14.dp.toSp(density),
+                lineHeight = 12.dp.toSp(density),
+                modifier = Modifier.padding(start = 4.dp, top = 4.dp),
             )
             if (notesCount != 0) {
                 NotesCounter(

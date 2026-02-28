@@ -29,7 +29,7 @@ import com.openkin.domain.utils.ID_EXAMPLE_LONG
 import com.openkin.domain.utils.LONG_TEXT_EXAMPLE
 import com.openkin.presentation.R
 import com.openkin.presentation.ui.addnote.model.NotesColors
-import com.openkin.presentation.utils.SIMPLE_NOTE_DATE_FORMAT_WITH_TIME
+import com.openkin.presentation.utils.SIMPLE_NOTE_DATE_FORMAT
 import com.openkin.presentation.utils.getDate
 
 @Composable
@@ -42,14 +42,14 @@ fun SmallSquareNote(
     val linearGradient = Brush.linearGradient(
         colors = listOf(noteColors.startColor, noteColors.endColor)
     )
-    val createDate = getDate(SIMPLE_NOTE_DATE_FORMAT_WITH_TIME, note.createDateMS)
+    val targetDate = getDate(SIMPLE_NOTE_DATE_FORMAT, note.targetDate)
 
     Box {
         Card(
             shape = RoundedCornerShape(0.dp),
             elevation = CardDefaults.cardElevation(5.dp),
             modifier = modifier
-                .height(120.dp)
+                .height(110.dp)
                 .fillMaxWidth()
                 .clickable(
                     indication = null,
@@ -63,7 +63,7 @@ fun SmallSquareNote(
             ConstraintLayout (
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(brush = linearGradient)
+                    .background(brush = linearGradient),
             ) {
                 val (title, description, date) = createRefs()
                 Text(
@@ -100,12 +100,12 @@ fun SmallSquareNote(
                         },
                 )
                 Text(
-                    text = createDate,
+                    text = targetDate,
                     fontSize = 9.sp,
                     modifier = Modifier
                         .constrainAs(date) {
                             bottom.linkTo(anchor = parent.bottom)
-                            end.linkTo(anchor = parent.end, margin = 8.dp)
+                            start.linkTo(anchor = parent.start, margin = 8.dp)
                         },
                 )
             }

@@ -33,7 +33,7 @@ fun Calendar(
         itemsIndexed(items = listOfDays, key = { _, item -> item }) { index, item ->
             val count: Int = notesCount.getOrNull(index) ?: 0
             Day(
-                modifier = Modifier.animateItem(),
+                modifier = Modifier,//.animateItem(),
                 day = item,
                 isToday = item == currentDay,
                 inSelectedMonth = item.month == selectedDate.month,
