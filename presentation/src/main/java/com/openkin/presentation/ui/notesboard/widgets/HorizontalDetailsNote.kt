@@ -2,7 +2,7 @@ package com.openkin.presentation.ui.notesboard.widgets
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -26,6 +26,7 @@ import com.openkin.domain.model.NoteUi
 import com.openkin.domain.utils.ID_EXAMPLE_INT
 import com.openkin.domain.utils.ID_EXAMPLE_LONG
 import com.openkin.domain.utils.LONG_TEXT_EXAMPLE
+import com.openkin.domain.utils.NOTIFY_TIME_EXAMPLE
 import com.openkin.presentation.R
 import com.openkin.presentation.ui.addnote.model.NotesColors
 import com.openkin.presentation.utils.DETAILS_NOTE_DATE_FORMAT
@@ -47,7 +48,7 @@ fun HorizontalDetailsNote(
         shape = RoundedCornerShape(0.dp),
         elevation = CardDefaults.cardElevation(5.dp),
         modifier = modifier
-            .height(120.dp)
+            .height(130.dp)
             .fillMaxWidth()
             .clickable(
                 indication = null,
@@ -92,24 +93,32 @@ fun HorizontalDetailsNote(
                         verticalBias = 0F
                     },
             )
-            Row(
+            Column(
                 modifier = Modifier
                     .constrainAs(date) {
                         bottom.linkTo(anchor = parent.bottom)
-                        end.linkTo(anchor = parent.end, margin = 8.dp)
+                        start.linkTo(anchor = parent.start, margin = 8.dp)
                         width = Dimension.preferredWrapContent
                     },
             ) {
                 Text(
                     text = stringResource(R.string.details_note_create_date, createDate),
                     style = MaterialTheme.typography.bodySmall,
+                    modifier = Modifier.padding(bottom = 4.dp),
 
                 )
                 if (note.editDateMS != 0L) {
                     Text(
                         text =  stringResource(R.string.details_note_edit_date, editDate),
                         style = MaterialTheme.typography.bodySmall,
-                        modifier = Modifier.padding(start = 16.dp)
+                        modifier = Modifier.padding(bottom = 4.dp),
+                    )
+                }
+                if (note.notifyTime.isNotEmpty()) {
+                    Text(
+                        text = stringResource(R.string.details_note_notify_time, note.notifyTime),
+                        style = MaterialTheme.typography.bodySmall,
+                        modifier = Modifier.padding(bottom = 4.dp),
                     )
                 }
             }
@@ -121,13 +130,15 @@ fun HorizontalDetailsNote(
 @Preview(showBackground = true)
 @Composable
 private fun HorizontalDetailsNotePreview() {
+    val note = NoteUi(
+        id = ID_EXAMPLE_INT,
+        title = LONG_TEXT_EXAMPLE,
+        text = LONG_TEXT_EXAMPLE,
+        createDateMS = ID_EXAMPLE_LONG,
+    )
+    note.notifyTime = NOTIFY_TIME_EXAMPLE
     HorizontalDetailsNote(
-        note = NoteUi(
-            id = ID_EXAMPLE_INT,
-            title = LONG_TEXT_EXAMPLE,
-            text = LONG_TEXT_EXAMPLE,
-            createDateMS = ID_EXAMPLE_LONG,
-        ),
+        note = note,
         onClick = {},
     )
 }

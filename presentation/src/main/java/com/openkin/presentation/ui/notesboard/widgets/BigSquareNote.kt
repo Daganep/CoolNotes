@@ -1,19 +1,26 @@
 package com.openkin.presentation.ui.notesboard.widgets
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -24,6 +31,8 @@ import com.openkin.domain.model.NoteUi
 import com.openkin.domain.utils.ID_EXAMPLE_INT
 import com.openkin.domain.utils.ID_EXAMPLE_LONG
 import com.openkin.domain.utils.LONG_TEXT_EXAMPLE
+import com.openkin.domain.utils.NOTIFY_TIME_EXAMPLE
+import com.openkin.presentation.R
 import com.openkin.presentation.ui.addnote.model.NotesColors
 import com.openkin.presentation.utils.SIMPLE_NOTE_DATE_FORMAT
 import com.openkin.presentation.utils.getDate
@@ -45,7 +54,7 @@ fun BigSquareNote(
             shape = RoundedCornerShape(0.dp),
             elevation = CardDefaults.cardElevation(5.dp),
             modifier = modifier
-                .height(120.dp)
+                .height(125.dp)
                 .fillMaxWidth()
                 .clickable(
                     indication = null,
@@ -90,15 +99,40 @@ fun BigSquareNote(
                             verticalBias = 0F
                         },
                 )
-                Text(
-                    text = targetDate,
-                    style = MaterialTheme.typography.bodySmall,
+                Column(
                     modifier = Modifier
                         .constrainAs(date) {
-                            bottom.linkTo(anchor = parent.bottom)
+                            bottom.linkTo(anchor = parent.bottom, margin = 8.dp)
                             start.linkTo(anchor = parent.start, margin = 8.dp)
                         },
-                )
+                ) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Image(
+                            painter = painterResource(R.drawable.image_target_calendar),
+                            contentDescription = "",
+                            modifier = Modifier.padding(end = 8.dp).size(12.dp),
+                        )
+                        Text(
+                            text = targetDate,
+                            style = MaterialTheme.typography.bodySmall,
+                            modifier = Modifier.padding(top = 4.dp),
+                        )
+                    }
+                    if (note.notifyTime.isNotEmpty()) {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Image(
+                                painter = painterResource(R.drawable.image_timer),
+                                contentDescription = "",
+                                modifier = Modifier.padding(end = 6.dp).size(12.dp)
+                            )
+                            Text(
+                                text = note.notifyTime,
+                                style = MaterialTheme.typography.bodySmall,
+                                modifier = Modifier.padding(top = 4.dp),
+                            )
+                        }
+                    }
+                }
             }
         }
     }
@@ -107,13 +141,15 @@ fun BigSquareNote(
 @Preview(showBackground = true)
 @Composable
 private fun BigSquareNotePreview() {
+    val note = NoteUi(
+        id = ID_EXAMPLE_INT,
+        title = LONG_TEXT_EXAMPLE,
+        text = LONG_TEXT_EXAMPLE,
+        createDateMS = ID_EXAMPLE_LONG,
+    )
+    note.notifyTime = NOTIFY_TIME_EXAMPLE
     BigSquareNote(
-        note = NoteUi(
-            id = ID_EXAMPLE_INT,
-            title = LONG_TEXT_EXAMPLE,
-            text = LONG_TEXT_EXAMPLE,
-            createDateMS = ID_EXAMPLE_LONG,
-        ),
+        note = note,
         onNoteClick = {},
     )
 }

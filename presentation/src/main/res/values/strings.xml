@@ -14,6 +14,7 @@
     <string name="sort_type_color">по цвету</string>
     <string name="details_note_create_date">Создана: %1$s</string>
     <string name="details_note_edit_date">Изменена: %1$s</string>
+    <string name="details_note_notify_time">Напомнить в: %1$s</string>
 
     //add note screen
     <string name="add_note_screen_appbar_new_title">Новая заметка</string>
