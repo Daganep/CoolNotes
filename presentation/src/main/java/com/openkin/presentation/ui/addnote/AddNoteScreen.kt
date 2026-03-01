@@ -9,7 +9,7 @@ import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
-import androidx.compose.material3.LocalTextStyle
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -32,8 +32,8 @@ import com.openkin.presentation.navigation.IAppRouting
 import com.openkin.presentation.ui.addnote.widgets.AddNoteAppBar
 import com.openkin.presentation.ui.addnote.widgets.AddNoteColorBar
 import com.openkin.presentation.ui.addnote.widgets.AddNoteTitleField
-import com.openkin.presentation.ui.dialogs.ConfirmDialog
 import com.openkin.presentation.ui.addnote.widgets.TargetDate
+import com.openkin.presentation.ui.dialogs.ConfirmDialog
 import com.openkin.presentation.ui.theme.white
 import com.openkin.presentation.utils.toSp
 import org.koin.androidx.compose.koinViewModel
@@ -113,11 +113,16 @@ fun AddNoteScreen(
         OutlinedTextField(
             value = state.noteText,
             onValueChange = { newText -> viewModel.onUpdateNoteText(newText) },
-            label = { Text(text = stringResource(R.string.add_note_screen_new_text)) },
-            textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Justify),
+            label = {
+                Text(
+                    text = stringResource(R.string.add_note_screen_new_text),
+                    style = MaterialTheme.typography.labelSmall,
+                )
+            },
+            textStyle = MaterialTheme.typography.labelMedium.copy(textAlign = TextAlign.Justify),
             modifier = Modifier
                 .constrainAs(noteTextField) {
-                    top.linkTo(anchor = noteTitleField.bottom)
+                    top.linkTo(anchor = noteTitleField.bottom, margin = 8.dp)
                     bottom.linkTo(anchor = targetDateSelector.top)
                     start.linkTo(anchor = parent.start)
                     end.linkTo(anchor = parent.end)
@@ -173,6 +178,7 @@ fun AddNoteScreen(
         ) {
             Text(
                 text = stringResource(R.string.add_note_save_button),
+                style = MaterialTheme.typography.headlineLarge,
                 maxLines = 1,
                 lineHeight = 12.dp.toSp(density),
             )

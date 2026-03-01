@@ -13,6 +13,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -20,6 +21,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
@@ -72,7 +74,7 @@ fun SearchScreen(
             textFieldState = viewModel.searchTextFieldState,
             modifier = Modifier
                 .constrainAs(topBar) {
-                    top.linkTo(anchor = parent.top)
+                    top.linkTo(anchor = parent.top, margin = 16.dp)
                     start.linkTo(anchor = parent.start)
                     end.linkTo(anchor = parent.end)
                 }
@@ -84,11 +86,11 @@ fun SearchScreen(
             },
             modifier = Modifier
                 .constrainAs(fieldFilter) {
-                    top.linkTo(anchor = topBar.bottom)
+                    top.linkTo(anchor = topBar.bottom, margin = 16.dp)
                     start.linkTo(anchor = parent.start, margin = 16.dp)
                     end.linkTo(anchor = parent.end, margin = 16.dp)
                     width = Dimension.fillToConstraints
-
+                    verticalBias = 0F
                 }
         )
 
@@ -128,7 +130,11 @@ fun SearchScreen(
                     val emptyText = if (viewModel.searchTextFieldState.text.isBlank()) {
                         stringResource(R.string.search_screen_start_search)
                     } else stringResource(R.string.search_screen_empty_result)
-                    Text(text = emptyText)
+                    Text(
+                        text = emptyText,
+                        style = MaterialTheme.typography.titleMedium,
+                        textAlign = TextAlign.Center,
+                    )
                 }
             } else {
                 CircularProgressIndicator(modifier = Modifier.size(50.dp))

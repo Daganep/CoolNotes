@@ -37,7 +37,7 @@ fun NotesCounter(
         )
         Text(
             text = counter,
-            fontSize = 12.dp.toSp(density),
+            fontSize = 14.dp.toSp(density),
             lineHeight = 12.dp.toSp(density),
             textAlign = TextAlign.Center,
             modifier = Modifier.fillMaxWidth(),

@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -19,13 +20,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.Role
-import androidx.compose.ui.text.font.Font
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.openkin.domain.model.NoteUi
@@ -73,9 +70,7 @@ fun HorizontalSimpleNote(
             val (title, description, date) = createRefs()
             Text(
                 text = note.title,
-                fontFamily = FontFamily(Font(R.font.calibri_bold)),
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Bold,
+                style = MaterialTheme.typography.headlineMedium,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
                 modifier = Modifier
@@ -88,10 +83,8 @@ fun HorizontalSimpleNote(
             )
             Text(
                 text = note.text,
-                fontFamily = FontFamily(Font(R.font.calibri)),
-                fontSize = 14.sp,
+                style = MaterialTheme.typography.bodyLarge,
                 overflow = TextOverflow.Ellipsis,
-                lineHeight = 14.sp,
                 modifier = Modifier
                     .constrainAs(description) {
                         top.linkTo(anchor = title.bottom, margin = 4.dp)
@@ -106,7 +99,7 @@ fun HorizontalSimpleNote(
             Row(
                 modifier = Modifier
                 .constrainAs(date) {
-                    bottom.linkTo(anchor = parent.bottom, margin = 2.dp)
+                    bottom.linkTo(anchor = parent.bottom, margin = 8.dp)
                     start.linkTo(anchor = parent.start, margin = 8.dp)
                 },
                 verticalAlignment = Alignment.CenterVertically,
@@ -114,11 +107,12 @@ fun HorizontalSimpleNote(
                 Image(
                     painter = painterResource(R.drawable.image_target_calendar),
                     contentDescription = "",
-                    modifier = Modifier.padding(end = 8.dp).size(12.dp)
+                    modifier = Modifier.padding(end = 8.dp).size(12.dp),
                 )
                 Text(
                     text = targetDate,
-                    fontSize = 9.sp,
+                    style = MaterialTheme.typography.bodySmall,
+                    modifier = Modifier.padding(top = 4.dp),
                 )
                 if (note.notifyTime.isNotEmpty()) {
                     Image(
@@ -128,7 +122,8 @@ fun HorizontalSimpleNote(
                     )
                     Text(
                         text = note.notifyTime,
-                        fontSize = 9.sp,
+                        style = MaterialTheme.typography.bodySmall,
+                        modifier = Modifier.padding(top = 4.dp),
                     )
                 }
             }

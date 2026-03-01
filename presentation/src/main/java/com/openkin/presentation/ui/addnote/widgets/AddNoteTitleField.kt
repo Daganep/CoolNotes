@@ -3,6 +3,7 @@ package com.openkin.presentation.ui.addnote.widgets
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -35,7 +36,13 @@ fun AddNoteTitleField(
         OutlinedTextField(
             value = noteTitle,
             onValueChange = { onNoteTitleChanged(it) },
-            label = { Text(text = stringResource(R.string.add_note_screen_new_title)) },
+            textStyle = MaterialTheme.typography.labelMedium,
+            label = {
+                Text(
+                    text = stringResource(R.string.add_note_screen_new_title),
+                    style = MaterialTheme.typography.labelSmall,
+                )
+            },
             isError = isError,
             singleLine = true,
             trailingIcon = {

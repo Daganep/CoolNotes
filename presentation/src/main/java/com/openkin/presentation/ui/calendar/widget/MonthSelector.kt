@@ -17,6 +17,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -80,6 +81,7 @@ fun MonthSelector(
         ) {
             Text(
                 text = selectorText,
+                style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier
                     .padding(horizontal = 16.dp)
@@ -123,6 +125,7 @@ fun MonthSelector(
                                         TextStyle.FULL_STANDALONE,
                                         Locale.getDefault(),
                                     ),
+                                    style = MaterialTheme.typography.displayMedium,
                                     modifier = Modifier.padding(horizontal = 8.dp),
                                 )
                             }

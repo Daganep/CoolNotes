@@ -22,6 +22,7 @@ import androidx.compose.foundation.text.input.TextFieldLineLimits
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.foundation.text.input.delete
 import androidx.compose.foundation.text.input.maxLength
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -29,11 +30,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.openkin.presentation.R
 import com.openkin.presentation.ui.theme.lightGray
 
@@ -47,12 +46,12 @@ fun SearchTopBar(
         horizontalArrangement = Arrangement.SpaceBetween,
         modifier = modifier
             .fillMaxWidth()
-            .height(110.dp),
+            .height(60.dp),
     ) {
         Row(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(top = 16.dp, start = 16.dp, end = 16.dp),
+                .padding(start = 16.dp, end = 16.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(8.dp),
         ) {
@@ -77,7 +76,7 @@ fun SearchTopBar(
                         modifier = Modifier.weight(1F),
                         lineLimits = TextFieldLineLimits.SingleLine,
                         inputTransformation = InputTransformation.maxLength(50),
-                        textStyle = TextStyle(fontSize = 18.sp),
+                        textStyle = MaterialTheme.typography.titleMedium,
                     )
                 }
                 androidx.compose.animation.AnimatedVisibility(
@@ -87,6 +86,7 @@ fun SearchTopBar(
                 ) {
                     Text(
                         text = stringResource(R.string.search_screen_top_bar_placeholder),
+                        style = MaterialTheme.typography.labelMedium,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                         modifier = Modifier.padding(start = 48.dp),

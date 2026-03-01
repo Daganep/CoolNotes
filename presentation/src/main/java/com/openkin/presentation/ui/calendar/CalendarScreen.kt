@@ -11,6 +11,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -139,7 +140,10 @@ fun CalendarScreen(
                     }
                 }
             } else {
-                Text(text = stringResource(R.string.notes_screen_empty_list))
+                Text(
+                    text = stringResource(R.string.notes_screen_empty_list),
+                    style = MaterialTheme.typography.titleMedium,
+                )
             }
         }
 

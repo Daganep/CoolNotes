@@ -10,13 +10,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -55,7 +55,7 @@ fun ConfirmDialog(
                 )
                 Text(
                     text = dialogText,
-                    fontWeight = FontWeight.Bold,
+                    style = MaterialTheme.typography.headlineLarge,
                     textAlign = TextAlign.Center,
                 )
                 Row(
@@ -68,6 +68,7 @@ fun ConfirmDialog(
                     ) {
                         Text(
                             text = dismissButtonText,
+                            style = MaterialTheme.typography.headlineLarge,
                             overflow = TextOverflow.Ellipsis,
                             maxLines = 1,
                             textAlign = TextAlign.Center,
@@ -79,6 +80,7 @@ fun ConfirmDialog(
                     ) {
                         Text(
                             text = confirmButtonText,
+                            style = MaterialTheme.typography.headlineLarge,
                             overflow = TextOverflow.Ellipsis,
                             maxLines = 1,
                             textAlign = TextAlign.Center,

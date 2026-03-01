@@ -4,6 +4,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -12,7 +13,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.openkin.presentation.R
 import com.openkin.presentation.ui.theme.brown
 import com.openkin.presentation.ui.theme.white
@@ -44,10 +44,10 @@ fun ArchiveButton(
     ) {
         Text(
             text = buttonText,
-            fontSize = 12.sp,
+            style = MaterialTheme.typography.headlineLarge,
+            lineHeight = 12.dp.toSp(density),
             maxLines = 1,
             overflow = TextOverflow.StartEllipsis,
-            lineHeight = 12.dp.toSp(density),
         )
     }
 }

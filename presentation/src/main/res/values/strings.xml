@@ -25,10 +25,10 @@
     <string name="add_note_empty_timer">Напомнить</string>
 
     //edit note screen
-    <string name="edit_note_screen_appbar_exist_title">Редактировать заметку</string>
+    <string name="edit_note_screen_appbar_exist_title">Редактировать</string>
     <string name="edit_note_screen_new_title">Название заметки</string>
     <string name="edit_note_screen_new_text">Текст заметки</string>
-    <string name="edit_note_update_button">Сохранить изменения</string>
+    <string name="edit_note_update_button">Сохранить</string>
     <string name="edit_note_error_title_length">Название более %1$d символов</string>
     <string name="edit_note_error_title_exists">Заметка с этим названием существует</string>
     <string name="edit_note_send_to_archive">В архив</string>
@@ -36,7 +36,7 @@
     <string name="edit_note_data_was_saved">Изменения сохранены</string>
 
     //archive screen
-    <string name="archive_screen_appbar_title">Архивные заметки</string>
+    <string name="archive_screen_appbar_title">Архив</string>
     <string name="archive_screen_empty_list">Архив пуст</string>
 
     //search screen
