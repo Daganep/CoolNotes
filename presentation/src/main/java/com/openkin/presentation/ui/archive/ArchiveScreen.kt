@@ -21,7 +21,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -37,6 +36,7 @@ import com.openkin.presentation.ui.notesboard.widgets.BottomGradientDivider
 import com.openkin.presentation.ui.notesboard.widgets.HorizontalSimpleNote
 import com.openkin.presentation.ui.notesboard.widgets.SwipeableNote
 import com.openkin.presentation.ui.notesboard.widgets.TopGradientDivider
+import com.openkin.presentation.ui.theme.white
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
@@ -58,7 +58,7 @@ fun ArchiveScreen(viewModel: ArchiveViewModel, routing: IAppRouting) {
     ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.White),
+            .background(white),
     ) {
 
         val (

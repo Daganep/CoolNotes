@@ -20,7 +20,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
@@ -35,6 +34,7 @@ import com.openkin.presentation.ui.addnote.widgets.AddNoteColorBar
 import com.openkin.presentation.ui.addnote.widgets.AddNoteTitleField
 import com.openkin.presentation.ui.dialogs.ConfirmDialog
 import com.openkin.presentation.ui.addnote.widgets.TargetDate
+import com.openkin.presentation.ui.theme.white
 import com.openkin.presentation.utils.toSp
 import org.koin.androidx.compose.koinViewModel
 import java.time.LocalDate
@@ -71,7 +71,7 @@ fun AddNoteScreen(
             .fillMaxSize()
             .consumeWindowInsets(scaffoldContentPaddings)
             .imePadding()
-            .background(Color.White)
+            .background(white)
             .padding(horizontal = 16.dp),
     ) {
         val (

@@ -21,7 +21,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -37,6 +36,8 @@ import com.openkin.presentation.ui.dialogs.ConfirmDialog
 import com.openkin.presentation.ui.addnote.widgets.TargetDate
 import com.openkin.presentation.ui.editnote.widgets.SaveChangesButton
 import com.openkin.presentation.ui.editnote.widgets.ArchiveButton
+import com.openkin.presentation.ui.theme.gray
+import com.openkin.presentation.ui.theme.white
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -67,7 +68,7 @@ fun EditNoteScreen(
             .fillMaxSize()
             .consumeWindowInsets(scaffoldContentPaddings)
             .imePadding()
-            .background(Color.White)
+            .background(white)
             .padding(horizontal = 16.dp),
     ) {
         val (
@@ -112,7 +113,7 @@ fun EditNoteScreen(
             label = {
                 Text(
                     text = stringResource(R.string.edit_note_screen_new_text),
-                    color = Color.Gray,
+                    color = gray,
                 )
             },
             textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Justify),

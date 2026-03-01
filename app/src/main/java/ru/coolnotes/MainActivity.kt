@@ -15,7 +15,7 @@ import androidx.compose.material3.Scaffold
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.view.WindowCompat
 import ru.coolnotes.navigation.Navigation
-import ru.coolnotes.ui.theme.CoolNotesTheme
+import com.openkin.presentation.ui.theme.CoolNotesTheme
 
 class MainActivity : ComponentActivity() {
 

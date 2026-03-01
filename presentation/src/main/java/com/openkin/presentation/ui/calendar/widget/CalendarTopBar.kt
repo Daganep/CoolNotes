@@ -8,7 +8,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -16,6 +15,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.openkin.presentation.R
+import com.openkin.presentation.ui.theme.black
 import java.time.LocalDate
 
 @Composable
@@ -33,7 +33,7 @@ fun CalendarTopBar(
     ) {
         Text(
             text = stringResource(R.string.calendar_screen_top_bar_title),
-            color = Color.Black,
+            color = black,
             fontSize = 24.sp,
             fontWeight = FontWeight.Bold,
             maxLines = 1,

@@ -15,10 +15,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.openkin.presentation.ui.theme.lightGray
+import com.openkin.presentation.ui.theme.lightYellow
+import com.openkin.presentation.ui.theme.red
+import com.openkin.presentation.ui.theme.white
 import com.openkin.presentation.utils.toSp
 import java.time.LocalDate
 
@@ -35,11 +38,11 @@ fun Day(
     val density = LocalDensity.current
     val elevation = if (inSelectedMonth) 3.dp else 2.dp
     val border = if (isDaySelected) {
-        BorderStroke(1.dp, Color.Red)
+        BorderStroke(1.dp, red)
     } else if(inSelectedMonth) {
-        BorderStroke(1.dp, Color.LightGray)
+        BorderStroke(1.dp, lightGray)
     } else null
-    val background = if (isToday) Color(0xFFF6E296) else Color.White
+    val background = if (isToday) lightYellow else white
     Card(
         shape = RoundedCornerShape(5.dp),
         elevation = CardDefaults.cardElevation(elevation),

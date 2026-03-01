@@ -14,6 +14,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.openkin.presentation.ui.theme.black
+import com.openkin.presentation.ui.theme.blue
 
 @Composable
 fun ColorBox(
@@ -23,7 +25,7 @@ fun ColorBox(
     modifier: Modifier = Modifier,
 ) {
     val borderWidth = if (isColorPicked) 3.dp else 1.dp
-    val borderColor = if (isColorPicked) Color(0xFF0785C7) else Color.Black
+    val borderColor = if (isColorPicked) blue else black
     val boxSize = if (isColorPicked) 35.dp else 30.dp
 
     Box(

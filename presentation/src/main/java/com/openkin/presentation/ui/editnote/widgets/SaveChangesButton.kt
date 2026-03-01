@@ -7,7 +7,6 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
@@ -15,6 +14,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.openkin.presentation.R
+import com.openkin.presentation.ui.theme.green
+import com.openkin.presentation.ui.theme.white
 import com.openkin.presentation.utils.toSp
 
 @Composable
@@ -30,9 +31,9 @@ fun SaveChangesButton(
         shape = RoundedCornerShape(5.dp),
         modifier = modifier,
         colors = ButtonColors(
-            containerColor = Color(0xFF04A804),
+            containerColor = green,
             disabledContainerColor = ButtonDefaults.buttonColors().disabledContainerColor,
-            contentColor = Color.White,
+            contentColor = white,
             disabledContentColor = ButtonDefaults.buttonColors().disabledContentColor,
         ),
     ) {

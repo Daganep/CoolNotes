@@ -18,7 +18,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -37,6 +36,7 @@ import com.openkin.presentation.ui.notesboard.widgets.NotesBlocks
 import com.openkin.presentation.ui.notesboard.widgets.NotesCommonList
 import com.openkin.presentation.ui.notesboard.widgets.TopAppBar
 import com.openkin.presentation.ui.notesboard.widgets.TopGradientDivider
+import com.openkin.presentation.ui.theme.white
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
@@ -53,7 +53,7 @@ fun NotesBoard(viewModel: NotesViewModel, routing: IAppRouting) {
     ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.White),
+            .background(white),
     ) {
 
         val state by viewModel.viewState.collectAsState()

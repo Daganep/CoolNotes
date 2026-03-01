@@ -27,7 +27,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -35,6 +34,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.openkin.domain.utils.EMPTY_STRING
 import com.openkin.presentation.R
+import com.openkin.presentation.ui.theme.extraLightGray
+import com.openkin.presentation.ui.theme.white
 import java.time.LocalDate
 import java.time.Month
 import java.time.format.TextStyle
@@ -60,7 +61,7 @@ fun MonthSelector(
         modifier = modifier
             .fillMaxWidth()
             .padding(top = 8.dp, start = 16.dp, end = 16.dp)
-            .background(Color(0xFFE7E5E5), shape = RoundedCornerShape(5.dp)),
+            .background(extraLightGray, shape = RoundedCornerShape(5.dp)),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center,
     ) {
@@ -91,12 +92,11 @@ fun MonthSelector(
             DropdownMenu(
                 expanded = isMenuExpanded,
                 onDismissRequest = { isMenuExpanded = false },
-                containerColor = Color.White,
+                containerColor = white,
                 modifier = Modifier.padding(0.dp),
             ) {
                 Month.entries.forEach { month ->
-                    val itemColor = if (month == selectedDate.month) Color(0xFFEBEBEB)
-                    else Color.White
+                    val itemColor = if (month == selectedDate.month) extraLightGray else white
 
                     //TODO оптимизировать DropdownMenuItem
                     DropdownMenuItem(

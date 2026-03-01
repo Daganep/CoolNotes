@@ -8,6 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import com.openkin.presentation.ui.addnote.model.NotesColors
+import com.openkin.presentation.ui.theme.lightRed
 
 @Composable
 fun AddNoteColorBar(
@@ -36,7 +37,7 @@ fun AddNoteColorBar(
 private fun AddNoteColorBarPreview() {
     AddNoteColorBar(
         onColorClicked = {},
-        currentColor = Color(0xFFFD8484),
+        currentColor = lightRed,
         modifier = Modifier,
     )
 }

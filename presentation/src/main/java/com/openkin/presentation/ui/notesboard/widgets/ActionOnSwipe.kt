@@ -12,11 +12,11 @@ import androidx.compose.material3.ButtonColors
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.openkin.presentation.ui.theme.transparent
 
 /**
  * Кнопка под смахиваемым (swipe) элементом
@@ -36,10 +36,10 @@ fun ActionOnSwipe(
         shape = CircleShape,
         contentPadding = PaddingValues(8.dp),
         colors = ButtonColors(
-            containerColor = Color.Transparent,
-            disabledContainerColor = Color.Transparent,
-            contentColor = Color.Transparent,
-            disabledContentColor = Color.Transparent,
+            containerColor = transparent,
+            disabledContainerColor = transparent,
+            contentColor = transparent,
+            disabledContentColor = transparent,
         ),
         onClick = { onClick() },
         modifier = modifier.padding(start = 4.dp),

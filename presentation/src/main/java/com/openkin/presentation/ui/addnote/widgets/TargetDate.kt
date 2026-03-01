@@ -18,7 +18,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -29,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.openkin.presentation.R
 import com.openkin.presentation.ui.dialogs.RestrictedTimePickerDialog
+import com.openkin.presentation.ui.theme.black
 import com.openkin.presentation.utils.SIMPLE_NOTE_DATE_FORMAT
 import com.openkin.presentation.utils.addZero
 import java.time.LocalDate
@@ -80,7 +80,7 @@ fun TargetDate(
                 .clickable { datePickerDialog.show() }
                 .border(
                     width = datesBorderWidth.dp,
-                    color = Color.Black,
+                    color = black,
                     shape = RoundedCornerShape(5.dp),
                 )
                 .padding(all = 4.dp),
@@ -110,7 +110,7 @@ fun TargetDate(
                     .clickable { timePickerDialog.show() }
                     .border(
                         width = datesBorderWidth.dp,
-                        color = Color.Black,
+                        color = black,
                         shape = RoundedCornerShape(5.dp),
                     )
                     .padding(all = 4.dp),

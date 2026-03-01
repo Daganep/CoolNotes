@@ -18,7 +18,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
@@ -32,6 +31,7 @@ import com.openkin.presentation.ui.notesboard.widgets.AddNoteFloatButton
 import com.openkin.presentation.ui.notesboard.widgets.BottomGradientDivider
 import com.openkin.presentation.ui.notesboard.widgets.HorizontalSimpleNote
 import com.openkin.presentation.ui.notesboard.widgets.TopGradientDivider
+import com.openkin.presentation.ui.theme.white
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -54,7 +54,7 @@ fun CalendarScreen(
     ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.White)
+            .background(white)
     ) {
         val (
             topBar,

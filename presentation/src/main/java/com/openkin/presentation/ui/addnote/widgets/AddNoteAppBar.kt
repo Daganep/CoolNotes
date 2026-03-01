@@ -10,7 +10,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -20,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.openkin.domain.utils.SHORT_TEXT_EXAMPLE
 import com.openkin.presentation.R
+import com.openkin.presentation.ui.theme.black
 
 @Composable
 fun AddNoteAppBar(
@@ -46,7 +46,7 @@ fun AddNoteAppBar(
         )
         Text(
             text = topAppBarTitle,
-            color = Color.Black,
+            color = black,
             fontSize = 24.sp,
             fontWeight = FontWeight.Bold,
             maxLines = 1,

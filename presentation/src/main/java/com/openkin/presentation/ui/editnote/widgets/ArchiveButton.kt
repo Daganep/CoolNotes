@@ -7,7 +7,6 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
@@ -15,6 +14,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.openkin.presentation.R
+import com.openkin.presentation.ui.theme.brown
+import com.openkin.presentation.ui.theme.white
 import com.openkin.presentation.utils.toSp
 
 @Composable
@@ -27,11 +28,7 @@ fun ArchiveButton(
     val density = LocalDensity.current
     val buttonText = if (inArchive) stringResource(R.string.edit_note_remove_from_archive)
     else stringResource(R.string.edit_note_send_to_archive)
-    val enabledButtonColor = if (inArchive) {
-        ButtonDefaults.buttonColors().containerColor
-    } else {
-        Color(0xFFB64906)
-    }
+    val enabledButtonColor = if (inArchive) ButtonDefaults.buttonColors().containerColor else brown
 
     Button(
         onClick = { onButtonClick() },
@@ -41,7 +38,7 @@ fun ArchiveButton(
         colors = ButtonColors(
             containerColor = enabledButtonColor,
             disabledContainerColor = ButtonDefaults.buttonColors().disabledContainerColor,
-            contentColor = Color.White,
+            contentColor = white,
             disabledContentColor = ButtonDefaults.buttonColors().disabledContentColor,
         ),
     ) {

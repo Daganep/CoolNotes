@@ -10,6 +10,9 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.openkin.presentation.ui.theme.red
+import com.openkin.presentation.ui.theme.transparent
+import com.openkin.presentation.ui.theme.white
 
 @Composable
 fun TopGradientDivider(modifier: Modifier) {
@@ -19,16 +22,16 @@ fun TopGradientDivider(modifier: Modifier) {
 @Composable
 fun BottomGradientDivider(modifier: Modifier) {
     DefaultGradientDivider(
-        startColor = Color.Transparent,
-        endColor = Color.White,
+        startColor = transparent,
+        endColor = white,
         modifier = modifier,
     )
 }
 
 @Composable
 private fun DefaultGradientDivider(
-    startColor: Color = Color.White,
-    endColor: Color = Color.Transparent,
+    startColor: Color = white,
+    endColor: Color = transparent,
     modifier: Modifier
 ) {
     Box(
@@ -41,5 +44,5 @@ private fun DefaultGradientDivider(
 @Preview(showBackground = true)
 @Composable
 private fun DefaultGradientDividerPreview() {
-    DefaultGradientDivider(Color.Red, Color.White, Modifier.width(50.dp))
+    DefaultGradientDivider(red, white, Modifier.width(50.dp))
 }

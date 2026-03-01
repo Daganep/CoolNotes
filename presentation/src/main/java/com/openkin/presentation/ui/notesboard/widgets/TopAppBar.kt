@@ -8,7 +8,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -18,6 +17,7 @@ import androidx.compose.ui.unit.sp
 import com.openkin.presentation.R
 import com.openkin.presentation.ui.notesboard.model.SortType
 import com.openkin.presentation.ui.notesboard.model.ViewType
+import com.openkin.presentation.ui.theme.black
 
 @Composable
 fun TopAppBar(
@@ -34,7 +34,7 @@ fun TopAppBar(
     ) {
         Text(
             text = stringResource(R.string.notes_screen_appbar_title),
-            color = Color.Black,
+            color = black,
             fontSize = 24.sp,
             fontWeight = FontWeight.Bold,
             maxLines = 1,

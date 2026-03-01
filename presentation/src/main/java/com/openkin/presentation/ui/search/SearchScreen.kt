@@ -19,7 +19,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
@@ -32,6 +31,7 @@ import com.openkin.presentation.ui.notesboard.widgets.HorizontalSimpleNote
 import com.openkin.presentation.ui.notesboard.widgets.TopGradientDivider
 import com.openkin.presentation.ui.search.widgets.FieldFilter
 import com.openkin.presentation.ui.search.widgets.SearchTopBar
+import com.openkin.presentation.ui.theme.white
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -58,7 +58,7 @@ fun SearchScreen(
             .fillMaxSize()
             .consumeWindowInsets(scaffoldContentPaddings)
             .imePadding()
-            .background(Color.White),
+            .background(white),
     ) {
         val (
             topBar,
