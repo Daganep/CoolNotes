@@ -44,7 +44,7 @@ class CoolNotesApp : Application() {
         val channel = NotificationChannel(
             NOTIFY_CHANNEL_ID,
             NOTIFY_CHANNEL_NAME,
-            NotificationManager.IMPORTANCE_DEFAULT,
+            NotificationManager.IMPORTANCE_HIGH,
         )
         channel.description = NOTIFY_CHANNEL_DESCRIPTION
         val audioAttributes = AudioAttributes.Builder()
