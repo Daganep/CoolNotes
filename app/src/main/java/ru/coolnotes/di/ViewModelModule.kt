@@ -10,10 +10,10 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val viewModelModule = module {
-    viewModel { NotesViewModel(notesInteractor = get(), alarmManager = get())  }
+    viewModel { NotesViewModel(notesInteractor = get(), alarmScheduler = get())  }
     viewModel { ArchiveViewModel(notesInteractor = get()) }
-    viewModel { AddNoteViewModel(notesInteractor = get(), alarmManager = get()) }
-    viewModel { EditNoteViewModel(notesInteractor = get(), alarmManager = get()) }
+    viewModel { AddNoteViewModel(notesInteractor = get(), alarmScheduler = get()) }
+    viewModel { EditNoteViewModel(notesInteractor = get(), alarmScheduler = get()) }
     viewModel { SearchViewModel(notesInteractor = get()) }
     viewModel { CalendarViewModel(notesInteractor = get()) }
 }

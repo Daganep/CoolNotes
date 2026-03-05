@@ -1,7 +1,5 @@
 package ru.coolnotes.di
 
-import android.app.AlarmManager
-import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import com.openkin.data.database.NotesDatabase
@@ -10,8 +8,10 @@ import com.openkin.data.repository.NoteRepository
 import com.openkin.domain.interactor.INotesInteractor
 import com.openkin.domain.interactor.NotesInteractor
 import com.openkin.domain.repository.INoteRepository
+import com.openkin.presentation.utils.AlarmScheduler
 import org.koin.android.ext.koin.androidApplication
 import org.koin.dsl.module
+import ru.coolnotes.broadcastreceiver.NotificationAlarmScheduler
 import ru.coolnotes.extensions.StateDataStore
 
 val appModule = module {
@@ -24,7 +24,5 @@ val appModule = module {
 
     single<DataStore<Preferences>> { androidApplication().StateDataStore }
 
-    single<AlarmManager> {
-        androidApplication().getSystemService(Context.ALARM_SERVICE) as AlarmManager
-    }
+    single<AlarmScheduler> { NotificationAlarmScheduler(context = get()) }
 }

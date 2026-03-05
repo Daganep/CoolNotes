@@ -18,7 +18,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
@@ -64,7 +63,6 @@ fun NotesBoard(viewModel: NotesViewModel, routing: IAppRouting) {
         val lazyListState = rememberLazyListState()
         val lazyGridState = rememberLazyGridState()
         val coroutineScope = rememberCoroutineScope()
-        val context = LocalContext.current
 
         val (
             topBar,
@@ -158,7 +156,7 @@ fun NotesBoard(viewModel: NotesViewModel, routing: IAppRouting) {
                             onNoteSwiped = { id, index -> swipedNote = Pair(id, index) },
                             onNoteClick = routing::editNote,
                             onArchiveClicked = { note ->
-                                viewModel.sendNoteToArchive(context, note)
+                                viewModel.sendNoteToArchive(note)
                             },
                             isDetailedList = false,
                             listState = lazyListState,
@@ -171,7 +169,7 @@ fun NotesBoard(viewModel: NotesViewModel, routing: IAppRouting) {
                             onNoteSwiped = { id, index -> swipedNote = Pair(id, index) },
                             onNoteClick = routing::editNote,
                             onArchiveClicked = { note ->
-                                viewModel.sendNoteToArchive(context, note)
+                                viewModel.sendNoteToArchive(note)
                             },
                             isDetailedList = true,
                             listState = lazyListState,

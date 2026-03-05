@@ -1,7 +1,5 @@
 package com.openkin.presentation.ui.editnote
 
-import android.app.AlarmManager
-import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.openkin.domain.interactor.INotesInteractor
@@ -9,9 +7,10 @@ import com.openkin.domain.model.NoteUi
 import com.openkin.domain.utils.EMPTY_STRING
 import com.openkin.domain.utils.NOTE_TITLE_MAX_LENGTH
 import com.openkin.presentation.ui.addnote.model.NotesColors
+import com.openkin.presentation.ui.addnote.model.NotificationModel
+import com.openkin.presentation.utils.AlarmScheduler
 import com.openkin.presentation.utils.getNotifyTime
-import com.openkin.presentation.utils.getPendingIntent
-import com.openkin.presentation.utils.getTriggerTime
+import com.openkin.presentation.utils.getNotifyTimeInt
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -27,7 +26,7 @@ import java.time.LocalDate
 @OptIn(FlowPreview::class)
 class EditNoteViewModel(
     private val notesInteractor: INotesInteractor,
-    private val alarmManager: AlarmManager,
+    private val alarmScheduler: AlarmScheduler,
 ) : ViewModel() {
 
     private val defaultState = EditNoteState(
@@ -62,7 +61,7 @@ class EditNoteViewModel(
         }
     }
 
-    fun onUpdateNote(context: Context) {
+    fun onUpdateNote() {
         viewModelScope.launch(Dispatchers.IO) {
             _viewState.value.currentNote?.let { note ->
                 val isArchived = _viewState.value.isArchived
@@ -84,7 +83,7 @@ class EditNoteViewModel(
                 updatedNote.notifyTime = notifyTime
                 notesInteractor.saveNote(updatedNote)
 
-                updateNotification(context, updatedNote)
+                updateNotification(updatedNote)
             }
             updateChangeSavedState()
         }
@@ -212,31 +211,35 @@ class EditNoteViewModel(
         }
     }
 
-    private fun getNotifyTimeInt(timeString: String?): Pair<Int, Int>? {
-        return if (timeString.isNullOrEmpty()) null
-        else {
-            val (hour, minute) = timeString.split(':')
-            Pair(hour.toInt(), minute.toInt())
+    private fun updateNotification(updatedNote: NoteUi) {
+        val currentNoteTime = _viewState.value.currentNote?.notifyTime
+        if (updatedNote.notifyTime != currentNoteTime) {
+            cancelPreviousAlarm(updatedNote)
+            _viewState.value.notifyTime?.let { time ->
+                scheduleAlarm(updatedNote, time)
+            }
         }
     }
 
-    private fun updateNotification(context: Context, updatedNote: NoteUi) {
-        val currentNoteTime = _viewState.value.currentNote?.notifyTime
-        val notifyTime = _viewState.value.notifyTime
-        if (getNotifyTime(notifyTime) != currentNoteTime) {
-            val pendingIntent = getPendingIntent(
-                context = context,
-                id = updatedNote.id,
-                title = updatedNote.title,
-                text = updatedNote.text,
-            )
-            alarmManager.cancel(pendingIntent)
-            if (notifyTime != null) {
-                val triggerTime = getTriggerTime(updatedNote.targetDate, notifyTime)
-                triggerTime?.let {
-                    alarmManager.setExact(AlarmManager.RTC_WAKEUP, triggerTime, pendingIntent)
-                }
-            }
-        }
+    private fun cancelPreviousAlarm(updatedNote: NoteUi) {
+        val notificationModel = NotificationModel(
+            id = updatedNote.id,
+            title = updatedNote.title,
+            text = updatedNote.text,
+            targetDate = updatedNote.targetDate,
+            time = Pair(0, 0)
+        )
+        alarmScheduler.cancelNotification(notificationModel)
+    }
+
+    private fun scheduleAlarm(updatedNote: NoteUi, notifyTime: Pair<Int, Int>) {
+        val notificationModel = NotificationModel(
+            id = updatedNote.id,
+            title = updatedNote.title,
+            text = updatedNote.text,
+            targetDate = updatedNote.targetDate,
+            time = notifyTime
+        )
+        alarmScheduler.scheduleNotification(notificationModel)
     }
 }

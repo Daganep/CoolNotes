@@ -1,4 +1,4 @@
-package com.openkin.presentation.broadcastreceiver
+package ru.coolnotes.broadcastreceiver
 
 import android.Manifest
 import android.content.BroadcastReceiver
@@ -15,6 +15,7 @@ import com.openkin.domain.utils.NOTIFY_KEY_ID
 import com.openkin.domain.utils.NOTIFY_KEY_TEXT
 import com.openkin.domain.utils.NOTIFY_KEY_TITLE
 import com.openkin.presentation.R
+import ru.coolnotes.utils.getActivityPendingIntent
 
 class CoolNotesBroadcastReceiver: BroadcastReceiver() {
 
@@ -32,6 +33,7 @@ class CoolNotesBroadcastReceiver: BroadcastReceiver() {
                     .setSmallIcon(R.drawable.ic_notes_app_status_bar)
                     .setContentTitle(title)
                     .setContentText(text)
+                    .setContentIntent(getActivityPendingIntent(context, notificationId))
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
                     .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                     .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))

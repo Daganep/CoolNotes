@@ -1,14 +1,13 @@
 package com.openkin.presentation.ui.notesboard
 
-import android.app.AlarmManager
-import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.openkin.domain.interactor.INotesInteractor
 import com.openkin.domain.model.NoteUi
+import com.openkin.presentation.ui.addnote.model.NotificationModel
 import com.openkin.presentation.ui.notesboard.model.SortType
 import com.openkin.presentation.ui.notesboard.model.ViewType
-import com.openkin.presentation.utils.getPendingIntent
+import com.openkin.presentation.utils.AlarmScheduler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -17,7 +16,7 @@ import kotlinx.coroutines.launch
 
 class NotesViewModel(
     private val notesInteractor: INotesInteractor,
-    private val alarmManager: AlarmManager,
+    private val alarmScheduler: AlarmScheduler,
 ) : ViewModel() {
 
     private val defaultState = NotesBoardState(
@@ -40,11 +39,11 @@ class NotesViewModel(
         }
     }
 
-    fun sendNoteToArchive(context: Context, note: NoteUi) {
+    fun sendNoteToArchive(note: NoteUi) {
         viewModelScope.launch(Dispatchers.IO) {
             val result = notesInteractor.sendNoteToArchive(note.id)
             if (result) getNotes()
-            if (note.notifyTime.isNotEmpty()) cancelNotify(context, note)
+            if (note.notifyTime.isNotEmpty()) cancelNotify(note)
             else {
                 //TODO сообщить об ошибке при перемещении в архив
             }
@@ -82,13 +81,14 @@ class NotesViewModel(
         _viewState.value = state.copy(prevSortType = sortType)
     }
 
-    private fun cancelNotify(context: Context, currentNote: NoteUi) {
-        val pendingIntent = getPendingIntent(
-            context = context,
+    private fun cancelNotify(currentNote: NoteUi) {
+        val notificationModel = NotificationModel(
             id = currentNote.id,
             title = currentNote.title,
             text = currentNote.text,
+            targetDate = currentNote.targetDate,
+            time = Pair(0, 0),
         )
-        alarmManager.cancel(pendingIntent)
+        alarmScheduler.cancelNotification(notificationModel)
     }
 }

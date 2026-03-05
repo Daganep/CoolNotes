@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -33,7 +34,7 @@ import com.openkin.presentation.ui.splash.Splash
 import ru.coolnotes.navigation.navigationbar.NavigationBar
 
 @Composable
-fun Navigation(scaffoldContentPaddings: PaddingValues) {
+fun Navigation(scaffoldContentPaddings: PaddingValues, notificationId: Int) {
     val appRouting = AppRouting()
     ConstraintLayout(
         modifier = Modifier
@@ -114,6 +115,13 @@ fun Navigation(scaffoldContentPaddings: PaddingValues) {
                 }
         ) {
             if (activeScreen != Screen.Splash) NavigationBar(appRouting, activeScreen)
+        }
+    }
+    LaunchedEffect(true) {
+        if (notificationId != 0) {
+            appRouting.backStack.clear()
+            appRouting.backStack.add(Screen.NotesBoard)
+            appRouting.backStack.add(Screen.EditNote(notificationId))
         }
     }
 }

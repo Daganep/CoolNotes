@@ -20,7 +20,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -62,7 +61,6 @@ fun AddNoteScreen(
 ) {
 
     val state by viewModel.viewState.collectAsState()
-    val context = LocalContext.current
     val density = LocalDensity.current
     var openConfirmDialog by remember { mutableStateOf(false) }
 
@@ -160,7 +158,7 @@ fun AddNoteScreen(
         )
         Button(
             onClick = {
-                viewModel.onSaveNote(context)
+                viewModel.onSaveNote()
                 routing.home()
             },
             enabled = !state.isError

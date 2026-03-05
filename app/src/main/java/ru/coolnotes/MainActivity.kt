@@ -14,8 +14,9 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.material3.Scaffold
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.view.WindowCompat
-import ru.coolnotes.navigation.Navigation
+import com.openkin.domain.utils.NOTIFY_KEY_ID
 import com.openkin.presentation.ui.theme.CoolNotesTheme
+import ru.coolnotes.navigation.Navigation
 
 class MainActivity : ComponentActivity() {
 
@@ -30,6 +31,8 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, false)
+
+        val notificationId = intent.getIntExtra(NOTIFY_KEY_ID, 0)
 
         val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val isTiramisuOrHigher = Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
@@ -50,7 +53,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             CoolNotesTheme {
                 Scaffold { scaffoldContentPaddings ->
-                    Navigation(scaffoldContentPaddings)
+                    Navigation(scaffoldContentPaddings, notificationId)
                 }
             }
         }

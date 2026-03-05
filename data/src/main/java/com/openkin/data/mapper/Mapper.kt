@@ -23,7 +23,7 @@ fun NoteDbo.toNoteDto(): NoteDto {
     val targetDate = localDateFromString(this.targetDate)
     val time = this.notifyTime
     val isReminderInPast = if (time.isEmpty()) true else isReminderInPast(targetDate, time)
-    val notifyTime = if (isReminderInPast) EMPTY_STRING else time
+    val notifyTime = if (isReminderInPast || this.archived) EMPTY_STRING else time
     return NoteDto(
         id = this.id,
         title = this.title,
