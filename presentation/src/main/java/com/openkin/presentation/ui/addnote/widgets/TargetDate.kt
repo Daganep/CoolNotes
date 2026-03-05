@@ -100,7 +100,8 @@ fun TargetDate(
                 modifier = Modifier.padding(start = 16.dp)
             )
         }
-        if (!isNoteArchived) {
+        val notifyIsPossible = selectedDate >= LocalDate.now()
+        if (!isNoteArchived && notifyIsPossible) {
             Box(
                 modifier = Modifier.weight(1F),
                 contentAlignment = Alignment.Center,
