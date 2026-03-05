@@ -109,6 +109,7 @@ class EditNoteViewModel(
                         isError = false,
                         isNoteWasChanged = false,
                         isChangeWasSaved = false,
+                        isArchived = note.archived,
                     )
                 }
             }

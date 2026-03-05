@@ -128,6 +128,7 @@ fun EditNoteScreen(
         TargetDate(
             selectedDate = state.targetDate,
             selectedTime = state.notifyTime,
+            isNoteArchived = state.isArchived,
             onDateChanged = { newDate -> viewModel.onTargetDateChanged(newDate) },
             onTimeChanged = { newTime -> viewModel.onNotifyTimeChanged(newTime) },
             modifier = Modifier

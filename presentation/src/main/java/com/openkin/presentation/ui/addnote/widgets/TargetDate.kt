@@ -38,6 +38,7 @@ import java.util.Calendar
 fun TargetDate(
     selectedDate: LocalDate,
     selectedTime: Pair<Int, Int>?,
+    isNoteArchived: Boolean = false,
     modifier: Modifier,
     onDateChanged: (LocalDate) -> Unit,
     onTimeChanged: (Pair<Int, Int>?) -> Unit,
@@ -84,7 +85,7 @@ fun TargetDate(
                 )
                 .padding(all = 4.dp),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceEvenly,
+            horizontalArrangement = Arrangement.Center,
         ) {
             Image(
                 painter = painterResource(R.drawable.image_target_calendar),
@@ -96,40 +97,43 @@ fun TargetDate(
                 style = MaterialTheme.typography.labelLarge,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
+                modifier = Modifier.padding(start = 16.dp)
             )
         }
-        Box(
-            modifier = Modifier.weight(1F),
-            contentAlignment = Alignment.Center,
-        ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clickable { timePickerDialog.show() }
-                    .border(
-                        width = datesBorderWidth.dp,
-                        color = black,
-                        shape = RoundedCornerShape(5.dp),
-                    )
-                    .padding(all = 4.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Absolute.SpaceEvenly,
+        if (!isNoteArchived) {
+            Box(
+                modifier = Modifier.weight(1F),
+                contentAlignment = Alignment.Center,
             ) {
-                Image(
-                    painter = painterResource(R.drawable.image_timer),
-                    contentDescription = stringResource(R.string.add_note_timer_icon),
+                Row(
                     modifier = Modifier
-                        .padding(start = 16.dp)
-                        .size(24.dp),
-                )
-                Text(
-                    text = timerText,
-                    style = MaterialTheme.typography.labelLarge,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier.padding(end = 16.dp),
-                )
+                        .fillMaxWidth()
+                        .clickable { timePickerDialog.show() }
+                        .border(
+                            width = datesBorderWidth.dp,
+                            color = black,
+                            shape = RoundedCornerShape(5.dp),
+                        )
+                        .padding(all = 4.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Absolute.SpaceEvenly,
+                ) {
+                    Image(
+                        painter = painterResource(R.drawable.image_timer),
+                        contentDescription = stringResource(R.string.add_note_timer_icon),
+                        modifier = Modifier
+                            .padding(start = 16.dp)
+                            .size(24.dp),
+                    )
+                    Text(
+                        text = timerText,
+                        style = MaterialTheme.typography.labelLarge,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        modifier = Modifier.padding(end = 16.dp),
+                    )
 
+                }
             }
         }
         AnimatedVisibility(visible = (selectedTime != null)) {
@@ -151,11 +155,11 @@ fun TargetDate(
 @Preview(showBackground = true)
 @Composable
 private fun TargetDateWithTimePreview() {
-    TargetDate(LocalDate.now(), Pair(5, 5), Modifier, {}, {})
+    TargetDate(LocalDate.now(), Pair(5, 5), false, Modifier, {}, {})
 }
 
 @Preview(showBackground = true)
 @Composable
 private fun TargetDateWithoutTimePreview() {
-    TargetDate(LocalDate.now(), null, Modifier, {}, {})
+    TargetDate(LocalDate.now(), null,false, Modifier, {}, {})
 }
