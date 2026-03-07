@@ -1,6 +1,16 @@
 package com.openkin.presentation.ui.addnote.widgets
 
+import android.Manifest
 import android.app.DatePickerDialog
+import android.content.Intent
+import android.content.pm.PackageManager.PERMISSION_GRANTED
+import android.net.Uri
+import android.os.Build
+import android.provider.Settings
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.LocalActivity
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
@@ -16,7 +26,10 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -25,7 +38,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.app.ActivityCompat
+import com.openkin.domain.utils.URI_SCHEME
 import com.openkin.presentation.R
+import com.openkin.presentation.ui.dialogs.ConfirmDialog
 import com.openkin.presentation.ui.dialogs.RestrictedTimePickerDialog
 import com.openkin.presentation.ui.theme.black
 import com.openkin.presentation.utils.SIMPLE_NOTE_DATE_FORMAT
@@ -39,12 +55,15 @@ fun TargetDate(
     selectedDate: LocalDate,
     selectedTime: Pair<Int, Int>?,
     isNoteArchived: Boolean = false,
+    isNotifyWasRequested: Boolean,
     modifier: Modifier,
     onDateChanged: (LocalDate) -> Unit,
     onTimeChanged: (Pair<Int, Int>?) -> Unit,
+    updateNotifyRequestStatus: () -> Unit,
 ) {
+    var openConfirmDialog by remember { mutableStateOf(false) }
+    val activity = LocalActivity.current as ComponentActivity
     val datesBorderWidth = 0.5
-
     val calendar = Calendar.getInstance()
     val hour = calendar.get(Calendar.HOUR_OF_DAY)
     val minute = calendar.get(Calendar.MINUTE)
@@ -63,6 +82,10 @@ fun TargetDate(
         selectedMinute = selectedTime?.second ?: minute,
         onTimeChanged = onTimeChanged,
     )
+    val requestPermissionLauncher =
+        rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) {
+            if (it) timePickerDialog.show()
+        }
     val timerText = if (selectedTime == null) {
         stringResource(R.string.add_note_empty_timer)
     } else {
@@ -109,7 +132,17 @@ fun TargetDate(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clickable { timePickerDialog.show() }
+                        .clickable {
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                                val permission = Manifest.permission.POST_NOTIFICATIONS
+                                val checkSelfPermission = activity.checkSelfPermission(permission)
+                                if (checkSelfPermission == PERMISSION_GRANTED) {
+                                    timePickerDialog.show()
+                                } else {
+                                    openConfirmDialog = true
+                                }
+                            } else timePickerDialog.show()
+                        }
                         .border(
                             width = datesBorderWidth.dp,
                             color = black,
@@ -133,7 +166,6 @@ fun TargetDate(
                         overflow = TextOverflow.Ellipsis,
                         modifier = Modifier.padding(end = 16.dp),
                     )
-
                 }
             }
         }
@@ -150,17 +182,61 @@ fun TargetDate(
                     ),
             )
         }
+        if (openConfirmDialog) {
+            ConfirmDialog(
+                onDismissRequest = { openConfirmDialog = false },
+                onConfirmation = {
+                    openConfirmDialog = false
+                    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) return@ConfirmDialog
+                    val permission = Manifest.permission.POST_NOTIFICATIONS
+                    if (ActivityCompat.shouldShowRequestPermissionRationale(activity, permission)) {
+                        requestPermissionLauncher.launch(permission)
+                    } else if (isNotifyWasRequested) {
+                        val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                        val uri =
+                            Uri.fromParts(URI_SCHEME, activity.applicationContext.packageName, null)
+                        intent.data = uri
+                        activity.startActivity(intent)
+                    } else {
+                        requestPermissionLauncher.launch(permission)
+                        updateNotifyRequestStatus()
+                    }
+                },
+                confirmButtonText = stringResource(R.string.confirm_button_notify_permission),
+                dismissButtonText = stringResource(R.string.dismiss_button_notify_permission),
+                dialogText = stringResource(R.string.text_get_notify_permission),
+                iconId = R.drawable.image_exclamation_mark,
+            )
+        }
     }
 }
 
 @Preview(showBackground = true)
 @Composable
 private fun TargetDateWithTimePreview() {
-    TargetDate(LocalDate.now(), Pair(5, 5), false, Modifier, {}, {})
+    TargetDate(
+        selectedDate = LocalDate.now(),
+        selectedTime = Pair(5, 5),
+        isNoteArchived = false,
+        isNotifyWasRequested = false,
+        modifier = Modifier,
+        onDateChanged = {},
+        onTimeChanged = {},
+        updateNotifyRequestStatus = {},
+    )
 }
 
 @Preview(showBackground = true)
 @Composable
 private fun TargetDateWithoutTimePreview() {
-    TargetDate(LocalDate.now(), null,false, Modifier, {}, {})
+    TargetDate(
+        selectedDate = LocalDate.now(),
+        selectedTime = null,
+        isNoteArchived = false,
+        isNotifyWasRequested = false,
+        modifier = Modifier,
+        onDateChanged = {},
+        onTimeChanged = {},
+        updateNotifyRequestStatus = {},
+    )
 }

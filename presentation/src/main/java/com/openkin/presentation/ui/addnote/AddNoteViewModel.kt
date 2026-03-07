@@ -3,7 +3,7 @@ package com.openkin.presentation.ui.addnote
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.openkin.domain.interactor.INotesInteractor
-import com.openkin.domain.interactor.SettingsInteractor
+import com.openkin.domain.interactor.ISettingsInteractor
 import com.openkin.domain.model.NoteUi
 import com.openkin.domain.utils.EMPTY_STRING
 import com.openkin.domain.utils.NOTE_TITLE_MAX_LENGTH
@@ -26,7 +26,7 @@ import java.time.LocalDate
 @OptIn(FlowPreview::class)
 class AddNoteViewModel(
     private val notesInteractor: INotesInteractor,
-    private val settingsInteractor: SettingsInteractor,
+    private val settingsInteractor: ISettingsInteractor,
     private val alarmScheduler: AlarmScheduler,
 ) : ViewModel() {
 
@@ -38,6 +38,7 @@ class AddNoteViewModel(
         isNoteTitleExists = false,
         targetDate = LocalDate.now(),
         notifyTime = null,
+        isNotifyFirstRequest = false,
     )
     private val _viewState = MutableStateFlow<AddNoteState>(defaultState)
     val viewState: StateFlow<AddNoteState> = _viewState.asStateFlow()
@@ -118,7 +119,9 @@ class AddNoteViewModel(
 
     fun getNotifyRequestStatus() {
         viewModelScope.launch(Dispatchers.IO) {
-            val previouslyRequested = settingsInteractor.getNotifyRequestStatus()
+            settingsInteractor.getNotifyRequestStatus().collect {
+                _viewState.value = _viewState.value.copy(isNotifyFirstRequest = it)
+            }
         }
     }
 

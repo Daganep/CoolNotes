@@ -129,8 +129,10 @@ fun EditNoteScreen(
             selectedDate = state.targetDate,
             selectedTime = state.notifyTime,
             isNoteArchived = state.isArchived,
+            isNotifyWasRequested = state.isNotifyFirstRequest,
             onDateChanged = { newDate -> viewModel.onTargetDateChanged(newDate) },
             onTimeChanged = { newTime -> viewModel.onNotifyTimeChanged(newTime) },
+            updateNotifyRequestStatus = viewModel::updateNotifyRequestStatus,
             modifier = Modifier
                 .constrainAs(targetDateSelector) {
                     top.linkTo(anchor = noteTextField.bottom, margin = 8.dp)
@@ -209,6 +211,7 @@ fun EditNoteScreen(
         }
         LaunchedEffect(key1 = state.currentNote != null) {
             viewModel.onLoadNote(noteId)
+            viewModel.getNotifyRequestStatus()
         }
     }
 }

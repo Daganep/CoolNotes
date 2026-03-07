@@ -2,6 +2,7 @@ package com.openkin.presentation.ui.dialogs
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -24,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.openkin.domain.utils.SHORT_TEXT_EXAMPLE
 import com.openkin.presentation.R
+import com.openkin.presentation.ui.theme.white
 
 @Composable
 fun ConfirmDialog(
@@ -42,7 +44,9 @@ fun ConfirmDialog(
             shape = RoundedCornerShape(16.dp),
         ) {
             Column(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(white),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
@@ -50,12 +54,12 @@ fun ConfirmDialog(
                     painter = painterResource(iconId),
                     contentDescription = null,
                     modifier = Modifier
-                        .padding(top = 32.dp, bottom = 8.dp)
+                        .padding(top = 32.dp, bottom = 16.dp)
                         .size(50.dp),
                 )
                 Text(
                     text = dialogText,
-                    style = MaterialTheme.typography.headlineLarge,
+                    style = MaterialTheme.typography.bodyLarge,
                     textAlign = TextAlign.Center,
                 )
                 Row(

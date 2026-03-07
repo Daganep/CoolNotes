@@ -52,10 +52,13 @@
     //confirm dialog
     <string name="confirm_button_exit_without_save">Выйти</string>
     <string name="confirm_button_clear_archive">Удалить</string>
+    <string name="confirm_button_notify_permission">Разрешить</string>
     <string name="dismiss_button_return">Вернуться</string>
     <string name="dismiss_button_cancel">Отмена</string>
+    <string name="dismiss_button_notify_permission">Отклонить</string>
     <string name="text_exit_without_save">Выйти без сохранения?</string>
     <string name="text_clear_archive">Удалить все архивные заметки?</string>
+    <string name="text_get_notify_permission">Для установки напоминания, приложению необходимо разрешение\u00A0на\u00A0отправку\nуведомлений</string>
 
     //calendar screen
     <string name="calendar_screen_top_bar_title">Календарь</string>

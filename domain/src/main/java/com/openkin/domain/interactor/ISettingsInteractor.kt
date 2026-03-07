@@ -7,7 +7,7 @@ interface ISettingsInteractor {
 
     suspend fun saveViewType(viewType: Int)
     suspend fun getStoredViewType(): Flow<Int>
-    suspend fun getNotifyRequestStatus()
-    suspend fun updateNotifyRequestStatus(): Flow<Boolean>
+    suspend fun getNotifyRequestStatus(): Flow<Boolean>
+    suspend fun updateNotifyRequestStatus()
     suspend fun getSelectedDay(): Flow<LocalDate?>
 }

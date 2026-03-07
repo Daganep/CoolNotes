@@ -8,11 +8,11 @@ class SettingsInteractor(
     private val settingsRepository: ISettingsRepository,
 ) : ISettingsInteractor {
 
-    override suspend fun getNotifyRequestStatus() {
+    override suspend fun updateNotifyRequestStatus() {
         settingsRepository.updateNotifyRequestData()
     }
 
-    override suspend fun updateNotifyRequestStatus(): Flow<Boolean> =
+    override suspend fun getNotifyRequestStatus(): Flow<Boolean> =
         settingsRepository.getNotifyRequestData()
 
     override suspend fun saveViewType(viewType: Int) {

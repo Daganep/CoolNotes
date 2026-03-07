@@ -3,7 +3,7 @@ package com.openkin.presentation.ui.notesboard
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.openkin.domain.interactor.INotesInteractor
-import com.openkin.domain.interactor.SettingsInteractor
+import com.openkin.domain.interactor.ISettingsInteractor
 import com.openkin.domain.model.NoteUi
 import com.openkin.presentation.ui.addnote.model.NotificationModel
 import com.openkin.presentation.ui.notesboard.model.SortType
@@ -17,7 +17,7 @@ import kotlinx.coroutines.launch
 
 class NotesViewModel(
     private val notesInteractor: INotesInteractor,
-    private val settingsInteractor: SettingsInteractor,
+    private val settingsInteractor: ISettingsInteractor,
     private val alarmScheduler: AlarmScheduler,
 ) : ViewModel() {
 

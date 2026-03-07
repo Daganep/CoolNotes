@@ -21,7 +21,11 @@ val viewModelModule = module {
         settingsInteractor = get(),
         alarmScheduler = get(),
     )}
-    viewModel { EditNoteViewModel(notesInteractor = get(), alarmScheduler = get()) }
+    viewModel { EditNoteViewModel(
+        notesInteractor = get(),
+        settingsInteractor = get(),
+        alarmScheduler = get()
+    )}
     viewModel { SearchViewModel(notesInteractor = get()) }
     viewModel { CalendarViewModel(notesInteractor = get(), settingsInteractor = get()) }
 }

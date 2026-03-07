@@ -10,6 +10,7 @@ const val NOTIFY_KEY_ID = "id"
 const val NOTIFY_KEY_TITLE = "title"
 const val NOTIFY_KEY_TEXT = "text"
 
+const val URI_SCHEME = "package"
 
 const val DEFAULT_VIEW_TYPE = 0
 const val DEFAULT_NOTE_COLOR = "Yellow"

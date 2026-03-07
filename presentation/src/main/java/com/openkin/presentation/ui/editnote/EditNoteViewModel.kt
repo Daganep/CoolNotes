@@ -3,6 +3,7 @@ package com.openkin.presentation.ui.editnote
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.openkin.domain.interactor.INotesInteractor
+import com.openkin.domain.interactor.ISettingsInteractor
 import com.openkin.domain.model.NoteUi
 import com.openkin.domain.utils.EMPTY_STRING
 import com.openkin.domain.utils.NOTE_TITLE_MAX_LENGTH
@@ -26,6 +27,7 @@ import java.time.LocalDate
 @OptIn(FlowPreview::class)
 class EditNoteViewModel(
     private val notesInteractor: INotesInteractor,
+    private val settingsInteractor: ISettingsInteractor,
     private val alarmScheduler: AlarmScheduler,
 ) : ViewModel() {
 
@@ -41,6 +43,7 @@ class EditNoteViewModel(
         isNoteTitleExists = false,
         isNoteWasChanged = false,
         isChangeWasSaved = false,
+        isNotifyFirstRequest = false,
     )
     private val _viewState = MutableStateFlow<EditNoteState>(defaultState)
     val viewState: StateFlow<EditNoteState> = _viewState.asStateFlow()
@@ -194,6 +197,20 @@ class EditNoteViewModel(
             isNoteWasChanged = isNoteWasChanged,
             isChangeWasSaved = false,
         )
+    }
+
+    fun getNotifyRequestStatus() {
+        viewModelScope.launch(Dispatchers.IO) {
+            settingsInteractor.getNotifyRequestStatus().collect {
+                _viewState.value = _viewState.value.copy(isNotifyFirstRequest = it)
+            }
+        }
+    }
+
+    fun updateNotifyRequestStatus() {
+        viewModelScope.launch(Dispatchers.IO) {
+            settingsInteractor.updateNotifyRequestStatus()
+        }
     }
 
     private fun updateChangeSavedState() {

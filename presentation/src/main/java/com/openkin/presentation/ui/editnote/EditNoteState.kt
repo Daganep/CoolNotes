@@ -16,4 +16,5 @@ data class EditNoteState(
     val isNoteTitleExists: Boolean,
     val isNoteWasChanged: Boolean,
     val isChangeWasSaved: Boolean,
+    val isNotifyFirstRequest: Boolean,
 )

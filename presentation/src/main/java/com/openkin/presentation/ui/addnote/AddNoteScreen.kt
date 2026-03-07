@@ -133,6 +133,8 @@ fun AddNoteScreen(
             selectedTime = state.notifyTime,
             onDateChanged = { newDate -> viewModel.onTargetDateChanged(newDate) },
             onTimeChanged = { newTime -> viewModel.onNotifyTimeChanged(newTime) },
+            updateNotifyRequestStatus = viewModel::updateNotifyRequestStatus,
+            isNotifyWasRequested = state.isNotifyFirstRequest,
             modifier = Modifier
                 .constrainAs(targetDateSelector) {
                     top.linkTo(anchor = noteTextField.bottom, margin = 8.dp)
