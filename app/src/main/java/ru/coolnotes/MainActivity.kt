@@ -20,12 +20,12 @@ import ru.coolnotes.navigation.Navigation
 
 class MainActivity : ComponentActivity() {
 
-    private val requestPermissionLauncher =
-        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
-        if (!isGranted) {
-            //TODO сообщить пользователю что уведомления отключены
-        }
-    }
+//    private val requestPermissionLauncher =
+//        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+//            if (!isGranted) {
+//                //TODO сообщить пользователю что уведомления отключены
+//            }
+//        }
 
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,9 +41,9 @@ class MainActivity : ComponentActivity() {
             .from(this)
             .areNotificationsEnabled()
 
-        if (isTiramisuOrHigher && !isNotificationEnabled) {
-            requestPermissionLauncher.launch(android.Manifest.permission.POST_NOTIFICATIONS)
-        }
+//        if (isTiramisuOrHigher && !isNotificationEnabled) {
+//            requestPermissionLauncher.launch(android.Manifest.permission.POST_NOTIFICATIONS)
+//        }
 
         if (isSOrHigher && !alarmManager.canScheduleExactAlarms()) {
             startActivity(Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM))

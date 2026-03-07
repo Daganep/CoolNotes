@@ -5,15 +5,12 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import com.openkin.data.database.NotesDatabase
 import com.openkin.data.datastorekeys.CALENDAR_SELECTED_DAY
-import com.openkin.data.datastorekeys.LAST_SELECTED_VIEW_TYPE
-import com.openkin.data.mapper.localDateFromString
 import com.openkin.data.mapper.localDateToString
 import com.openkin.data.mapper.toNoteDbo
 import com.openkin.data.mapper.toNoteDto
 import com.openkin.data.utils.updateQueryForSearchSubstring
 import com.openkin.domain.model.NoteDto
 import com.openkin.domain.repository.INoteRepository
-import com.openkin.domain.utils.DEFAULT_VIEW_TYPE
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flowOf
@@ -77,13 +74,6 @@ class NoteRepository(
         } else false
     }
 
-    override suspend fun saveViewType(viewType: Int) {
-        stateDataStore.edit { state -> state[LAST_SELECTED_VIEW_TYPE] = viewType }
-    }
-
-    override suspend fun getStoredViewType(): Flow<Int> =
-        stateDataStore.data.map { it[LAST_SELECTED_VIEW_TYPE] ?: DEFAULT_VIEW_TYPE }
-
     override suspend fun checkTitleExists(noteTitle: String): Boolean =
         database.requestsDao.getNoteWithTitle(noteTitle) != null
 
@@ -118,15 +108,6 @@ class NoteRepository(
         }
         return flowOf(resultList.toList())
     }
-
-    override suspend fun getSelectedDay(): Flow<LocalDate?> =
-        stateDataStore.data.map { state ->
-            val storedDay = state[CALENDAR_SELECTED_DAY]
-            val selectedDay = if (storedDay != null) {
-                localDateFromString(storedDay)
-            } else null
-            return@map selectedDay
-        }
 
     private suspend fun storeSelectedDay(day: LocalDate) {
         stateDataStore.edit { state -> state[CALENDAR_SELECTED_DAY] = localDateToString(day) }

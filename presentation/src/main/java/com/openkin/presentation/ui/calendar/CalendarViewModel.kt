@@ -3,6 +3,7 @@ package com.openkin.presentation.ui.calendar
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.openkin.domain.interactor.INotesInteractor
+import com.openkin.domain.interactor.SettingsInteractor
 import com.openkin.domain.model.DaysList
 import com.openkin.domain.utils.SEARCH_FIELD_TIMEOUT_MS
 import kotlinx.coroutines.Dispatchers
@@ -17,6 +18,7 @@ import java.time.LocalDate
 
 class CalendarViewModel(
     private val notesInteractor: INotesInteractor,
+    private val settingsInteractor: SettingsInteractor,
 ) : ViewModel() {
 
     private val initialState = CalendarState(
@@ -65,7 +67,7 @@ class CalendarViewModel(
 
     fun onLoadStoredSelectedDay() {
         viewModelScope.launch(Dispatchers.IO) {
-            notesInteractor
+            settingsInteractor
                 .getSelectedDay()
                 .first()
                 ?.let {

@@ -45,13 +45,6 @@ class NotesInteractor(
     override suspend fun returnNoteToBoard(noteId: Int): Boolean =
         notesRepository.returnNoteToBoard(noteId)
 
-    override suspend fun saveViewType(viewType: Int) {
-        notesRepository.saveViewType(viewType)
-    }
-
-    override suspend fun getStoredViewType(): Flow<Int> =
-        notesRepository.getStoredViewType()
-
     override suspend fun checkTitleExists(noteTitle: String): Boolean =
         notesRepository.checkTitleExists(noteTitle)
 
@@ -68,7 +61,4 @@ class NotesInteractor(
     override suspend fun getNotesCountForSelectedDate(daysList: List<LocalDate>): Flow<List<Int>> {
         return notesRepository.getNotesCountForSelectedDate(daysList)
     }
-
-    override suspend fun getSelectedDay(): Flow<LocalDate?> =
-        notesRepository.getSelectedDay()
 }

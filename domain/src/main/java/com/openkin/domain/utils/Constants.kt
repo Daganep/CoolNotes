@@ -1,6 +1,7 @@
 package com.openkin.domain.utils
 
 const val COOL_NOTES_STATE_PREFS = "COOL_NOTES_STATE_PREFS"
+const val COOL_NOTES_SETTINGS_PREFS = "COOL_NOTES_SETTINGS_PREFS"
 
 const val NOTIFY_CHANNEL_NAME = "Cool notes reminders"
 const val NOTIFY_CHANNEL_DESCRIPTION = "Reminders for notes"

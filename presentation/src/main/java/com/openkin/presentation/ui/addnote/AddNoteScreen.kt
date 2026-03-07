@@ -203,5 +203,6 @@ fun AddNoteScreen(
     }
     LaunchedEffect(key1 = true) {
         targetDate?.let { viewModel.onTargetDateChanged(it) }
+        viewModel.getNotifyRequestStatus()
     }
 }
