@@ -1,0 +1,7 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues/>
+  <CurrentIssues>
+    <ID>LongMethod:Navigation.kt$@Composable fun Navigation(scaffoldContentPaddings: PaddingValues, notificationId: Int)</ID>
+  </CurrentIssues>
+</SmellBaseline>

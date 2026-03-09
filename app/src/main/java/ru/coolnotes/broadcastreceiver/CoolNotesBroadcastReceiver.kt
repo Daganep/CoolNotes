@@ -6,7 +6,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.media.RingtoneManager
-import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.openkin.domain.utils.EMPTY_STRING
@@ -17,12 +16,11 @@ import com.openkin.domain.utils.NOTIFY_KEY_TITLE
 import com.openkin.presentation.R
 import ru.coolnotes.utils.getActivityPendingIntent
 
-class CoolNotesBroadcastReceiver: BroadcastReceiver() {
+class CoolNotesBroadcastReceiver : BroadcastReceiver() {
 
     @androidx.annotation.RequiresPermission(Manifest.permission.POST_NOTIFICATIONS)
     override fun onReceive(context: Context?, intent: Intent?) {
         context?.let {
-
             val notificationId = intent?.getIntExtra(NOTIFY_KEY_ID, 0)
             val title = intent?.getStringExtra(NOTIFY_KEY_TITLE)
             val text = intent?.getStringExtra(NOTIFY_KEY_TEXT) ?: EMPTY_STRING
@@ -38,7 +36,8 @@ class CoolNotesBroadcastReceiver: BroadcastReceiver() {
                     .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                     .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
 
-                if (ActivityCompat.checkSelfPermission(it, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
+                val granted = PackageManager.PERMISSION_GRANTED
+                if (it.checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) == granted) {
                     notificationManager.notify(notificationId, builder.build())
                 }
             }
