@@ -16,6 +16,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.openkin.presentation.R
+import com.openkin.presentation.ui.theme.bottomBarTransparent
+import com.openkin.presentation.ui.theme.transparent
 
 @Composable
 fun NavigationButton(
@@ -26,7 +28,7 @@ fun NavigationButton(
     onClick: () -> Unit,
 ) {
     val contentPadding = if (isActive) 4.dp else 0.dp
-    val background = if (isActive) Color(0x0D000000) else Color.Transparent
+    val background = if (isActive) bottomBarTransparent else transparent
     val imageSize = if (isActive) 48.dp else 42.dp
     Button(
         modifier = modifier.height(imageSize),

@@ -21,6 +21,7 @@ val blue = Color(0xFF0785C7)
 val red = Color(0xFFFF0000)
 val lightRed = Color(0xFFFD8484)
 val lightYellow = Color(0xFFF6E296)
+val bottomBarTransparent = Color(0x0D000000)
 val transparent = Color(0x00000000)
 val halfTransparent = Color(0x07000000)
 
