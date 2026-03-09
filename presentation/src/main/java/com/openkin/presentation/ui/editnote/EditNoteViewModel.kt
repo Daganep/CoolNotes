@@ -5,10 +5,11 @@ import androidx.lifecycle.viewModelScope
 import com.openkin.domain.interactor.INotesInteractor
 import com.openkin.domain.interactor.ISettingsInteractor
 import com.openkin.domain.model.NoteUi
+import com.openkin.domain.model.NotificationModel
 import com.openkin.domain.utils.EMPTY_STRING
 import com.openkin.domain.utils.NOTE_TITLE_MAX_LENGTH
+import com.openkin.domain.utils.TITLE_FIELD_TIMEOUT_MS
 import com.openkin.presentation.ui.addnote.model.NotesColors
-import com.openkin.presentation.ui.addnote.model.NotificationModel
 import com.openkin.presentation.utils.AlarmScheduler
 import com.openkin.presentation.utils.getNotifyTime
 import com.openkin.presentation.utils.getNotifyTimeInt
@@ -54,7 +55,7 @@ class EditNoteViewModel(
     init {
         viewModelScope.launch(Dispatchers.IO) {
             _newNoteTitle
-                .debounce(300L)
+                .debounce(TITLE_FIELD_TIMEOUT_MS)
                 .filterNot { query -> query.isEmpty() || query.isBlank() }
                 .filterNot { query -> query == _viewState.value.currentNote?.title }
                 .distinctUntilChanged()

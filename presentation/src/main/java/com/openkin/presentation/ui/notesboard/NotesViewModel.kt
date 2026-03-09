@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.openkin.domain.interactor.INotesInteractor
 import com.openkin.domain.interactor.ISettingsInteractor
 import com.openkin.domain.model.NoteUi
-import com.openkin.presentation.ui.addnote.model.NotificationModel
+import com.openkin.domain.model.NotificationModel
 import com.openkin.presentation.ui.notesboard.model.SortType
 import com.openkin.presentation.ui.notesboard.model.ViewType
 import com.openkin.presentation.utils.AlarmScheduler
@@ -45,9 +45,10 @@ class NotesViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             val result = notesInteractor.sendNoteToArchive(note.id)
             if (result) getNotes()
-            if (note.notifyTime.isNotEmpty()) cancelNotify(note)
-            else {
-                //TODO сообщить об ошибке при перемещении в архив
+            if (note.notifyTime.isNotEmpty()) {
+                cancelNotify(note)
+            } else {
+                // TODO сообщить об ошибке при перемещении в архив
             }
         }
     }

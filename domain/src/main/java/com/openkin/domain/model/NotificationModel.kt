@@ -1,4 +1,4 @@
-package com.openkin.presentation.ui.addnote.model
+package com.openkin.domain.model
 
 import java.time.LocalDate
 

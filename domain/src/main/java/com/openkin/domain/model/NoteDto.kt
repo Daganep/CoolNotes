@@ -5,7 +5,7 @@ import java.time.LocalDate
 data class NoteDto(
     val id: Int,
     val title: String,
-    val description: String,
+    val text: String,
     val color: String,
     val createDateMS: Long,
     val editDateMS: Long,
