@@ -4,25 +4,23 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.navigation3.runtime.NavKey
 import java.time.LocalDate
 
-sealed class Screen: NavKey {
+sealed class Screen : NavKey {
 
-    data object Splash: Screen()
+    data object Splash : Screen()
 
-    data object NotesBoard: Screen()
+    data object NotesBoard : Screen()
 
-    data class AddNote(val targetDate: LocalDate?): Screen()
+    data class AddNote(val targetDate: LocalDate?) : Screen()
 
-    data class EditNote(val noteId: Int): Screen()
+    data class EditNote(val noteId: Int) : Screen()
 
-    data object Calendar: Screen()
+    data object Calendar : Screen()
 
-    data object Settings: Screen()
+    data object Settings : Screen()
 
-    data object Archive: Screen()
+    data object Archive : Screen()
 
-    data object Search: Screen()
-
-    data object Bin: Screen()
+    data object Search : Screen()
 }
 
 class AppRouting : IAppRouting {
@@ -56,10 +54,6 @@ class AppRouting : IAppRouting {
 
     override fun openSearch() {
         backStack.add(Screen.Search)
-    }
-
-    override fun openBin() {
-        backStack.add(Screen.Bin)
     }
 
     override fun goBack() {

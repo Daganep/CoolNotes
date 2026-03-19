@@ -29,7 +29,7 @@ import com.openkin.presentation.ui.calendar.CalendarScreen
 import com.openkin.presentation.ui.editnote.EditNoteScreen
 import com.openkin.presentation.ui.notesboard.NotesBoard
 import com.openkin.presentation.ui.search.SearchScreen
-import com.openkin.presentation.ui.settings.Settings
+import com.openkin.presentation.ui.settings.SettingsScreen
 import com.openkin.presentation.ui.splash.Splash
 import ru.coolnotes.navigation.navigationbar.NavigationBar
 
@@ -53,7 +53,7 @@ fun Navigation(scaffoldContentPaddings: PaddingValues, notificationId: Int) {
                 rememberViewModelStoreNavEntryDecorator(),
             ),
             entryProvider = { key ->
-                when(key) {
+                when (key) {
                     is Screen.Splash -> NavEntry(key = key, content = { Splash(appRouting::home) })
                     is Screen.NotesBoard -> {
                         activeScreen = Screen.NotesBoard
@@ -77,7 +77,7 @@ fun Navigation(scaffoldContentPaddings: PaddingValues, notificationId: Int) {
                     }
                     is Screen.Settings -> {
                         activeScreen = Screen.Settings
-                        NavEntry(key = key, content = { Settings(appRouting::goBack) })
+                        NavEntry(key = key, content = { SettingsScreen(appRouting) })
                     }
                     is Screen.Archive -> {
                         activeScreen = Screen.Archive
@@ -91,7 +91,6 @@ fun Navigation(scaffoldContentPaddings: PaddingValues, notificationId: Int) {
                             SearchScreen(appRouting, scaffoldContentPaddings)
                         })
                     }
-                    is Screen.Bin -> NavEntry(key = key, content = {  })
                 }
             },
             modifier = Modifier

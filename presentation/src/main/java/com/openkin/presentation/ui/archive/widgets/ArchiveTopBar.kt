@@ -24,7 +24,7 @@ fun ArchiveTopBar(
     onClearClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Row (
+    Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween,
         modifier = modifier

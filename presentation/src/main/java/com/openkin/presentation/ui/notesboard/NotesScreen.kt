@@ -54,11 +54,10 @@ fun NotesBoard(viewModel: NotesViewModel, routing: IAppRouting) {
             .fillMaxSize()
             .background(white),
     ) {
-
         val state by viewModel.viewState.collectAsState()
         val loadingState by viewModel.loadingState.collectAsState()
 
-        //Первое число - id заметки, второе - позиция в списке заметок
+        // Первое число - id заметки, второе - позиция в списке заметок
         var swipedNote by remember { mutableStateOf(Pair(0, -1)) }
         val lazyListState = rememberLazyListState()
         val lazyGridState = rememberLazyGridState()
@@ -72,7 +71,7 @@ fun NotesBoard(viewModel: NotesViewModel, routing: IAppRouting) {
             bottomGradientDivider,
         ) = createRefs()
 
-        //Верхняя панель
+        // Верхняя панель
         TopAppBar(
             modifier = Modifier
                 .constrainAs(topBar) {
@@ -94,7 +93,7 @@ fun NotesBoard(viewModel: NotesViewModel, routing: IAppRouting) {
                 }
             },
         )
-        //Список заметок
+        // Список заметок
         Box(
             modifier = Modifier.constrainAs(notesBoard) {
                 top.linkTo(topBar.bottom)
@@ -109,7 +108,7 @@ fun NotesBoard(viewModel: NotesViewModel, routing: IAppRouting) {
             if (loadingState) {
                 CircularProgressIndicator(modifier = Modifier.size(50.dp))
             } else if (state.notesList.isNotEmpty()) {
-                val sortedList = when(state.sortType.first) {
+                val sortedList = when (state.sortType.first) {
                     SortType.CREATE_DATE -> {
                         if (state.sortType.second) {
                             state.notesList.sortedByDescending { it.createDateMS }
@@ -188,7 +187,7 @@ fun NotesBoard(viewModel: NotesViewModel, routing: IAppRouting) {
                 Text(text = stringResource(R.string.notes_screen_empty_list))
             }
         }
-        //Верхний градиент-разделитель
+        // Верхний градиент-разделитель
         TopGradientDivider(
             modifier = Modifier
                 .constrainAs(topGradientDivider) {
@@ -198,7 +197,7 @@ fun NotesBoard(viewModel: NotesViewModel, routing: IAppRouting) {
                     width = Dimension.fillToConstraints
                 }
         )
-        //Нижний градиент-разделитель
+        // Нижний градиент-разделитель
         BottomGradientDivider(
             modifier = Modifier
                 .constrainAs(bottomGradientDivider) {
@@ -208,12 +207,12 @@ fun NotesBoard(viewModel: NotesViewModel, routing: IAppRouting) {
                     width = Dimension.fillToConstraints
                 }
         )
-        //Кнопка добавления заметки
-        //показать, если заметок меньше чем SIMPLE_NOTES_TO_HIDE_ADD_BUTTON
-        //или если ни одна не свайпнута
-        //или если свайпнута ни самая последняя из списка заметок
-        val isAddButtonNeedToShow = state.notesList.size < SIMPLE_NOTES_TO_HIDE_ADD_BUTTON
-                || (swipedNote.first == 0 || swipedNote.second != state.notesList.size-1)
+        // Кнопка добавления заметки
+        // показать, если заметок меньше чем SIMPLE_NOTES_TO_HIDE_ADD_BUTTON
+        // или если ни одна не свайпнута
+        // или если свайпнута ни самая последняя из списка заметок
+        val isAddButtonNeedToShow = state.notesList.size < SIMPLE_NOTES_TO_HIDE_ADD_BUTTON ||
+            (swipedNote.first == 0 || swipedNote.second != state.notesList.size - 1)
         if (isAddButtonNeedToShow) {
             AddNoteFloatButton(
                 onClick = { routing.addNote() },
