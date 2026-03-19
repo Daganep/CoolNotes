@@ -38,10 +38,10 @@ fun NavigationBar(
         )
         NavigationButton(
             modifier = Modifier,
-            imageId = R.drawable.image_archive,
-            descriptionId = R.string.navigation_bar_archive,
-            isActive = activeScreen == Screen.Archive,
-            onClick = routing::openArchive,
+            imageId = R.drawable.image_calendar,
+            descriptionId = R.string.navigation_bar_calendar,
+            isActive = activeScreen == Screen.Calendar,
+            onClick = routing::openCalendar,
         )
         NavigationButton(
             modifier = Modifier,
@@ -52,17 +52,17 @@ fun NavigationBar(
         )
         NavigationButton(
             modifier = Modifier,
-            imageId = R.drawable.image_calendar,
-            descriptionId = R.string.navigation_bar_calendar,
-            isActive = activeScreen == Screen.Calendar,
-            onClick = routing::openCalendar,
+            imageId = R.drawable.image_archive,
+            descriptionId = R.string.navigation_bar_archive,
+            isActive = activeScreen == Screen.Archive,
+            onClick = routing::openArchive,
         )
-//        NavigationButton(
-//            modifier = Modifier,
-//            imageId = R.drawable.image_bottom_menu,
-//            descriptionId = R.string.navigation_bar_settings,
-//            isActive = activeScreen == Screen.Settings,
-//            onClick = routing::openSettings,
-//        )
+        NavigationButton(
+            modifier = Modifier,
+            imageId = R.drawable.image_bottom_menu,
+            descriptionId = R.string.navigation_bar_settings,
+            isActive = activeScreen == Screen.Settings,
+            onClick = routing::openSettings,
+        )
     }
 }
