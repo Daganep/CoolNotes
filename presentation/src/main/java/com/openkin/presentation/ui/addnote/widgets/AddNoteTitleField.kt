@@ -19,7 +19,9 @@ import com.openkin.domain.utils.EMPTY_STRING
 import com.openkin.domain.utils.NOTE_TITLE_MAX_LENGTH
 import com.openkin.domain.utils.SHORT_TEXT_EXAMPLE
 import com.openkin.presentation.R
+import com.openkin.presentation.ui.theme.addNotePlaceHolder
 import com.openkin.presentation.ui.theme.red
+import com.openkin.presentation.ui.theme.textFieldText
 
 @Composable
 fun AddNoteTitleField(
@@ -36,11 +38,11 @@ fun AddNoteTitleField(
         OutlinedTextField(
             value = noteTitle,
             onValueChange = { onNoteTitleChanged(it) },
-            textStyle = MaterialTheme.typography.labelMedium,
+            textStyle = MaterialTheme.typography.textFieldText,
             label = {
                 Text(
                     text = stringResource(R.string.add_note_screen_new_title),
-                    style = MaterialTheme.typography.labelSmall,
+                    style = MaterialTheme.typography.addNotePlaceHolder,
                 )
             },
             isError = isError,
@@ -65,7 +67,9 @@ fun AddNoteTitleField(
                 R.string.add_note_error_title_exists,
                 NOTE_TITLE_MAX_LENGTH,
             )
-        } else isError = false
+        } else {
+            isError = false
+        }
 
         if (isError) {
             Text(

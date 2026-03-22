@@ -15,6 +15,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.openkin.presentation.R
 import com.openkin.presentation.ui.theme.brown
+import com.openkin.presentation.ui.theme.buttonText
 import com.openkin.presentation.ui.theme.white
 import com.openkin.presentation.utils.toSp
 
@@ -26,8 +27,11 @@ fun ArchiveButton(
     modifier: Modifier,
 ) {
     val density = LocalDensity.current
-    val buttonText = if (inArchive) stringResource(R.string.edit_note_remove_from_archive)
-    else stringResource(R.string.edit_note_send_to_archive)
+    val buttonText = if (inArchive) {
+        stringResource(R.string.edit_note_remove_from_archive)
+    } else {
+        stringResource(R.string.edit_note_send_to_archive)
+    }
     val enabledButtonColor = if (inArchive) ButtonDefaults.buttonColors().containerColor else brown
 
     Button(
@@ -44,7 +48,7 @@ fun ArchiveButton(
     ) {
         Text(
             text = buttonText,
-            style = MaterialTheme.typography.headlineLarge,
+            style = MaterialTheme.typography.buttonText,
             lineHeight = 12.dp.toSp(density),
             maxLines = 1,
             overflow = TextOverflow.StartEllipsis,

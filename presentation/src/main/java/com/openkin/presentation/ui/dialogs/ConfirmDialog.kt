@@ -25,6 +25,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.openkin.domain.utils.SHORT_TEXT_EXAMPLE
 import com.openkin.presentation.R
+import com.openkin.presentation.ui.theme.dialogButtonText
+import com.openkin.presentation.ui.theme.dialogText
 import com.openkin.presentation.ui.theme.white
 
 @Composable
@@ -36,7 +38,7 @@ fun ConfirmDialog(
     dismissButtonText: String,
     @DrawableRes iconId: Int,
 ) {
-    Dialog(onDismissRequest = {onDismissRequest()}) {
+    Dialog(onDismissRequest = { onDismissRequest() }) {
         Card(
             modifier = Modifier
                 .fillMaxWidth()
@@ -59,36 +61,40 @@ fun ConfirmDialog(
                 )
                 Text(
                     text = dialogText,
-                    style = MaterialTheme.typography.bodyLarge,
+                    style = MaterialTheme.typography.dialogText,
                     textAlign = TextAlign.Center,
                 )
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.Center,
                 ) {
-                    if (dismissButtonText.isNotEmpty()) TextButton(
-                        onClick = { onDismissRequest() },
-                        modifier = Modifier.fillMaxWidth(fraction = 0.5F),
-                    ) {
-                        Text(
-                            text = dismissButtonText,
-                            style = MaterialTheme.typography.headlineLarge,
-                            overflow = TextOverflow.Ellipsis,
-                            maxLines = 1,
-                            textAlign = TextAlign.Center,
-                        )
+                    if (dismissButtonText.isNotEmpty()) {
+                        TextButton(
+                            onClick = { onDismissRequest() },
+                            modifier = Modifier.fillMaxWidth(fraction = 0.5F),
+                        ) {
+                            Text(
+                                text = dismissButtonText,
+                                style = MaterialTheme.typography.dialogButtonText,
+                                overflow = TextOverflow.Ellipsis,
+                                maxLines = 1,
+                                textAlign = TextAlign.Center,
+                            )
+                        }
                     }
-                    if (confirmButtonText.isNotEmpty()) TextButton(
-                        onClick = { onConfirmation() },
-                        modifier = Modifier.fillMaxWidth().padding(start = 4.dp),
-                    ) {
-                        Text(
-                            text = confirmButtonText,
-                            style = MaterialTheme.typography.headlineLarge,
-                            overflow = TextOverflow.Ellipsis,
-                            maxLines = 1,
-                            textAlign = TextAlign.Center,
-                        )
+                    if (confirmButtonText.isNotEmpty()) {
+                        TextButton(
+                            onClick = { onConfirmation() },
+                            modifier = Modifier.fillMaxWidth().padding(start = 4.dp),
+                        ) {
+                            Text(
+                                text = confirmButtonText,
+                                style = MaterialTheme.typography.dialogButtonText,
+                                overflow = TextOverflow.Ellipsis,
+                                maxLines = 1,
+                                textAlign = TextAlign.Center,
+                            )
+                        }
                     }
                 }
             }

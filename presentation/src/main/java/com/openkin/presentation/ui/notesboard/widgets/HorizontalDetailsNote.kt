@@ -29,6 +29,9 @@ import com.openkin.domain.utils.LONG_TEXT_EXAMPLE
 import com.openkin.domain.utils.NOTIFY_TIME_EXAMPLE
 import com.openkin.presentation.R
 import com.openkin.presentation.ui.addnote.model.NotesColors
+import com.openkin.presentation.ui.theme.noteDate
+import com.openkin.presentation.ui.theme.noteText
+import com.openkin.presentation.ui.theme.noteTitle
 import com.openkin.presentation.utils.DETAILS_NOTE_DATE_FORMAT
 import com.openkin.presentation.utils.getDate
 
@@ -56,10 +59,10 @@ fun HorizontalDetailsNote(
                 enabled = true,
                 onClickLabel = null,
                 role = Role.Button,
-                onClick =  { onClick(note.id) },
+                onClick = { onClick(note.id) },
             ),
     ) {
-        ConstraintLayout (
+        ConstraintLayout(
             modifier = Modifier
                 .fillMaxSize()
                 .background(brush = linearGradient)
@@ -67,7 +70,7 @@ fun HorizontalDetailsNote(
             val (title, description, date) = createRefs()
             Text(
                 text = note.title,
-                style = MaterialTheme.typography.headlineMedium,
+                style = MaterialTheme.typography.noteTitle,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
                 modifier = Modifier
@@ -80,7 +83,7 @@ fun HorizontalDetailsNote(
             )
             Text(
                 text = note.text,
-                style = MaterialTheme.typography.bodyLarge,
+                style = MaterialTheme.typography.noteText,
                 overflow = TextOverflow.Ellipsis,
                 modifier = Modifier
                     .constrainAs(description) {
@@ -103,28 +106,27 @@ fun HorizontalDetailsNote(
             ) {
                 Text(
                     text = stringResource(R.string.details_note_create_date, createDate),
-                    style = MaterialTheme.typography.bodySmall,
+                    style = MaterialTheme.typography.noteDate,
                     modifier = Modifier.padding(bottom = 4.dp),
 
                 )
                 if (note.editDateMS != 0L) {
                     Text(
-                        text =  stringResource(R.string.details_note_edit_date, editDate),
-                        style = MaterialTheme.typography.bodySmall,
+                        text = stringResource(R.string.details_note_edit_date, editDate),
+                        style = MaterialTheme.typography.noteDate,
                         modifier = Modifier.padding(bottom = 4.dp),
                     )
                 }
                 if (note.notifyTime.isNotEmpty()) {
                     Text(
                         text = stringResource(R.string.details_note_notify_time, note.notifyTime),
-                        style = MaterialTheme.typography.bodySmall,
+                        style = MaterialTheme.typography.noteDate,
                         modifier = Modifier.padding(bottom = 4.dp),
                     )
                 }
             }
         }
     }
-
 }
 
 @Preview(showBackground = true)

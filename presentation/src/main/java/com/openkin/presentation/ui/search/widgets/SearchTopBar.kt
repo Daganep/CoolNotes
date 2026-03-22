@@ -33,15 +33,18 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.openkin.domain.utils.SEARCH_FIELD_MAX_LENGTH
 import com.openkin.presentation.R
 import com.openkin.presentation.ui.theme.lightGray
+import com.openkin.presentation.ui.theme.searchFieldText
+import com.openkin.presentation.ui.theme.textFieldText
 
 @Composable
 fun SearchTopBar(
     textFieldState: TextFieldState,
     modifier: Modifier,
 ) {
-    Row (
+    Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween,
         modifier = modifier
@@ -75,8 +78,8 @@ fun SearchTopBar(
                         state = textFieldState,
                         modifier = Modifier.weight(1F),
                         lineLimits = TextFieldLineLimits.SingleLine,
-                        inputTransformation = InputTransformation.maxLength(50),
-                        textStyle = MaterialTheme.typography.titleMedium,
+                        inputTransformation = InputTransformation.maxLength(SEARCH_FIELD_MAX_LENGTH),
+                        textStyle = MaterialTheme.typography.searchFieldText,
                     )
                 }
                 androidx.compose.animation.AnimatedVisibility(
@@ -86,7 +89,7 @@ fun SearchTopBar(
                 ) {
                     Text(
                         text = stringResource(R.string.search_screen_top_bar_placeholder),
-                        style = MaterialTheme.typography.labelMedium,
+                        style = MaterialTheme.typography.textFieldText,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                         modifier = Modifier.padding(start = 48.dp),
@@ -100,7 +103,7 @@ fun SearchTopBar(
                     modifier = Modifier
                         .size(20.dp)
                         .clickable(
-                            interactionSource = remember { MutableInteractionSource()},
+                            interactionSource = remember { MutableInteractionSource() },
                             indication = null,
                             onClick = { textFieldState.edit { delete(0, length) } }
                         ),

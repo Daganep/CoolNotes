@@ -32,6 +32,7 @@ import com.openkin.presentation.ui.notesboard.widgets.AddNoteFloatButton
 import com.openkin.presentation.ui.notesboard.widgets.BottomGradientDivider
 import com.openkin.presentation.ui.notesboard.widgets.HorizontalSimpleNote
 import com.openkin.presentation.ui.notesboard.widgets.TopGradientDivider
+import com.openkin.presentation.ui.theme.emptyResultText
 import com.openkin.presentation.ui.theme.white
 import org.koin.androidx.compose.koinViewModel
 
@@ -48,7 +49,6 @@ fun CalendarScreen(
     viewModel: CalendarViewModel,
     routing: IAppRouting,
 ) {
-
     val state by viewModel.viewState.collectAsState()
     val lazyListState = rememberLazyListState()
 
@@ -142,12 +142,12 @@ fun CalendarScreen(
             } else {
                 Text(
                     text = stringResource(R.string.notes_screen_empty_list),
-                    style = MaterialTheme.typography.titleMedium,
+                    style = MaterialTheme.typography.emptyResultText,
                 )
             }
         }
 
-        //Верхний градиент-разделитель
+        // Верхний градиент-разделитель
         TopGradientDivider(
             modifier = Modifier
                 .constrainAs(topGradientDivider) {
@@ -157,7 +157,7 @@ fun CalendarScreen(
                     width = Dimension.fillToConstraints
                 }
         )
-        //Нижний градиент-разделитель
+        // Нижний градиент-разделитель
         BottomGradientDivider(
             modifier = Modifier
                 .constrainAs(bottomGradientDivider) {
