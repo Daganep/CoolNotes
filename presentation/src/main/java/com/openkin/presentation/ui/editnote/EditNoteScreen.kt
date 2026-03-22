@@ -36,6 +36,7 @@ import com.openkin.presentation.ui.addnote.widgets.TargetDate
 import com.openkin.presentation.ui.dialogs.ConfirmDialog
 import com.openkin.presentation.ui.editnote.widgets.ArchiveButton
 import com.openkin.presentation.ui.editnote.widgets.SaveChangesButton
+import com.openkin.presentation.ui.theme.textFieldText
 import com.openkin.presentation.ui.theme.white
 import org.koin.androidx.compose.koinViewModel
 
@@ -56,12 +57,11 @@ fun EditNoteScreen(
     noteId: Int,
     scaffoldContentPaddings: PaddingValues,
 ) {
-
     val state by viewModel.viewState.collectAsState()
     val event by viewModel.editNoteEvent.collectAsState()
     var openConfirmDialog by remember { mutableStateOf(false) }
 
-    ConstraintLayout (
+    ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()
             .consumeWindowInsets(scaffoldContentPaddings)
@@ -80,8 +80,11 @@ fun EditNoteScreen(
         AddNoteAppBar(
             topAppBarTitle = stringResource(R.string.edit_note_screen_appbar_exist_title),
             onBackButtonClick = {
-                if (state.isNoteWasChanged && !state.isChangeWasSaved) openConfirmDialog = true
-                else routing.goBack()
+                if (state.isNoteWasChanged && !state.isChangeWasSaved) {
+                    openConfirmDialog = true
+                } else {
+                    routing.goBack()
+                }
             },
             modifier = Modifier
                 .constrainAs(topBar) {
@@ -111,10 +114,10 @@ fun EditNoteScreen(
             label = {
                 Text(
                     text = stringResource(R.string.edit_note_screen_new_text),
-                    style = MaterialTheme.typography.labelMedium,
+                    style = MaterialTheme.typography.textFieldText,
                 )
             },
-            textStyle = MaterialTheme.typography.labelMedium.copy(textAlign = TextAlign.Justify),
+            textStyle = MaterialTheme.typography.textFieldText.copy(textAlign = TextAlign.Justify),
             modifier = Modifier
                 .constrainAs(noteTextField) {
                     top.linkTo(anchor = noteTitleField.bottom, margin = 8.dp)
@@ -168,9 +171,9 @@ fun EditNoteScreen(
         ) {
             SaveChangesButton(
                 onSaveClick = { state.currentNote?.let { viewModel.onUpdateNote() } },
-                isButtonEnabled = !state.isError
-                        && state.isNoteWasChanged
-                        && !state.isChangeWasSaved,
+                isButtonEnabled = !state.isError &&
+                    state.isNoteWasChanged &&
+                    !state.isChangeWasSaved,
                 modifier = Modifier
                     .fillMaxWidth(fraction = 0.5F)
                     .padding(end = 2.dp),
@@ -206,8 +209,11 @@ fun EditNoteScreen(
             ).show()
         }
         BackHandler {
-            if (state.isNoteWasChanged && !state.isChangeWasSaved) openConfirmDialog = true
-            else routing.goBack()
+            if (state.isNoteWasChanged && !state.isChangeWasSaved) {
+                openConfirmDialog = true
+            } else {
+                routing.goBack()
+            }
         }
         LaunchedEffect(key1 = state.currentNote != null) {
             viewModel.onLoadNote(noteId)

@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import com.openkin.presentation.R
 import com.openkin.presentation.ui.notesboard.model.SortType
 import com.openkin.presentation.ui.notesboard.model.ViewType
+import com.openkin.presentation.ui.theme.screenTitle
 
 @Composable
 fun TopAppBar(
@@ -32,7 +33,7 @@ fun TopAppBar(
     ) {
         Text(
             text = stringResource(R.string.notes_screen_appbar_title),
-            style = MaterialTheme.typography.titleLarge,
+            style = MaterialTheme.typography.screenTitle,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
             modifier = Modifier.weight(1F),

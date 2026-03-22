@@ -33,6 +33,8 @@ import com.openkin.domain.utils.NOTIFY_TIME_EXAMPLE
 import com.openkin.presentation.R
 import com.openkin.presentation.ui.addnote.model.NotesColors
 import com.openkin.presentation.ui.theme.noteDate
+import com.openkin.presentation.ui.theme.noteText
+import com.openkin.presentation.ui.theme.noteTitle
 import com.openkin.presentation.utils.SIMPLE_NOTE_DATE_FORMAT
 import com.openkin.presentation.utils.getDate
 
@@ -71,7 +73,7 @@ fun HorizontalSimpleNote(
             val (title, description, date) = createRefs()
             Text(
                 text = note.title,
-                style = MaterialTheme.typography.headlineMedium,
+                style = MaterialTheme.typography.noteTitle,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
                 modifier = Modifier
@@ -84,7 +86,7 @@ fun HorizontalSimpleNote(
             )
             Text(
                 text = note.text,
-                style = MaterialTheme.typography.bodyLarge,
+                style = MaterialTheme.typography.noteText,
                 overflow = TextOverflow.Ellipsis,
                 modifier = Modifier
                     .constrainAs(description) {
@@ -99,10 +101,10 @@ fun HorizontalSimpleNote(
             )
             Row(
                 modifier = Modifier
-                .constrainAs(date) {
-                    bottom.linkTo(anchor = parent.bottom, margin = 8.dp)
-                    start.linkTo(anchor = parent.start, margin = 8.dp)
-                },
+                    .constrainAs(date) {
+                        bottom.linkTo(anchor = parent.bottom, margin = 8.dp)
+                        start.linkTo(anchor = parent.start, margin = 8.dp)
+                    },
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Image(
@@ -130,7 +132,6 @@ fun HorizontalSimpleNote(
             }
         }
     }
-
 }
 
 @Preview(showBackground = true)

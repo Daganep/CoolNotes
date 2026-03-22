@@ -24,6 +24,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.openkin.presentation.R
 import com.openkin.presentation.ui.notesboard.model.ViewType
+import com.openkin.presentation.ui.theme.expandedList
 import com.openkin.presentation.ui.theme.white
 
 @Composable
@@ -59,7 +60,7 @@ fun ViewTypesButton(
                         ) {
                             Text(
                                 text = stringResource(vt.viewNameId),
-                                style = MaterialTheme.typography.displayMedium,
+                                style = MaterialTheme.typography.expandedList,
                                 modifier = Modifier.padding(horizontal = 8.dp),
                             )
                         }

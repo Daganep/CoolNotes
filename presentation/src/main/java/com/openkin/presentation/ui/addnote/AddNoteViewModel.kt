@@ -5,10 +5,12 @@ import androidx.lifecycle.viewModelScope
 import com.openkin.domain.interactor.INotesInteractor
 import com.openkin.domain.interactor.ISettingsInteractor
 import com.openkin.domain.model.NoteUi
+import com.openkin.domain.model.NotificationModel
 import com.openkin.domain.utils.EMPTY_STRING
 import com.openkin.domain.utils.NOTE_TITLE_MAX_LENGTH
+import com.openkin.domain.utils.SIMPLE_INT
+import com.openkin.domain.utils.TITLE_FIELD_TIMEOUT_MS
 import com.openkin.presentation.ui.addnote.model.NotesColors
-import com.openkin.presentation.ui.addnote.model.NotificationModel
 import com.openkin.presentation.utils.AlarmScheduler
 import com.openkin.presentation.utils.getNotifyTime
 import kotlinx.coroutines.Dispatchers
@@ -47,7 +49,7 @@ class AddNoteViewModel(
     init {
         viewModelScope.launch(Dispatchers.IO) {
             _newNoteTitle
-                .debounce(300L)
+                .debounce(TITLE_FIELD_TIMEOUT_MS)
                 .filterNot { query -> query.isEmpty() || query.isBlank() }
                 .distinctUntilChanged()
                 .collectLatest { title ->
@@ -139,7 +141,8 @@ class AddNoteViewModel(
                 text = newNote.text,
                 targetDate = newNote.targetDate,
                 time = selectedTime,
-            ))
+            )
+        )
     }
 
     private fun checkTitleExists(title: String) {
@@ -153,5 +156,5 @@ class AddNoteViewModel(
     }
 
     private fun getNoteId(title: String, noteText: String, createDateMS: Long): Int =
-        title.hashCode() + noteText.hashCode() + createDateMS.hashCode() * 31
+        title.hashCode() + noteText.hashCode() + createDateMS.hashCode() * SIMPLE_INT
 }

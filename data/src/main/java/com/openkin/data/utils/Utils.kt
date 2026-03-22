@@ -7,12 +7,10 @@ import java.time.LocalDate
  * для того чтобы Room мог искать подстроку в указанном столбце.
  * До обёртки все символы '%' экранируются символом '@'.
  */
-fun updateQueryForSearchSubstring(query: String) : String {
+fun updateQueryForSearchSubstring(query: String): String {
     val updatedQuery = query.replace("%", "@%")
     return "%$updatedQuery%"
 }
-
-
 
 fun isReminderInPast(date: LocalDate, time: String): Boolean {
     val now = LocalDate.now()
@@ -27,4 +25,13 @@ fun isReminderInPast(date: LocalDate, time: String): Boolean {
         result = hour < currentHour || (hour == currentHour && minute < currentMinute)
     }
     return result
+}
+
+fun getNotifyTimeInt(timeString: String?): Pair<Int, Int>? {
+    return if (timeString.isNullOrEmpty()) {
+        null
+    } else {
+        val (hour, minute) = timeString.split(':')
+        Pair(hour.toInt(), minute.toInt())
+    }
 }

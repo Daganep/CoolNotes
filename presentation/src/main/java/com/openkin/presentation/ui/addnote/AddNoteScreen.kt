@@ -33,6 +33,9 @@ import com.openkin.presentation.ui.addnote.widgets.AddNoteColorBar
 import com.openkin.presentation.ui.addnote.widgets.AddNoteTitleField
 import com.openkin.presentation.ui.addnote.widgets.TargetDate
 import com.openkin.presentation.ui.dialogs.ConfirmDialog
+import com.openkin.presentation.ui.theme.addNotePlaceHolder
+import com.openkin.presentation.ui.theme.buttonText
+import com.openkin.presentation.ui.theme.textFieldText
 import com.openkin.presentation.ui.theme.white
 import com.openkin.presentation.utils.toSp
 import org.koin.androidx.compose.koinViewModel
@@ -59,12 +62,11 @@ fun AddNoteScreen(
     targetDate: LocalDate?,
     scaffoldContentPaddings: PaddingValues,
 ) {
-
     val state by viewModel.viewState.collectAsState()
     val density = LocalDensity.current
     var openConfirmDialog by remember { mutableStateOf(false) }
 
-    ConstraintLayout (
+    ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()
             .consumeWindowInsets(scaffoldContentPaddings)
@@ -85,7 +87,9 @@ fun AddNoteScreen(
             onBackButtonClick = {
                 if (state.noteTitle.isNotEmpty() || state.noteText.isNotEmpty()) {
                     openConfirmDialog = true
-                } else routing.goBack()
+                } else {
+                    routing.goBack()
+                }
             },
             modifier = Modifier
                 .constrainAs(topBar) {
@@ -114,10 +118,10 @@ fun AddNoteScreen(
             label = {
                 Text(
                     text = stringResource(R.string.add_note_screen_new_text),
-                    style = MaterialTheme.typography.labelSmall,
+                    style = MaterialTheme.typography.addNotePlaceHolder,
                 )
             },
-            textStyle = MaterialTheme.typography.labelMedium.copy(textAlign = TextAlign.Justify),
+            textStyle = MaterialTheme.typography.textFieldText.copy(textAlign = TextAlign.Justify),
             modifier = Modifier
                 .constrainAs(noteTextField) {
                     top.linkTo(anchor = noteTitleField.bottom, margin = 8.dp)
@@ -163,9 +167,9 @@ fun AddNoteScreen(
                 viewModel.onSaveNote()
                 routing.home()
             },
-            enabled = !state.isError
-                && state.noteTitle.isNotEmpty()
-                && state.noteTitle.isNotBlank(),
+            enabled = !state.isError &&
+                state.noteTitle.isNotEmpty() &&
+                state.noteTitle.isNotBlank(),
             shape = RoundedCornerShape(5.dp),
             modifier = Modifier
                 .constrainAs(saveButton) {
@@ -178,7 +182,7 @@ fun AddNoteScreen(
         ) {
             Text(
                 text = stringResource(R.string.add_note_save_button),
-                style = MaterialTheme.typography.headlineLarge,
+                style = MaterialTheme.typography.buttonText,
                 maxLines = 1,
                 lineHeight = 12.dp.toSp(density),
             )
@@ -200,7 +204,9 @@ fun AddNoteScreen(
         BackHandler {
             if (state.noteTitle.isNotEmpty() || state.noteText.isNotEmpty()) {
                 openConfirmDialog = true
-            } else routing.goBack()
+            } else {
+                routing.goBack()
+            }
         }
     }
     LaunchedEffect(key1 = true) {

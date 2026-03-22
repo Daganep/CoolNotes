@@ -1,6 +1,6 @@
 package com.openkin.presentation.utils
 
-import com.openkin.presentation.ui.addnote.model.NotificationModel
+import com.openkin.domain.model.NotificationModel
 
 interface AlarmScheduler {
 

@@ -18,6 +18,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.openkin.domain.utils.SHORT_TEXT_EXAMPLE
 import com.openkin.presentation.R
+import com.openkin.presentation.ui.theme.screenTitle
 
 @Composable
 fun AddNoteAppBar(
@@ -44,7 +45,7 @@ fun AddNoteAppBar(
         )
         Text(
             text = topAppBarTitle,
-            style = MaterialTheme.typography.titleLarge,
+            style = MaterialTheme.typography.screenTitle,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
             modifier = Modifier.padding(start = 16.dp),

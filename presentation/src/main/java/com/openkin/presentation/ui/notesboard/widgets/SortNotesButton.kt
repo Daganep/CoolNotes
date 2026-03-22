@@ -26,6 +26,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.openkin.presentation.R
 import com.openkin.presentation.ui.notesboard.model.SortType
+import com.openkin.presentation.ui.theme.expandedList
 import com.openkin.presentation.ui.theme.extraLightGray
 import com.openkin.presentation.ui.theme.white
 
@@ -56,8 +57,11 @@ fun SortNotesButton(
             modifier = Modifier.padding(0.dp),
         ) {
             SortType.entries.forEach { sortType ->
-                val itemColor = if (sortType == currentSortType) extraLightGray
-                else white
+                val itemColor = if (sortType == currentSortType) {
+                    extraLightGray
+                } else {
+                    white
+                }
                 DropdownMenuItem(
                     text = {
                         Column(
@@ -75,7 +79,7 @@ fun SortNotesButton(
                         ) {
                             Text(
                                 text = stringResource(sortType.viewNameId),
-                                style = MaterialTheme.typography.displayMedium,
+                                style = MaterialTheme.typography.expandedList,
                                 modifier = Modifier.padding(horizontal = 8.dp),
                             )
                         }

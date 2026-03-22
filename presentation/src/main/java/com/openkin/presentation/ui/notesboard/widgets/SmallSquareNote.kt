@@ -34,6 +34,9 @@ import com.openkin.domain.utils.LONG_TEXT_EXAMPLE
 import com.openkin.domain.utils.NOTIFY_TIME_EXAMPLE
 import com.openkin.presentation.R
 import com.openkin.presentation.ui.addnote.model.NotesColors
+import com.openkin.presentation.ui.theme.noteDate
+import com.openkin.presentation.ui.theme.noteTextSmall
+import com.openkin.presentation.ui.theme.noteTitleSmall
 import com.openkin.presentation.utils.SIMPLE_NOTE_DATE_FORMAT
 import com.openkin.presentation.utils.getDate
 
@@ -62,10 +65,10 @@ fun SmallSquareNote(
                     enabled = true,
                     onClickLabel = null,
                     role = Role.Button,
-                    onClick =  { onNoteClick(note.id) },
+                    onClick = { onNoteClick(note.id) },
                 ),
         ) {
-            ConstraintLayout (
+            ConstraintLayout(
                 modifier = Modifier
                     .fillMaxSize()
                     .background(brush = linearGradient),
@@ -73,7 +76,7 @@ fun SmallSquareNote(
                 val (title, description, date) = createRefs()
                 Text(
                     text = note.title,
-                    style = MaterialTheme.typography.headlineSmall,
+                    style = MaterialTheme.typography.noteTitleSmall,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                     modifier = Modifier
@@ -86,7 +89,7 @@ fun SmallSquareNote(
                 )
                 Text(
                     text = note.text,
-                    style = MaterialTheme.typography.bodyMedium,
+                    style = MaterialTheme.typography.noteTextSmall,
                     overflow = TextOverflow.Ellipsis,
                     modifier = Modifier
                         .constrainAs(description) {
@@ -114,7 +117,7 @@ fun SmallSquareNote(
                         )
                         Text(
                             text = targetDate,
-                            style = MaterialTheme.typography.bodySmall,
+                            style = MaterialTheme.typography.noteDate,
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis,
                             modifier = Modifier.padding(top = 4.dp),
@@ -129,7 +132,7 @@ fun SmallSquareNote(
                             )
                             Text(
                                 text = note.notifyTime,
-                                style = MaterialTheme.typography.bodySmall,
+                                style = MaterialTheme.typography.noteDate,
                                 maxLines = 1,
                                 overflow = TextOverflow.Ellipsis,
                                 modifier = Modifier.padding(top = 4.dp),

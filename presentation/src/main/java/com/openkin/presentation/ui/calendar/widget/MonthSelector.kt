@@ -35,7 +35,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.openkin.domain.utils.EMPTY_STRING
 import com.openkin.presentation.R
+import com.openkin.presentation.ui.theme.expandedList
 import com.openkin.presentation.ui.theme.extraLightGray
+import com.openkin.presentation.ui.theme.monthSelector
 import com.openkin.presentation.ui.theme.white
 import java.time.LocalDate
 import java.time.Month
@@ -55,7 +57,9 @@ fun MonthSelector(
         .getDisplayName(TextStyle.FULL_STANDALONE, Locale.getDefault())
     val selectedDateYear = if (selectedDate.year != currentDate.year) {
         selectedDate.year
-    } else EMPTY_STRING
+    } else {
+        EMPTY_STRING
+    }
     val selectorText = "$selectedDateMonth $selectedDateYear".trim().uppercase()
 
     Row(
@@ -81,7 +85,7 @@ fun MonthSelector(
         ) {
             Text(
                 text = selectorText,
-                style = MaterialTheme.typography.titleMedium,
+                style = MaterialTheme.typography.monthSelector,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier
                     .padding(horizontal = 16.dp)
@@ -100,7 +104,7 @@ fun MonthSelector(
                 Month.entries.forEach { month ->
                     val itemColor = if (month == selectedDate.month) extraLightGray else white
 
-                    //TODO оптимизировать DropdownMenuItem
+                    // TODO оптимизировать DropdownMenuItem
                     DropdownMenuItem(
                         text = {
                             Column(
@@ -125,7 +129,7 @@ fun MonthSelector(
                                         TextStyle.FULL_STANDALONE,
                                         Locale.getDefault(),
                                     ),
-                                    style = MaterialTheme.typography.displayMedium,
+                                    style = MaterialTheme.typography.expandedList,
                                     modifier = Modifier.padding(horizontal = 8.dp),
                                 )
                             }

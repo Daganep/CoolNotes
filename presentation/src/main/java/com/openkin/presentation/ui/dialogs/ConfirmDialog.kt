@@ -25,6 +25,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.openkin.domain.utils.SHORT_TEXT_EXAMPLE
 import com.openkin.presentation.R
+import com.openkin.presentation.ui.theme.dialogButtonText
+import com.openkin.presentation.ui.theme.dialogText
 import com.openkin.presentation.ui.theme.white
 
 @Composable
@@ -59,7 +61,7 @@ fun ConfirmDialog(
                 )
                 Text(
                     text = dialogText,
-                    style = MaterialTheme.typography.bodyLarge,
+                    style = MaterialTheme.typography.dialogText,
                     textAlign = TextAlign.Center,
                 )
                 Row(
@@ -73,7 +75,7 @@ fun ConfirmDialog(
                         ) {
                             Text(
                                 text = dismissButtonText,
-                                style = MaterialTheme.typography.headlineLarge,
+                                style = MaterialTheme.typography.dialogButtonText,
                                 overflow = TextOverflow.Ellipsis,
                                 maxLines = 1,
                                 textAlign = TextAlign.Center,
@@ -87,7 +89,7 @@ fun ConfirmDialog(
                         ) {
                             Text(
                                 text = confirmButtonText,
-                                style = MaterialTheme.typography.headlineLarge,
+                                style = MaterialTheme.typography.dialogButtonText,
                                 overflow = TextOverflow.Ellipsis,
                                 maxLines = 1,
                                 textAlign = TextAlign.Center,

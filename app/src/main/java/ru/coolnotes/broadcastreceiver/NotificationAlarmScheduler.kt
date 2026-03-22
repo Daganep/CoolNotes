@@ -2,10 +2,16 @@ package ru.coolnotes.broadcastreceiver
 
 import android.app.AlarmManager
 import android.content.Context
-import com.openkin.presentation.ui.addnote.model.NotificationModel
+import com.openkin.domain.model.NotificationModel
 import com.openkin.presentation.utils.AlarmScheduler
 import com.openkin.presentation.utils.getTriggerTime
 import ru.coolnotes.utils.getBroadcastPendingIntent
+
+/**
+ * [NotificationAlarmScheduler] — класс для установки и отмены напоминаний, через
+ * [AlarmManager]. Напоминания обрабатываются в классе [CoolNotesBroadcastReceiver], который
+ * в свою очередь выводит их на экран в виде оповещений в шторке экрана.
+ */
 
 class NotificationAlarmScheduler(
     private val context: Context,
