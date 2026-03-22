@@ -19,6 +19,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.openkin.presentation.R
+import com.openkin.presentation.ui.theme.filterText
 
 @Composable
 fun FieldFilter(
@@ -32,7 +33,7 @@ fun FieldFilter(
     ) {
         Text(
             text = stringResource(R.string.search_screen_field_filter_label),
-            style = MaterialTheme.typography.bodyLarge,
+            style = MaterialTheme.typography.filterText,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
             modifier = Modifier.padding(end = 16.dp),
@@ -53,7 +54,7 @@ fun FieldFilter(
                 )
                 Text(
                     text = stringResource(R.string.search_screen_field_filter_type_title),
-                    style = MaterialTheme.typography.bodyLarge,
+                    style = MaterialTheme.typography.filterText,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                     modifier = Modifier.padding(start = 8.dp, end = 16.dp),
@@ -73,7 +74,7 @@ fun FieldFilter(
                 )
                 Text(
                     text = stringResource(R.string.search_screen_field_filter_type_text),
-                    style = MaterialTheme.typography.bodyLarge,
+                    style = MaterialTheme.typography.filterText,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                     modifier = Modifier.padding(start = 8.dp),

@@ -14,6 +14,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.openkin.presentation.R
+import com.openkin.presentation.ui.theme.screenTitle
 import java.time.LocalDate
 
 @Composable
@@ -22,7 +23,7 @@ fun CalendarTopBar(
     today: LocalDate,
     modifier: Modifier = Modifier,
 ) {
-    Row (
+    Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween,
         modifier = modifier
@@ -31,7 +32,7 @@ fun CalendarTopBar(
     ) {
         Text(
             text = stringResource(R.string.calendar_screen_top_bar_title),
-            style = MaterialTheme.typography.titleLarge,
+            style = MaterialTheme.typography.screenTitle,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
             modifier = Modifier,

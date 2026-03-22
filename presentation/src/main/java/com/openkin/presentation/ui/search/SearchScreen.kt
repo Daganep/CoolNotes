@@ -33,6 +33,7 @@ import com.openkin.presentation.ui.notesboard.widgets.HorizontalSimpleNote
 import com.openkin.presentation.ui.notesboard.widgets.TopGradientDivider
 import com.openkin.presentation.ui.search.widgets.FieldFilter
 import com.openkin.presentation.ui.search.widgets.SearchTopBar
+import com.openkin.presentation.ui.theme.emptyResultText
 import com.openkin.presentation.ui.theme.white
 import org.koin.androidx.compose.koinViewModel
 
@@ -51,7 +52,6 @@ fun SearchScreen(
     routing: IAppRouting,
     scaffoldContentPaddings: PaddingValues,
 ) {
-
     val screenState by viewModel.viewState.collectAsStateWithLifecycle()
     val lazyListState = rememberLazyListState()
 
@@ -94,7 +94,7 @@ fun SearchScreen(
                 }
         )
 
-        //Результаты поиска
+        // Результаты поиска
         Box(
             modifier = Modifier
                 .constrainAs(resultList) {
@@ -129,10 +129,12 @@ fun SearchScreen(
                 } else {
                     val emptyText = if (viewModel.searchTextFieldState.text.isBlank()) {
                         stringResource(R.string.search_screen_start_search)
-                    } else stringResource(R.string.search_screen_empty_result)
+                    } else {
+                        stringResource(R.string.search_screen_empty_result)
+                    }
                     Text(
                         text = emptyText,
-                        style = MaterialTheme.typography.titleMedium,
+                        style = MaterialTheme.typography.emptyResultText,
                         textAlign = TextAlign.Center,
                     )
                 }
@@ -141,7 +143,7 @@ fun SearchScreen(
             }
         }
 
-        //Верхний градиент-разделитель
+        // Верхний градиент-разделитель
         TopGradientDivider(
             modifier = Modifier
                 .constrainAs(topGradientDivider) {
@@ -152,7 +154,7 @@ fun SearchScreen(
                 }
         )
 
-        //Нижний градиент-разделитель
+        // Нижний градиент-разделитель
         BottomGradientDivider(
             modifier = Modifier
                 .constrainAs(bottomGradientDivider) {

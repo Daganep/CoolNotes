@@ -44,6 +44,7 @@ import com.openkin.presentation.R
 import com.openkin.presentation.ui.dialogs.ConfirmDialog
 import com.openkin.presentation.ui.dialogs.RestrictedTimePickerDialog
 import com.openkin.presentation.ui.theme.black
+import com.openkin.presentation.ui.theme.datePickerButton
 import com.openkin.presentation.utils.SIMPLE_NOTE_DATE_FORMAT
 import com.openkin.presentation.utils.addZero
 import java.time.LocalDate
@@ -71,9 +72,11 @@ fun TargetDate(
     val datePickerDialog = DatePickerDialog(
         LocalContext.current,
         { _, selectedYear, selectedMonth, selectedDay ->
-            onDateChanged(LocalDate.of(selectedYear, selectedMonth+1, selectedDay))
+            onDateChanged(LocalDate.of(selectedYear, selectedMonth + 1, selectedDay))
         },
-        selectedDate.year, selectedDate.month.value-1, selectedDate.dayOfMonth,
+        selectedDate.year,
+        selectedDate.month.value - 1,
+        selectedDate.dayOfMonth,
     )
     val timePickerDialog = RestrictedTimePickerDialog(
         context = LocalContext.current,
@@ -117,7 +120,7 @@ fun TargetDate(
             )
             Text(
                 text = DateTimeFormatter.ofPattern(SIMPLE_NOTE_DATE_FORMAT).format(selectedDate),
-                style = MaterialTheme.typography.labelLarge,
+                style = MaterialTheme.typography.datePickerButton,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
                 modifier = Modifier.padding(start = 16.dp)
@@ -141,7 +144,9 @@ fun TargetDate(
                                 } else {
                                     openConfirmDialog = true
                                 }
-                            } else timePickerDialog.show()
+                            } else {
+                                timePickerDialog.show()
+                            }
                         }
                         .border(
                             width = datesBorderWidth.dp,
@@ -161,7 +166,7 @@ fun TargetDate(
                     )
                     Text(
                         text = timerText,
-                        style = MaterialTheme.typography.labelLarge,
+                        style = MaterialTheme.typography.datePickerButton,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                         modifier = Modifier.padding(end = 16.dp),
