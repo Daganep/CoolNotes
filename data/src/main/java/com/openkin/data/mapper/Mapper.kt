@@ -1,8 +1,10 @@
 package com.openkin.data.mapper
 
 import com.openkin.data.database.model.NoteDbo
+import com.openkin.data.utils.getNotifyTimeInt
 import com.openkin.data.utils.isReminderInPast
 import com.openkin.domain.model.NoteDto
+import com.openkin.domain.model.NotificationModel
 import com.openkin.domain.utils.EMPTY_STRING
 import java.time.LocalDate
 
@@ -10,7 +12,7 @@ fun NoteDto.toNoteDbo() =
     NoteDbo(
         id = this.id,
         title = this.title,
-        description = this.description,
+        description = this.text,
         color = this.color,
         createDateMS = this.createDateMS,
         editDateMS = this.editDateMS,
@@ -27,13 +29,24 @@ fun NoteDbo.toNoteDto(): NoteDto {
     return NoteDto(
         id = this.id,
         title = this.title,
-        description = this.description,
+        text = this.description,
         color = this.color,
         createDateMS = this.createDateMS,
         editDateMS = this.editDateMS,
         archived = this.archived,
         targetDate = targetDate,
         notifyTime = notifyTime,
+    )
+}
+
+fun NoteDto.toNotificationModel(): NotificationModel {
+    val time = getNotifyTimeInt(this.notifyTime)
+    return NotificationModel(
+        id = this.id,
+        title = this.title,
+        text = this.text,
+        targetDate = this.targetDate,
+        time = time ?: Pair(0, 0),
     )
 }
 
