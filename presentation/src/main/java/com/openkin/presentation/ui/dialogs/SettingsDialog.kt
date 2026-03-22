@@ -1,40 +1,36 @@
 package com.openkin.presentation.ui.dialogs
 
-import androidx.annotation.DrawableRes
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import com.openkin.domain.utils.SHORT_TEXT_EXAMPLE
-import com.openkin.presentation.R
-import com.openkin.presentation.ui.theme.white
 
 @Composable
-fun ConfirmDialog(
+fun SettingsDialog(
+    options: List<String>,
+    selectedOption: Int,
     onDismissRequest: () -> Unit,
-    onConfirmation: () -> Unit,
-    dialogText: String,
+    onConfirmation: (Int) -> Unit,
     confirmButtonText: String,
     dismissButtonText: String,
-    @DrawableRes iconId: Int,
 ) {
     Dialog(onDismissRequest = { onDismissRequest() }) {
         Card(
@@ -43,25 +39,25 @@ fun ConfirmDialog(
                 .padding(16.dp),
             shape = RoundedCornerShape(16.dp),
         ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(white),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally,
-            ) {
-                Image(
-                    painter = painterResource(iconId),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .padding(top = 32.dp, bottom = 16.dp)
-                        .size(50.dp),
-                )
-                Text(
-                    text = dialogText,
-                    style = MaterialTheme.typography.bodyLarge,
-                    textAlign = TextAlign.Center,
-                )
+
+            var currentOption by remember { mutableIntStateOf(selectedOption) }
+
+            Column {
+                for ((index, option) in options.withIndex()) {
+                    key(option) {
+                        Row {
+                            RadioButton(
+                                selected = index == currentOption,
+                                onClick = { currentOption = index },
+                            )
+                            Text(
+                                text = option,
+                                style = MaterialTheme.typography.bodyLarge,
+                                modifier = Modifier.padding(start = 16.dp),
+                            )
+                        }
+                    }
+                }
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.Center,
@@ -82,7 +78,7 @@ fun ConfirmDialog(
                     }
                     if (confirmButtonText.isNotEmpty()) {
                         TextButton(
-                            onClick = { onConfirmation() },
+                            onClick = { onConfirmation(currentOption) },
                             modifier = Modifier.fillMaxWidth().padding(start = 4.dp),
                         ) {
                             Text(
@@ -98,17 +94,4 @@ fun ConfirmDialog(
             }
         }
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun ConfirmDialogPreview() {
-    ConfirmDialog(
-        onDismissRequest = {},
-        onConfirmation = {},
-        dialogText = SHORT_TEXT_EXAMPLE,
-        confirmButtonText = SHORT_TEXT_EXAMPLE,
-        dismissButtonText = SHORT_TEXT_EXAMPLE,
-        iconId = R.drawable.image_note_to_bin,
-    )
 }

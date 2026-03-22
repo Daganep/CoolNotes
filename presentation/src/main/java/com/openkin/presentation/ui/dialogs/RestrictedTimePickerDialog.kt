@@ -15,7 +15,9 @@ class RestrictedTimePickerDialog(
 ) : TimePickerDialog(
     context,
     { _, pickedHour, pickedMin -> onTimeChanged(Pair(pickedHour, pickedMin)) },
-    selectedHour, selectedMinute, true,
+    selectedHour,
+    selectedMinute,
+    true,
 ) {
     private val currentDate = LocalDate.now()
     private val calendar = Calendar.getInstance()
