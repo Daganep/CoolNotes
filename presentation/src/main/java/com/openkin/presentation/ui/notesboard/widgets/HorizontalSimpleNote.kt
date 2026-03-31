@@ -30,6 +30,7 @@ import com.openkin.domain.utils.ID_EXAMPLE_INT
 import com.openkin.domain.utils.ID_EXAMPLE_LONG
 import com.openkin.domain.utils.LONG_TEXT_EXAMPLE
 import com.openkin.domain.utils.NOTIFY_TIME_EXAMPLE
+import com.openkin.domain.utils.SINGLE_LINE
 import com.openkin.presentation.R
 import com.openkin.presentation.ui.addnote.model.NotesColors
 import com.openkin.presentation.ui.theme.noteDate
@@ -74,7 +75,7 @@ fun HorizontalSimpleNote(
             Text(
                 text = note.title,
                 style = MaterialTheme.typography.noteTitle,
-                maxLines = 1,
+                maxLines = SINGLE_LINE,
                 overflow = TextOverflow.Ellipsis,
                 modifier = Modifier
                     .constrainAs(title) {

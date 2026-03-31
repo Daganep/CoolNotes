@@ -13,6 +13,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.openkin.domain.utils.SINGLE_LINE
 import com.openkin.presentation.R
 import com.openkin.presentation.ui.theme.buttonText
 import com.openkin.presentation.ui.theme.green
@@ -42,7 +43,7 @@ fun SaveChangesButton(
             text = stringResource(R.string.edit_note_update_button),
             style = MaterialTheme.typography.buttonText,
             lineHeight = 12.dp.toSp(density),
-            maxLines = 1,
+            maxLines = SINGLE_LINE,
             overflow = TextOverflow.Ellipsis,
         )
     }

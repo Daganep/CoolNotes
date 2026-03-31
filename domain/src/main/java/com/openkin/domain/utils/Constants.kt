@@ -23,6 +23,8 @@ const val EMPTY_STRING = ""
 
 const val SIMPLE_INT = 31
 
+const val SINGLE_LINE = 1
+
 const val CALENDAR_NOTES_COUNTER_MAX_VALUE = 10
 const val NOTE_TITLE_MAX_LENGTH = 50
 const val SIMPLE_NOTES_TO_HIDE_ADD_BUTTON = 5

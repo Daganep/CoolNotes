@@ -7,6 +7,8 @@ interface ISettingsRepository {
 
     suspend fun saveViewType(viewType: Int)
     suspend fun getStoredViewType(): Flow<Int>
+    suspend fun saveSelectedTheme(themeName: String)
+    suspend fun getStoredTheme(): Flow<String>
     suspend fun updateNotifyRequestData()
     suspend fun getNotifyRequestData(): Flow<Boolean>
     suspend fun getSelectedDay(): Flow<LocalDate?>

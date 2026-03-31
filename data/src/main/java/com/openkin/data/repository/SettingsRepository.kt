@@ -6,9 +6,11 @@ import androidx.datastore.preferences.core.edit
 import com.openkin.data.datastorekeys.CALENDAR_SELECTED_DAY
 import com.openkin.data.datastorekeys.LAST_SELECTED_VIEW_TYPE
 import com.openkin.data.datastorekeys.NOTIFY_FIRST_REQUEST
+import com.openkin.data.datastorekeys.SELECTED_THEME
 import com.openkin.data.mapper.localDateFromString
 import com.openkin.domain.repository.ISettingsRepository
 import com.openkin.domain.utils.DEFAULT_VIEW_TYPE
+import com.openkin.domain.utils.EMPTY_STRING
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import java.time.LocalDate
@@ -24,6 +26,13 @@ class SettingsRepository(
 
     override suspend fun getStoredViewType(): Flow<Int> =
         stateDataStore.data.map { it[LAST_SELECTED_VIEW_TYPE] ?: DEFAULT_VIEW_TYPE }
+
+    override suspend fun saveSelectedTheme(themeName: String) {
+        settingsDataStore.edit { state -> state[SELECTED_THEME] = themeName }
+    }
+
+    override suspend fun getStoredTheme(): Flow<String> =
+        settingsDataStore.data.map { it[SELECTED_THEME] ?: EMPTY_STRING }
 
     override suspend fun updateNotifyRequestData() {
         settingsDataStore.edit { state -> state[NOTIFY_FIRST_REQUEST] = true }

@@ -13,6 +13,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.openkin.domain.utils.SINGLE_LINE
 import com.openkin.presentation.R
 import com.openkin.presentation.ui.theme.brown
 import com.openkin.presentation.ui.theme.buttonText
@@ -50,7 +51,7 @@ fun ArchiveButton(
             text = buttonText,
             style = MaterialTheme.typography.buttonText,
             lineHeight = 12.dp.toSp(density),
-            maxLines = 1,
+            maxLines = SINGLE_LINE,
             overflow = TextOverflow.StartEllipsis,
         )
     }

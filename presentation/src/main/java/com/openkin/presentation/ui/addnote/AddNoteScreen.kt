@@ -26,6 +26,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
+import com.openkin.domain.utils.SINGLE_LINE
 import com.openkin.presentation.R
 import com.openkin.presentation.navigation.IAppRouting
 import com.openkin.presentation.ui.addnote.widgets.AddNoteAppBar
@@ -183,7 +184,7 @@ fun AddNoteScreen(
             Text(
                 text = stringResource(R.string.add_note_save_button),
                 style = MaterialTheme.typography.buttonText,
-                maxLines = 1,
+                maxLines = SINGLE_LINE,
                 lineHeight = 12.dp.toSp(density),
             )
         }

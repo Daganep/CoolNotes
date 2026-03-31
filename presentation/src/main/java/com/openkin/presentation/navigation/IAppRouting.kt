@@ -18,7 +18,5 @@ interface IAppRouting {
 
     fun openSearch()
 
-    fun openBin()
-
     fun goBack()
 }
