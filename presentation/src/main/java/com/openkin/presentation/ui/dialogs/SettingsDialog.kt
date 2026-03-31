@@ -1,5 +1,6 @@
 package com.openkin.presentation.ui.dialogs
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -17,11 +18,17 @@ import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import com.openkin.domain.utils.SHORT_TEXT_EXAMPLE
+import com.openkin.domain.utils.SINGLE_LINE
+import com.openkin.presentation.ui.theme.buttonText
+import com.openkin.presentation.ui.theme.dialogListText
 
 @Composable
 fun SettingsDialog(
@@ -34,25 +41,30 @@ fun SettingsDialog(
 ) {
     Dialog(onDismissRequest = { onDismissRequest() }) {
         Card(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
+            modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(16.dp),
         ) {
 
             var currentOption by remember { mutableIntStateOf(selectedOption) }
 
-            Column {
+            Column(
+                modifier = Modifier.padding(8.dp),
+            ) {
                 for ((index, option) in options.withIndex()) {
                     key(option) {
-                        Row {
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clickable { currentOption = index },
+                            verticalAlignment = Alignment.CenterVertically,
+                        ) {
                             RadioButton(
                                 selected = index == currentOption,
                                 onClick = { currentOption = index },
                             )
                             Text(
                                 text = option,
-                                style = MaterialTheme.typography.bodyLarge,
+                                style = MaterialTheme.typography.dialogListText,
                                 modifier = Modifier.padding(start = 16.dp),
                             )
                         }
@@ -68,10 +80,10 @@ fun SettingsDialog(
                             modifier = Modifier.fillMaxWidth(fraction = 0.5F),
                         ) {
                             Text(
-                                text = dismissButtonText,
-                                style = MaterialTheme.typography.headlineLarge,
+                                text = dismissButtonText.uppercase(),
+                                style = MaterialTheme.typography.buttonText,
                                 overflow = TextOverflow.Ellipsis,
-                                maxLines = 1,
+                                maxLines = SINGLE_LINE,
                                 textAlign = TextAlign.Center,
                             )
                         }
@@ -79,13 +91,15 @@ fun SettingsDialog(
                     if (confirmButtonText.isNotEmpty()) {
                         TextButton(
                             onClick = { onConfirmation(currentOption) },
-                            modifier = Modifier.fillMaxWidth().padding(start = 4.dp),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(start = 4.dp),
                         ) {
                             Text(
-                                text = confirmButtonText,
-                                style = MaterialTheme.typography.headlineLarge,
+                                text = confirmButtonText.uppercase(),
+                                style = MaterialTheme.typography.buttonText,
                                 overflow = TextOverflow.Ellipsis,
-                                maxLines = 1,
+                                maxLines = SINGLE_LINE,
                                 textAlign = TextAlign.Center,
                             )
                         }
@@ -94,4 +108,17 @@ fun SettingsDialog(
             }
         }
     }
+}
+
+@Preview
+@Composable
+private fun SettingsDialogPreview() {
+    SettingsDialog(
+        options = listOf(SHORT_TEXT_EXAMPLE, SHORT_TEXT_EXAMPLE, SHORT_TEXT_EXAMPLE),
+        selectedOption = 1,
+        onDismissRequest = {},
+        onConfirmation = {},
+        confirmButtonText = "Выбрать",
+        dismissButtonText = "Отмена",
+    )
 }

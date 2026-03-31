@@ -32,6 +32,7 @@ import com.openkin.domain.utils.ID_EXAMPLE_INT
 import com.openkin.domain.utils.ID_EXAMPLE_LONG
 import com.openkin.domain.utils.LONG_TEXT_EXAMPLE
 import com.openkin.domain.utils.NOTIFY_TIME_EXAMPLE
+import com.openkin.domain.utils.SINGLE_LINE
 import com.openkin.presentation.R
 import com.openkin.presentation.ui.addnote.model.NotesColors
 import com.openkin.presentation.ui.theme.noteDate
@@ -77,7 +78,7 @@ fun SmallSquareNote(
                 Text(
                     text = note.title,
                     style = MaterialTheme.typography.noteTitleSmall,
-                    maxLines = 1,
+                    maxLines = SINGLE_LINE,
                     overflow = TextOverflow.Ellipsis,
                     modifier = Modifier
                         .constrainAs(title) {
@@ -118,7 +119,7 @@ fun SmallSquareNote(
                         Text(
                             text = targetDate,
                             style = MaterialTheme.typography.noteDate,
-                            maxLines = 1,
+                            maxLines = SINGLE_LINE,
                             overflow = TextOverflow.Ellipsis,
                             modifier = Modifier.padding(top = 4.dp),
                         )
@@ -133,7 +134,7 @@ fun SmallSquareNote(
                             Text(
                                 text = note.notifyTime,
                                 style = MaterialTheme.typography.noteDate,
-                                maxLines = 1,
+                                maxLines = SINGLE_LINE,
                                 overflow = TextOverflow.Ellipsis,
                                 modifier = Modifier.padding(top = 4.dp),
                             )

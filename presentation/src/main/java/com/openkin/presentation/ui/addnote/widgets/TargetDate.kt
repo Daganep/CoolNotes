@@ -39,6 +39,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.app.ActivityCompat
+import com.openkin.domain.utils.SINGLE_LINE
 import com.openkin.domain.utils.URI_SCHEME
 import com.openkin.presentation.R
 import com.openkin.presentation.ui.dialogs.ConfirmDialog
@@ -121,7 +122,7 @@ fun TargetDate(
             Text(
                 text = DateTimeFormatter.ofPattern(SIMPLE_NOTE_DATE_FORMAT).format(selectedDate),
                 style = MaterialTheme.typography.datePickerButton,
-                maxLines = 1,
+                maxLines = SINGLE_LINE,
                 overflow = TextOverflow.Ellipsis,
                 modifier = Modifier.padding(start = 16.dp)
             )
@@ -167,7 +168,7 @@ fun TargetDate(
                     Text(
                         text = timerText,
                         style = MaterialTheme.typography.datePickerButton,
-                        maxLines = 1,
+                        maxLines = SINGLE_LINE,
                         overflow = TextOverflow.Ellipsis,
                         modifier = Modifier.padding(end = 16.dp),
                     )

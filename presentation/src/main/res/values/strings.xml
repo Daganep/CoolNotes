@@ -42,6 +42,10 @@
 
     //settings screen
     <string name="settings_screen_appbar_title">Настройки</string>
+    <string name="settings_theme">Тема приложения</string>
+    <string name="settings_theme_system">Системная</string>
+    <string name="settings_theme_light">Светлая</string>
+    <string name="settings_theme_dark">Тёмная</string>
 
     //search screen
     <string name="search_screen_appbar_title">Поиск</string>
@@ -56,6 +60,7 @@
     <string name="confirm_button_exit_without_save">Выйти</string>
     <string name="confirm_button_clear_archive">Удалить</string>
     <string name="confirm_button_notify_permission">Разрешить</string>
+    <string name="confirm_button_select_option">Выбрать</string>
     <string name="dismiss_button_return">Вернуться</string>
     <string name="dismiss_button_cancel">Отмена</string>
     <string name="dismiss_button_notify_permission">Отклонить</string>

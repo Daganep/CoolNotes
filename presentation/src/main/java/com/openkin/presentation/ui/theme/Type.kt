@@ -113,6 +113,17 @@ val Typography.dialogText: TextStyle
         color = black,
     )
 
+// Основной текст диалога
+val Typography.dialogListText: TextStyle
+    @Composable
+    get() = TextStyle(
+        fontFamily = FontFamily(Font(R.font.calibri)),
+        fontSize = 18.sp,
+        fontWeight = FontWeight.Bold,
+        lineHeight = 14.sp,
+        color = black,
+    )
+
 // Текст фильтров в поиске
 val Typography.filterText: TextStyle
     @Composable
@@ -183,5 +194,23 @@ val Typography.addNotePlaceHolder: TextStyle
     get() = TextStyle(
         fontFamily = FontFamily(Font(R.font.calibri)),
         fontSize = 16.sp,
+        color = gray,
+    )
+
+val Typography.settingName: TextStyle
+    @Composable
+    get() = TextStyle(
+        fontFamily = FontFamily(Font(R.font.calibri)),
+        fontSize = 20.sp,
+        fontWeight = FontWeight.Bold,
+        color = black,
+    )
+
+val Typography.settingValue: TextStyle
+    @Composable
+    get() = TextStyle(
+        fontFamily = FontFamily(Font(R.font.calibri)),
+        fontSize = 18.sp,
+        fontWeight = FontWeight.Normal,
         color = gray,
     )

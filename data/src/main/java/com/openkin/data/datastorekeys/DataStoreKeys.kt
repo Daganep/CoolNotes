@@ -7,3 +7,4 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 val CALENDAR_SELECTED_DAY = stringPreferencesKey("CALENDAR_SELECTED_DAY")
 val LAST_SELECTED_VIEW_TYPE = intPreferencesKey("LAST_SELECTED_VIEW_TYPE")
 val NOTIFY_FIRST_REQUEST = booleanPreferencesKey("NOTIFY_FIRST_REQUEST")
+val SELECTED_THEME = stringPreferencesKey("SELECTED_THEME")

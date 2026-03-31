@@ -13,7 +13,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.openkin.domain.utils.SINGLE_LINE
 import com.openkin.presentation.R
+import com.openkin.presentation.ui.theme.screenTitle
 
 @Composable
 fun SettingsTopBar(modifier: Modifier = Modifier) {
@@ -26,8 +28,8 @@ fun SettingsTopBar(modifier: Modifier = Modifier) {
     ) {
         Text(
             text = stringResource(R.string.settings_screen_appbar_title),
-            style = MaterialTheme.typography.titleLarge,
-            maxLines = 1,
+            style = MaterialTheme.typography.screenTitle,
+            maxLines = SINGLE_LINE,
             overflow = TextOverflow.Ellipsis,
             modifier = Modifier.weight(1F),
         )

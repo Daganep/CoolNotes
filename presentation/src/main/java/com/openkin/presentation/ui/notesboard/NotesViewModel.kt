@@ -23,7 +23,7 @@ class NotesViewModel(
 
     private val defaultState = NotesBoardState(
         notesList = listOf(),
-        viewType = ViewType.CommonList,
+        viewType = ViewType.COMMON_LIST,
         sortType = Pair(SortType.CREATE_DATE, true),
         prevSortType = SortType.ALPHABET,
     )
@@ -61,6 +61,7 @@ class NotesViewModel(
         }
     }
 
+    // TODO поменять Int с позцией на String с именем
     fun getStoredViewType() {
         viewModelScope.launch(Dispatchers.IO) {
             settingsInteractor.getStoredViewType().collect { storedViewType ->

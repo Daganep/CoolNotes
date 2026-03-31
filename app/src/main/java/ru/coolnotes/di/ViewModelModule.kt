@@ -35,5 +35,5 @@ val viewModelModule = module {
     }
     viewModel { SearchViewModel(notesInteractor = get()) }
     viewModel { CalendarViewModel(notesInteractor = get(), settingsInteractor = get()) }
-    viewModel { SettingsViewModel(notesInteractor = get()) }
+    viewModel { SettingsViewModel(settingsInteractor = get()) }
 }

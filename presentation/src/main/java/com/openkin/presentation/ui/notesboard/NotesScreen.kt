@@ -140,7 +140,7 @@ fun NotesBoard(viewModel: NotesViewModel, routing: IAppRouting) {
                 }
                 viewModel.updatePrevSortType(state.sortType.first)
                 when (state.viewType) {
-                    ViewType.BigBlocks -> {
+                    ViewType.BIG_BLOCKS -> {
                         NotesBlocks(
                             notesList = sortedList,
                             onNoteClick = routing::editNote,
@@ -148,7 +148,7 @@ fun NotesBoard(viewModel: NotesViewModel, routing: IAppRouting) {
                             gridState = lazyGridState,
                         )
                     }
-                    ViewType.CommonList -> {
+                    ViewType.COMMON_LIST -> {
                         NotesCommonList(
                             notesList = sortedList,
                             swipedNote = swipedNote,
@@ -161,7 +161,7 @@ fun NotesBoard(viewModel: NotesViewModel, routing: IAppRouting) {
                             listState = lazyListState,
                         )
                     }
-                    ViewType.DetailsList -> {
+                    ViewType.DETAILS_LIST -> {
                         NotesCommonList(
                             notesList = sortedList,
                             swipedNote = swipedNote,
@@ -174,7 +174,7 @@ fun NotesBoard(viewModel: NotesViewModel, routing: IAppRouting) {
                             listState = lazyListState,
                         )
                     }
-                    ViewType.Blocks -> {
+                    ViewType.BLOCKS -> {
                         NotesBlocks(
                             notesList = sortedList,
                             onNoteClick = routing::editNote,

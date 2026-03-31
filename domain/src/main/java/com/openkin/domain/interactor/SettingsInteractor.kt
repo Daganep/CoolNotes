@@ -15,6 +15,12 @@ class SettingsInteractor(
     override suspend fun getNotifyRequestStatus(): Flow<Boolean> =
         settingsRepository.getNotifyRequestData()
 
+    override suspend fun saveSelectedTheme(themeName: String) {
+        settingsRepository.saveSelectedTheme(themeName)
+    }
+
+    override suspend fun getStoredTheme(): Flow<String> = settingsRepository.getStoredTheme()
+
     override suspend fun saveViewType(viewType: Int) {
         settingsRepository.saveViewType(viewType)
     }

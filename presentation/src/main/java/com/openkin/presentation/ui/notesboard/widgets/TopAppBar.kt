@@ -13,6 +13,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.openkin.domain.utils.SINGLE_LINE
 import com.openkin.presentation.R
 import com.openkin.presentation.ui.notesboard.model.SortType
 import com.openkin.presentation.ui.notesboard.model.ViewType
@@ -34,7 +35,7 @@ fun TopAppBar(
         Text(
             text = stringResource(R.string.notes_screen_appbar_title),
             style = MaterialTheme.typography.screenTitle,
-            maxLines = 1,
+            maxLines = SINGLE_LINE,
             overflow = TextOverflow.Ellipsis,
             modifier = Modifier.weight(1F),
         )

@@ -34,6 +34,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.openkin.domain.utils.SEARCH_FIELD_MAX_LENGTH
+import com.openkin.domain.utils.SINGLE_LINE
 import com.openkin.presentation.R
 import com.openkin.presentation.ui.theme.lightGray
 import com.openkin.presentation.ui.theme.searchFieldText
@@ -90,7 +91,7 @@ fun SearchTopBar(
                     Text(
                         text = stringResource(R.string.search_screen_top_bar_placeholder),
                         style = MaterialTheme.typography.textFieldText,
-                        maxLines = 1,
+                        maxLines = SINGLE_LINE,
                         overflow = TextOverflow.Ellipsis,
                         modifier = Modifier.padding(start = 48.dp),
                     )
