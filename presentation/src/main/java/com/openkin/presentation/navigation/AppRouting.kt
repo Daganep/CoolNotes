@@ -14,9 +14,9 @@ sealed class Screen : NavKey {
 
     data class EditNote(val noteId: Int) : Screen()
 
-    data object Calendar : Screen()
+    data class Settings(val onThemeLightChanged: (Boolean) -> Unit) : Screen()
 
-    data object Settings : Screen()
+    data object Calendar : Screen()
 
     data object Archive : Screen()
 
@@ -44,8 +44,8 @@ class AppRouting : IAppRouting {
         backStack.add(Screen.Calendar)
     }
 
-    override fun openSettings() {
-        backStack.add(Screen.Settings)
+    override fun openSettings(onThemeLightChanged: (Boolean) -> Unit) {
+        backStack.add(Screen.Settings(onThemeLightChanged))
     }
 
     override fun openArchive() {

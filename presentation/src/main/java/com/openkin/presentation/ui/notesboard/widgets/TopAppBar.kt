@@ -14,6 +14,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.openkin.domain.utils.SINGLE_LINE
+import com.openkin.domain.utils.WEIGHT_OF_HALF
 import com.openkin.presentation.R
 import com.openkin.presentation.ui.notesboard.model.SortType
 import com.openkin.presentation.ui.notesboard.model.ViewType
@@ -25,7 +26,7 @@ fun TopAppBar(
     onViewTypeClick: (ViewType) -> Unit,
     onSortClick: (SortType) -> Unit,
 ) {
-    Row (
+    Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween,
         modifier = modifier
@@ -40,7 +41,7 @@ fun TopAppBar(
             modifier = Modifier.weight(1F),
         )
         Row(
-            modifier = Modifier.weight(0.5F),
+            modifier = Modifier.weight(WEIGHT_OF_HALF),
             horizontalArrangement = Arrangement.End,
         ) {
             SortNotesButton(

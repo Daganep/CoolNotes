@@ -19,6 +19,7 @@ import com.openkin.presentation.navigation.Screen
 fun NavigationBar(
     routing: AppRouting,
     activeScreen: Screen,
+    onThemeLightChanged: (Boolean) -> Unit,
 ) {
     Row(
         modifier = Modifier
@@ -61,8 +62,8 @@ fun NavigationBar(
             modifier = Modifier,
             imageId = R.drawable.image_bottom_menu,
             descriptionId = R.string.navigation_bar_settings,
-            isActive = activeScreen == Screen.Settings,
-            onClick = routing::openSettings,
+            isActive = activeScreen is Screen.Settings,
+            onClick = { routing.openSettings(onThemeLightChanged) },
         )
     }
 }

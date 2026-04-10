@@ -31,10 +31,14 @@ import com.openkin.presentation.ui.notesboard.NotesBoard
 import com.openkin.presentation.ui.search.SearchScreen
 import com.openkin.presentation.ui.settings.SettingsScreen
 import com.openkin.presentation.ui.splash.Splash
+import com.openkin.presentation.ui.theme.CoolNotesTheme
 import ru.coolnotes.navigation.navigationbar.NavigationBar
 
 @Composable
-fun Navigation(scaffoldContentPaddings: PaddingValues, notificationId: Int) {
+fun Navigation(
+    scaffoldContentPaddings: PaddingValues,
+    notificationId: Int,
+) {
     val appRouting = AppRouting()
     ConstraintLayout(
         modifier = Modifier
@@ -45,75 +49,83 @@ fun Navigation(scaffoldContentPaddings: PaddingValues, notificationId: Int) {
     ) {
         val (currentScreen, bottomBar) = createRefs()
         var activeScreen by remember { mutableStateOf<Screen>(Screen.Splash) }
-        NavDisplay(
-            backStack = appRouting.backStack,
-            onBack = { appRouting.goBack() },
-            entryDecorators = listOf(
-                rememberSaveableStateHolderNavEntryDecorator(),
-                rememberViewModelStoreNavEntryDecorator(),
-            ),
-            entryProvider = { key ->
-                when (key) {
-                    is Screen.Splash -> NavEntry(key = key, content = { Splash(appRouting::home) })
-                    is Screen.NotesBoard -> {
-                        activeScreen = Screen.NotesBoard
-                        NavEntry(key = key, content = { NotesBoard(appRouting) })
+        var currentThemeLight by remember { mutableStateOf(false) }
+        CoolNotesTheme(currentThemeLight) {
+            NavDisplay(
+                backStack = appRouting.backStack,
+                onBack = { appRouting.goBack() },
+                entryDecorators = listOf(
+                    rememberSaveableStateHolderNavEntryDecorator(),
+                    rememberViewModelStoreNavEntryDecorator(),
+                ),
+                entryProvider = { key ->
+                    when (key) {
+                        is Screen.Splash -> NavEntry(key = key, content = { Splash(appRouting::home) })
+                        is Screen.NotesBoard -> {
+                            activeScreen = Screen.NotesBoard
+                            NavEntry(key = key, content = { NotesBoard(appRouting) })
+                        }
+                        is Screen.AddNote -> {
+                            activeScreen = Screen.AddNote(key.targetDate)
+                            NavEntry(key = key, content = {
+                                AddNoteScreen(appRouting, key.targetDate, scaffoldContentPaddings)
+                            })
+                        }
+                        is Screen.EditNote -> {
+                            activeScreen = Screen.EditNote(key.noteId)
+                            NavEntry(key = key, content = {
+                                EditNoteScreen(appRouting, key.noteId, scaffoldContentPaddings)
+                            })
+                        }
+                        is Screen.Calendar -> {
+                            activeScreen = Screen.Calendar
+                            NavEntry(key = key, content = { CalendarScreen(appRouting) })
+                        }
+                        is Screen.Settings -> {
+                            activeScreen = Screen.Settings(key.onThemeLightChanged)
+                            NavEntry(
+                                key = key,
+                                content = { SettingsScreen(appRouting, key.onThemeLightChanged) },
+                            )
+                        }
+                        is Screen.Archive -> {
+                            activeScreen = Screen.Archive
+                            NavEntry(key = key, content = {
+                                ArchiveScreen(appRouting)
+                            })
+                        }
+                        is Screen.Search -> {
+                            activeScreen = Screen.Search
+                            NavEntry(key = key, content = {
+                                SearchScreen(appRouting, scaffoldContentPaddings)
+                            })
+                        }
                     }
-                    is Screen.AddNote -> {
-                        activeScreen = Screen.AddNote(key.targetDate)
-                        NavEntry(key = key, content = {
-                            AddNoteScreen(appRouting, key.targetDate, scaffoldContentPaddings)
-                        })
+                },
+                modifier = Modifier
+                    .constrainAs(currentScreen) {
+                        top.linkTo(anchor = parent.top)
+                        bottom.linkTo(anchor = bottomBar.top)
+                        start.linkTo(anchor = parent.start)
+                        end.linkTo(anchor = parent.end)
+                        height = Dimension.fillToConstraints
+                        width = Dimension.fillToConstraints
                     }
-                    is Screen.EditNote -> {
-                        activeScreen = Screen.EditNote(key.noteId)
-                        NavEntry(key = key, content = {
-                            EditNoteScreen(appRouting, key.noteId, scaffoldContentPaddings)
-                        })
+            )
+            Box(
+                modifier = Modifier
+                    .constrainAs(bottomBar) {
+                        start.linkTo(anchor = parent.start, margin = 16.dp)
+                        end.linkTo(anchor = parent.end, margin = 16.dp)
+                        bottom.linkTo(anchor = parent.bottom, margin = 8.dp)
+                        height = Dimension.preferredWrapContent
+                        width = Dimension.fillToConstraints
                     }
-                    is Screen.Calendar -> {
-                        activeScreen = Screen.Calendar
-                        NavEntry(key = key, content = { CalendarScreen(appRouting) })
-                    }
-                    is Screen.Settings -> {
-                        activeScreen = Screen.Settings
-                        NavEntry(key = key, content = { SettingsScreen(appRouting) })
-                    }
-                    is Screen.Archive -> {
-                        activeScreen = Screen.Archive
-                        NavEntry(key = key, content = {
-                            ArchiveScreen(appRouting)
-                        })
-                    }
-                    is Screen.Search -> {
-                        activeScreen = Screen.Search
-                        NavEntry(key = key, content = {
-                            SearchScreen(appRouting, scaffoldContentPaddings)
-                        })
-                    }
+            ) {
+                if (activeScreen != Screen.Splash) {
+                    NavigationBar(appRouting, activeScreen) { currentThemeLight = it }
                 }
-            },
-            modifier = Modifier
-                .constrainAs(currentScreen) {
-                    top.linkTo(anchor = parent.top)
-                    bottom.linkTo(anchor = bottomBar.top)
-                    start.linkTo(anchor = parent.start)
-                    end.linkTo(anchor = parent.end)
-                    height = Dimension.fillToConstraints
-                    width = Dimension.fillToConstraints
-                }
-        )
-        Box(
-            modifier = Modifier
-                .constrainAs(bottomBar) {
-                    start.linkTo(anchor = parent.start, margin = 16.dp)
-                    end.linkTo(anchor = parent.end, margin = 16.dp)
-                    bottom.linkTo(anchor = parent.bottom, margin = 8.dp)
-                    height = Dimension.preferredWrapContent
-                    width = Dimension.fillToConstraints
-                }
-        ) {
-            if (activeScreen != Screen.Splash) NavigationBar(appRouting, activeScreen)
+            }
         }
     }
     LaunchedEffect(true) {

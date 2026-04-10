@@ -12,7 +12,7 @@ interface IAppRouting {
 
     fun openCalendar()
 
-    fun openSettings()
+    fun openSettings(onThemeLightChanged: (Boolean) -> Unit)
 
     fun openArchive()
 

@@ -12,7 +12,6 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.material3.Scaffold
 import androidx.core.view.WindowCompat
 import com.openkin.domain.utils.NOTIFY_KEY_ID
-import com.openkin.presentation.ui.theme.CoolNotesTheme
 import ru.coolnotes.navigation.Navigation
 
 class MainActivity : ComponentActivity() {
@@ -32,10 +31,8 @@ class MainActivity : ComponentActivity() {
 
         enableEdgeToEdge()
         setContent {
-            CoolNotesTheme {
-                Scaffold { scaffoldContentPaddings ->
-                    Navigation(scaffoldContentPaddings, notificationId)
-                }
+            Scaffold { scaffoldContentPaddings ->
+                Navigation(scaffoldContentPaddings, notificationId)
             }
         }
     }

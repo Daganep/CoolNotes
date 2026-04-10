@@ -2,6 +2,7 @@ package com.openkin.presentation.ui.settings
 
 import android.util.Log
 import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,10 +14,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -31,10 +28,11 @@ import com.openkin.presentation.ui.theme.white
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun SettingsScreen(routing: IAppRouting) {
+fun SettingsScreen(routing: IAppRouting, onThemeLightChanged: (Boolean) -> Unit) {
     SettingsScreen(
         viewModel = koinViewModel(),
         routing = routing,
+        onThemeLightChanged = onThemeLightChanged,
     )
 }
 
@@ -42,6 +40,7 @@ fun SettingsScreen(routing: IAppRouting) {
 fun SettingsScreen(
     viewModel: SettingsViewModel,
     routing: IAppRouting,
+    onThemeLightChanged: (Boolean) -> Unit,
 ) {
     ConstraintLayout(
         modifier = Modifier
@@ -49,6 +48,7 @@ fun SettingsScreen(
             .background(white)
     ) {
         val state by viewModel.viewState.collectAsState()
+        val isDarkTheme = isSystemInDarkTheme()
         val (
             topBar,
             settingsList,
@@ -81,8 +81,15 @@ fun SettingsScreen(
                 settingValue = state.ordinal,
                 options = AppTheme.entries.map { stringResource(it.viewNameId) },
                 onSettingClick = { index ->
-                    Log.d("MyFilter", "theme: ${AppTheme.entries[index]}")
-                    viewModel.onThemeChanged(AppTheme.entries[index])
+                    val themeColor = AppTheme.entries[index]
+                    Log.d("MyFilter", "theme: $themeColor")
+                    viewModel.onThemeChanged(themeColor)
+                    val result = when (themeColor) {
+                        AppTheme.DARK -> true
+                        AppTheme.LIGHT -> false
+                        else -> isDarkTheme
+                    }
+                    onThemeLightChanged(result)
                 },
                 modifier = Modifier.fillMaxWidth(),
             )

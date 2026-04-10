@@ -1,6 +1,7 @@
 package com.openkin.presentation.ui.splash
 
 import android.os.Build.VERSION.SDK_INT
+import android.os.Build.VERSION_CODES
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -29,7 +30,7 @@ fun Splash(home: () -> Unit) {
         val context = LocalContext.current
         val imageLoader = ImageLoader.Builder(context)
             .components {
-                if (SDK_INT >= 28) {
+                if (SDK_INT >= VERSION_CODES.P) {
                     add(ImageDecoderDecoder.Factory())
                 } else {
                     add(GifDecoder.Factory())
@@ -47,7 +48,7 @@ fun Splash(home: () -> Unit) {
         )
     }
     LaunchedEffect(true) {
-        delay(timeMillis = 2000) //Время отображения Splash экрана
+        delay(timeMillis = 2000) // Время отображения Splash экрана
         home()
     }
 }

@@ -46,7 +46,9 @@ class SettingsRepository(
             val storedDay = state[CALENDAR_SELECTED_DAY]
             val selectedDay = if (storedDay != null) {
                 localDateFromString(storedDay)
-            } else null
+            } else {
+                null
+            }
             return@map selectedDay
         }
 }
